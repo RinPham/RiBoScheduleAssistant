@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C86FAD1EDEEF20A7050B876 /* Pods_RiBoScheduleAssistant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5079930A74A2E62F74B608D /* Pods_RiBoScheduleAssistant.framework */; };
+		D04BDD752057734B0015CCDB /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD742057734B0015CCDB /* credentials.plist */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
 		D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046A205121CF00BF7F87 /* Main.storyboard */; };
@@ -15,6 +17,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4265980FD08BD5A20C5D0ED5 /* Pods-RiBoScheduleAssistant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiBoScheduleAssistant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant.debug.xcconfig"; sourceTree = "<group>"; };
+		9FAA6BD699EF85603C0349D2 /* Pods-RiBoScheduleAssistant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiBoScheduleAssistant.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant.release.xcconfig"; sourceTree = "<group>"; };
+		C5079930A74A2E62F74B608D /* Pods_RiBoScheduleAssistant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiBoScheduleAssistant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D04BDD742057734B0015CCDB /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0E60468205121CF00BF7F87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,17 +35,77 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C86FAD1EDEEF20A7050B876 /* Pods_RiBoScheduleAssistant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C82B81E01C2B79F09DE95048 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C5079930A74A2E62F74B608D /* Pods_RiBoScheduleAssistant.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D04BDD6E20576DE80015CCDB /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D0E60468205121CF00BF7F87 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		D04BDD6F20576E210015CCDB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D04BDD7020576E290015CCDB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D04BDD7120576E6D0015CCDB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D0E60466205121CF00BF7F87 /* AppDelegate.swift */,
+				D04BDD7320576E870015CCDB /* Sources */,
+				D04BDD7220576E740015CCDB /* Storyboards */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		D04BDD7220576E740015CCDB /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D0E6046A205121CF00BF7F87 /* Main.storyboard */,
+				D0E6046F205121CF00BF7F87 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		D04BDD7320576E870015CCDB /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D0E6046D205121CF00BF7F87 /* Assets.xcassets */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		D0E6045A205121CF00BF7F87 = {
 			isa = PBXGroup;
 			children = (
 				D0E60465205121CF00BF7F87 /* RiBoScheduleAssistant */,
 				D0E60464205121CF00BF7F87 /* Products */,
+				DDB3883188A795391E3DC4E4 /* Pods */,
+				C82B81E01C2B79F09DE95048 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +120,23 @@
 		D0E60465205121CF00BF7F87 /* RiBoScheduleAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				D0E60466205121CF00BF7F87 /* AppDelegate.swift */,
-				D0E60468205121CF00BF7F87 /* ViewController.swift */,
-				D0E6046A205121CF00BF7F87 /* Main.storyboard */,
-				D0E6046D205121CF00BF7F87 /* Assets.xcassets */,
-				D0E6046F205121CF00BF7F87 /* LaunchScreen.storyboard */,
+				D04BDD7120576E6D0015CCDB /* Common */,
+				D04BDD6E20576DE80015CCDB /* Controllers */,
+				D04BDD6F20576E210015CCDB /* Views */,
+				D04BDD7020576E290015CCDB /* Models */,
 				D0E60472205121CF00BF7F87 /* Info.plist */,
+				D04BDD742057734B0015CCDB /* credentials.plist */,
 			);
 			path = RiBoScheduleAssistant;
+			sourceTree = "<group>";
+		};
+		DDB3883188A795391E3DC4E4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4265980FD08BD5A20C5D0ED5 /* Pods-RiBoScheduleAssistant.debug.xcconfig */,
+				9FAA6BD699EF85603C0349D2 /* Pods-RiBoScheduleAssistant.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +146,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0E60475205121CF00BF7F87 /* Build configuration list for PBXNativeTarget "RiBoScheduleAssistant" */;
 			buildPhases = (
+				8A26688E828F58CF3834C86F /* [CP] Check Pods Manifest.lock */,
 				D0E6045F205121CF00BF7F87 /* Sources */,
 				D0E60460205121CF00BF7F87 /* Frameworks */,
 				D0E60461205121CF00BF7F87 /* Resources */,
+				1C8FDFA6B8E12329087CC922 /* [CP] Embed Pods Frameworks */,
+				A7ECAF0D51A1E1DAC043DAE0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -124,12 +202,74 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E60471205121CF00BF7F87 /* LaunchScreen.storyboard in Resources */,
+				D04BDD752057734B0015CCDB /* credentials.plist in Resources */,
 				D0E6046E205121CF00BF7F87 /* Assets.xcassets in Resources */,
 				D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1C8FDFA6B8E12329087CC922 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8A26688E828F58CF3834C86F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RiBoScheduleAssistant-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A7ECAF0D51A1E1DAC043DAE0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D0E6045F205121CF00BF7F87 /* Sources */ = {
@@ -272,6 +412,7 @@
 		};
 		D0E60476205121CF00BF7F87 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4265980FD08BD5A20C5D0ED5 /* Pods-RiBoScheduleAssistant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -286,6 +427,7 @@
 		};
 		D0E60477205121CF00BF7F87 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9FAA6BD699EF85603C0349D2 /* Pods-RiBoScheduleAssistant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
