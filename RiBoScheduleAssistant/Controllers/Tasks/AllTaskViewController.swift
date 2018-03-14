@@ -7,13 +7,19 @@
 //
 
 import UIKit
+import RealmSwift
 
 class AllTaskViewController: UIViewController {
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    var tasks = [RTask]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        self.setup()
+        self.setupData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,5 +27,59 @@ class AllTaskViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: - Setup
+    
+    fileprivate func setup() {
+        
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
+        
+        self.navigationItem.title = "ALL TASK"
+    }
+    
+    fileprivate func setupData() {
+        let realm = try! Realm()
+        self.tasks = Array(realm.objects(RTask.self)).sorted{$0.time < $1.time}
+        
+        self.tableView.reloadData()
+    }
+    
+    @IBAction func didTouchUpInsideAddButton(sender: UIBarButtonItem) {
+        self.performSegue(withIdentifier: AppID.IDAllTaskVCToAddNewTaskVC, sender: nil)
+    }
 
+}
+
+//MARK: - UITableViewDataSource
+extension AllTaskViewController: UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.tasks.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDAllTaskTableViewCell, for: indexPath) as? AllTaskTableViewCell else { return UITableViewCell() }
+        let task = self.tasks[indexPath.row]
+        cell.titleLabel.text = task.title
+        cell.timeLabel.text = ""
+        
+        return cell
+    }
+}
+
+//MARK: - UITableViewDelegate
+extension AllTaskViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
 }

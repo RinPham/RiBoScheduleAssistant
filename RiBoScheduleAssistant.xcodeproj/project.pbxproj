@@ -28,6 +28,9 @@
 		D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD9A2057B7D60015CCDB /* Info.plist */; };
 		D0A41B602058BBB000DCF080 /* RTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B5F2058BBB000DCF080 /* RTask.swift */; };
 		D0A41B622058BBD900DCF080 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B612058BBD900DCF080 /* Task.swift */; };
+		D0A41B642058C8F600DCF080 /* AddNewTaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */; };
+		D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B672058CD1C00DCF080 /* AllTaskTableViewCell.swift */; };
+		D0A41B6B2058CE9E00DCF080 /* AppID.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B6A2058CE9E00DCF080 /* AppID.swift */; };
 		D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B7675720581857002BEF8B /* AllTaskViewController.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
@@ -77,6 +80,9 @@
 		D04BDD9A2057B7D60015CCDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0A41B5F2058BBB000DCF080 /* RTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTask.swift; sourceTree = "<group>"; };
 		D0A41B612058BBD900DCF080 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskTableViewController.swift; sourceTree = "<group>"; };
+		D0A41B672058CD1C00DCF080 /* AllTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskTableViewCell.swift; sourceTree = "<group>"; };
+		D0A41B6A2058CE9E00DCF080 /* AppID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppID.swift; sourceTree = "<group>"; };
 		D0B7675720581857002BEF8B /* AllTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskViewController.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 		D04BDD6F20576E210015CCDB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D0A41B652058CC7600DCF080 /* Tasks */,
 				D04BDD792057B7D60015CCDB /* FSCalendar */,
 			);
 			path = Views;
@@ -141,6 +148,7 @@
 				D0E60466205121CF00BF7F87 /* AppDelegate.swift */,
 				D04BDD7320576E870015CCDB /* Sources */,
 				D04BDD7220576E740015CCDB /* Storyboards */,
+				D0A41B692058CE6E00DCF080 /* Defines */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -218,10 +226,35 @@
 			path = NormalModels;
 			sourceTree = "<group>";
 		};
+		D0A41B652058CC7600DCF080 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				D0A41B662058CC8E00DCF080 /* AllTaskViewController */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		D0A41B662058CC8E00DCF080 /* AllTaskViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D0A41B672058CD1C00DCF080 /* AllTaskTableViewCell.swift */,
+			);
+			path = AllTaskViewController;
+			sourceTree = "<group>";
+		};
+		D0A41B692058CE6E00DCF080 /* Defines */ = {
+			isa = PBXGroup;
+			children = (
+				D0A41B6A2058CE9E00DCF080 /* AppID.swift */,
+			);
+			path = Defines;
+			sourceTree = "<group>";
+		};
 		D0B7675420581771002BEF8B /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
 				D0B7675720581857002BEF8B /* AllTaskViewController.swift */,
+				D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -431,6 +464,7 @@
 				D04BDDA62057B7D60015CCDB /* FSCalendarHeaderView.m in Sources */,
 				D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */,
 				D04BDDA72057B7D60015CCDB /* FSCalendarScopeHandle.m in Sources */,
+				D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */,
 				D04BDD9F2057B7D60015CCDB /* FSCalendarCell.m in Sources */,
 				D04BDDA32057B7D60015CCDB /* FSCalendarDelegationFactory.m in Sources */,
 				D04BDDA42057B7D60015CCDB /* FSCalendarDelegationProxy.m in Sources */,
@@ -439,8 +473,10 @@
 				D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */,
 				D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */,
 				D04BDDA12057B7D60015CCDB /* FSCalendarCollectionViewLayout.m in Sources */,
+				D0A41B6B2058CE9E00DCF080 /* AppID.swift in Sources */,
 				D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */,
 				D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */,
+				D0A41B642058C8F600DCF080 /* AddNewTaskTableViewController.swift in Sources */,
 				D04BDD9E2057B7D60015CCDB /* FSCalendarCalculator.m in Sources */,
 				D04BDD9C2057B7D60015CCDB /* FSCalendar.m in Sources */,
 				D04BDDA22057B7D60015CCDB /* FSCalendarConstants.m in Sources */,
@@ -592,7 +628,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rin.pham.RiBoScheduleAssistant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "RiBoScheduleAssistant-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "RiBoScheduleAssistant/RiBoScheduleAssistant-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -610,7 +646,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = rin.pham.RiBoScheduleAssistant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "RiBoScheduleAssistant-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "RiBoScheduleAssistant/RiBoScheduleAssistant-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

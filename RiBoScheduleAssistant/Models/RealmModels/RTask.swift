@@ -11,9 +11,11 @@ import RealmSwift
 
 class RTask: Object {
     
-// Specify properties to ignore (Realm won't persist these)
+    @objc dynamic var id: String = ""
+    @objc dynamic var title: String = ""
+    @objc dynamic var time: Date = Date()
+    @objc dynamic var des: String = ""
+    @objc dynamic var idDone: Bool = false
     
-//  override static func ignoredProperties() -> [String] {
-//    return []
-//  }
+    
 }
