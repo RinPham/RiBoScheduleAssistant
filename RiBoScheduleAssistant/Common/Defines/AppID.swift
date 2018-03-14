@@ -15,6 +15,7 @@ struct AppID {
     
     //Segue ID
     static let IDAllTaskVCToAddNewTaskVC = "IDAllTaskVCToAddNewTaskVC"
+    static let IDCalendarVCToAddNewEventVC = "IDCalendarVCToAddNewEventVC"
     
     
     //TableViewCell ID
