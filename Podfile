@@ -5,5 +5,6 @@ target 'RiBoScheduleAssistant' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'RealmSwift'
+  pod 'DatePickerDialog'
 
 end

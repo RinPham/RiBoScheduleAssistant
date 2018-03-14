@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '2E87E7D5F8D5047EF8FD38E7984FD98D'
-               BlueprintName = 'SwiftyJSON'
+               BlueprintIdentifier = '184A1650DC0B648BD756068E60BF2C59'
+               BlueprintName = 'DatePickerDialog'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SwiftyJSON.framework'>
+               BuildableName = 'DatePickerDialog.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
