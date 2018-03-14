@@ -35,6 +35,12 @@
 		D0A41B70205907F800DCF080 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B6F205907F800DCF080 /* CalendarViewController.swift */; };
 		D0A41B72205910E100DCF080 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B71205910E100DCF080 /* Event.swift */; };
 		D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */; };
+		D0ADBE8220595AEF00992945 /* AppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8120595AEF00992945 /* AppLinks.swift */; };
+		D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8420595FEA00992945 /* BaseService.swift */; };
+		D0ADBE87205961E100992945 /* UserServie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE86205961E100992945 /* UserServie.swift */; };
+		D0ADBE89205962A800992945 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE88205962A800992945 /* User.swift */; };
+		D0ADBE8B2059661200992945 /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8A2059661200992945 /* TaskService.swift */; };
+		D0ADBE8D20596B5B00992945 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8C20596B5B00992945 /* EventService.swift */; };
 		D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B7675720581857002BEF8B /* AllTaskViewController.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
@@ -91,6 +97,12 @@
 		D0A41B6F205907F800DCF080 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		D0A41B71205910E100DCF080 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEventTableViewController.swift; sourceTree = "<group>"; };
+		D0ADBE8120595AEF00992945 /* AppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinks.swift; sourceTree = "<group>"; };
+		D0ADBE8420595FEA00992945 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		D0ADBE86205961E100992945 /* UserServie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServie.swift; sourceTree = "<group>"; };
+		D0ADBE88205962A800992945 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D0ADBE8A2059661200992945 /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
+		D0ADBE8C20596B5B00992945 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		D0B7675720581857002BEF8B /* AllTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskViewController.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +170,7 @@
 				D04BDD7220576E740015CCDB /* Storyboards */,
 				D0A41B692058CE6E00DCF080 /* Defines */,
 				D0A41B6C2058D66000DCF080 /* Extension */,
+				D0ADBE8320595C5400992945 /* Service */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -232,6 +245,7 @@
 			children = (
 				D0A41B612058BBD900DCF080 /* Task.swift */,
 				D0A41B71205910E100DCF080 /* Event.swift */,
+				D0ADBE88205962A800992945 /* User.swift */,
 			);
 			path = NormalModels;
 			sourceTree = "<group>";
@@ -256,6 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A41B6A2058CE9E00DCF080 /* AppID.swift */,
+				D0ADBE8120595AEF00992945 /* AppLinks.swift */,
 			);
 			path = Defines;
 			sourceTree = "<group>";
@@ -266,6 +281,17 @@
 				D0A41B6D2058D68000DCF080 /* Extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		D0ADBE8320595C5400992945 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				D0ADBE8420595FEA00992945 /* BaseService.swift */,
+				D0ADBE86205961E100992945 /* UserServie.swift */,
+				D0ADBE8A2059661200992945 /* TaskService.swift */,
+				D0ADBE8C20596B5B00992945 /* EventService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		D0B7675420581771002BEF8B /* Tasks */ = {
@@ -483,14 +509,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0ADBE8220595AEF00992945 /* AppLinks.swift in Sources */,
 				D04BDDA62057B7D60015CCDB /* FSCalendarHeaderView.m in Sources */,
+				D0ADBE8D20596B5B00992945 /* EventService.swift in Sources */,
 				D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */,
 				D04BDDA72057B7D60015CCDB /* FSCalendarScopeHandle.m in Sources */,
+				D0ADBE89205962A800992945 /* User.swift in Sources */,
 				D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */,
 				D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */,
 				D04BDD9F2057B7D60015CCDB /* FSCalendarCell.m in Sources */,
 				D04BDDA32057B7D60015CCDB /* FSCalendarDelegationFactory.m in Sources */,
+				D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */,
 				D04BDDA42057B7D60015CCDB /* FSCalendarDelegationProxy.m in Sources */,
+				D0ADBE8B2059661200992945 /* TaskService.swift in Sources */,
 				D04BDDA82057B7D60015CCDB /* FSCalendarStickyHeader.m in Sources */,
 				D0A41B70205907F800DCF080 /* CalendarViewController.swift in Sources */,
 				D0A41B602058BBB000DCF080 /* RTask.swift in Sources */,
@@ -498,6 +529,7 @@
 				D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */,
 				D0A41B6E2058D68000DCF080 /* Extension.swift in Sources */,
 				D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */,
+				D0ADBE87205961E100992945 /* UserServie.swift in Sources */,
 				D04BDDA12057B7D60015CCDB /* FSCalendarCollectionViewLayout.m in Sources */,
 				D0A41B6B2058CE9E00DCF080 /* AppID.swift in Sources */,
 				D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */,

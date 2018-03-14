@@ -12,7 +12,7 @@ extension Date {
     
     var toTimeString: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm"
+        dateFormatter.dateFormat = "dd/MM/yyyy hh:mm a"
         
         return dateFormatter.string(from: self)
     }
