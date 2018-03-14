@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import DatePickerDialog
 
 class AddNewTaskTableViewController: UITableViewController {
     
@@ -20,11 +21,7 @@ class AddNewTaskTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.setup()
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,8 +29,13 @@ class AddNewTaskTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    fileprivate func setup() {
+        self.timeLabel.text = self.time.toTimeString
+    }
+    
     @IBAction func didTouchUpInsideSaveButton(sender: UIBarButtonItem) {
         self.saveTaskToRealm()
+        self.navigationController?.popViewController(animated: true)
     }
     
     fileprivate func saveTaskToRealm() {
@@ -43,8 +45,22 @@ class AddNewTaskTableViewController: UITableViewController {
             realm.add(newTask)
         }
     }
+    
+    fileprivate func showDatePicker() {
+        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.time, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+            if let date = date {
+                self.time = date
+                self.setup()
+            }
+        }
+    }
 
     // MARK: - Table view data source
 
-
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath == IndexPath(row: 1, section: 0) {
+            self.showDatePicker()
+        }
+    }
 }

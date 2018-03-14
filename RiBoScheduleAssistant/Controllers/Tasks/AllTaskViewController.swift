@@ -19,7 +19,6 @@ class AllTaskViewController: UIViewController {
         super.viewDidLoad()
 
         self.setup()
-        self.setupData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,12 +26,18 @@ class AllTaskViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.setupData()
+    }
     //MARK: - Setup
     
     fileprivate func setup() {
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
         self.navigationItem.title = "ALL TASK"
     }
@@ -42,6 +47,7 @@ class AllTaskViewController: UIViewController {
         self.tasks = Array(realm.objects(RTask.self)).sorted{$0.time < $1.time}
         
         self.tableView.reloadData()
+        
     }
     
     @IBAction func didTouchUpInsideAddButton(sender: UIBarButtonItem) {
@@ -65,7 +71,7 @@ extension AllTaskViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDAllTaskTableViewCell, for: indexPath) as? AllTaskTableViewCell else { return UITableViewCell() }
         let task = self.tasks[indexPath.row]
         cell.titleLabel.text = task.title
-        cell.timeLabel.text = ""
+        cell.timeLabel.text = task.time.toTimeString
         
         return cell
     }
@@ -75,7 +81,7 @@ extension AllTaskViewController: UITableViewDataSource {
 extension AllTaskViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 60
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
