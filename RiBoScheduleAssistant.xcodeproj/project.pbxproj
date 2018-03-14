@@ -41,6 +41,7 @@
 		D0ADBE89205962A800992945 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE88205962A800992945 /* User.swift */; };
 		D0ADBE8B2059661200992945 /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8A2059661200992945 /* TaskService.swift */; };
 		D0ADBE8D20596B5B00992945 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8C20596B5B00992945 /* EventService.swift */; };
+		D0ADBE8F20596C6400992945 /* EditTaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8E20596C6400992945 /* EditTaskTableViewController.swift */; };
 		D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B7675720581857002BEF8B /* AllTaskViewController.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
@@ -103,6 +104,7 @@
 		D0ADBE88205962A800992945 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D0ADBE8A2059661200992945 /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
 		D0ADBE8C20596B5B00992945 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
+		D0ADBE8E20596C6400992945 /* EditTaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTableViewController.swift; sourceTree = "<group>"; };
 		D0B7675720581857002BEF8B /* AllTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskViewController.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 			children = (
 				D0B7675720581857002BEF8B /* AllTaskViewController.swift */,
 				D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */,
+				D0ADBE8E20596C6400992945 /* EditTaskTableViewController.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */,
 				D04BDDA42057B7D60015CCDB /* FSCalendarDelegationProxy.m in Sources */,
 				D0ADBE8B2059661200992945 /* TaskService.swift in Sources */,
+				D0ADBE8F20596C6400992945 /* EditTaskTableViewController.swift in Sources */,
 				D04BDDA82057B7D60015CCDB /* FSCalendarStickyHeader.m in Sources */,
 				D0A41B70205907F800DCF080 /* CalendarViewController.swift in Sources */,
 				D0A41B602058BBB000DCF080 /* RTask.swift in Sources */,

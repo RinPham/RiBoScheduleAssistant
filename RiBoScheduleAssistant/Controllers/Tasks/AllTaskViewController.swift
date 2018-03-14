@@ -53,6 +53,12 @@ class AllTaskViewController: UIViewController {
     @IBAction func didTouchUpInsideAddButton(sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: AppID.IDAllTaskVCToAddNewTaskVC, sender: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier, id == AppID.IDAllTaskVCToEditTaskVC, let vc = segue.destination as? EditTaskTableViewController, let task = sender as? RTask {
+            vc.task = task
+        }
+    }
 
 }
 
@@ -85,7 +91,8 @@ extension AllTaskViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.performSegue(withIdentifier: AppID.IDAllTaskVCToEditTaskVC, sender: self.tasks[indexPath.row])
     }
     
 }

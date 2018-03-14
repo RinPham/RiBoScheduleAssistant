@@ -396,7 +396,7 @@
                     <connections>
                         <outlet property="tableView" destination="9mS-in-eTj" id="XsE-Jr-knE"/>
                         <segue destination="6RP-a7-ykV" kind="show" identifier="IDAllTaskVCToAddNewTaskVC" id="wtr-gd-npf"/>
-                        <segue destination="dAn-4A-gzm" kind="show" id="ugj-fM-kev"/>
+                        <segue destination="dAn-4A-gzm" kind="show" identifier="IDAllTaskVCToEditTaskVC" id="ugj-fM-kev"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="APs-fT-fzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -583,7 +583,7 @@
         <!--Task-->
         <scene sceneID="80W-vj-JWz">
             <objects>
-                <tableViewController id="dAn-4A-gzm" customClass="AddNewTaskTableViewController" customModule="RiBoScheduleAssistant" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="dAn-4A-gzm" customClass="EditTaskTableViewController" customModule="RiBoScheduleAssistant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="iLx-b8-sp0">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -689,6 +689,9 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJG-Gc-AXr">
                                                     <rect key="frame" x="20" y="0.0" width="335" height="49.5"/>
                                                     <state key="normal" title="Delete"/>
+                                                    <connections>
+                                                        <action selector="didTouchUpInsideDeleteButtonWithSender:" destination="dAn-4A-gzm" eventType="touchUpInside" id="qGb-vL-ycy"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -710,14 +713,14 @@
                     <navigationItem key="navigationItem" title="Task" id="cDU-LL-NTy">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="e2H-cQ-GIp">
                             <connections>
-                                <action selector="didTouchUpInsideSaveButtonWithSender:" destination="dAn-4A-gzm" id="Jce-WY-Oeg"/>
+                                <action selector="didTouchUpInsideEditButtonWithSender:" destination="dAn-4A-gzm" id="qxd-1f-wxl"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="descriptionTextView" destination="CTC-Yp-SJj" id="2TW-PA-XJo"/>
-                        <outlet property="timeLabel" destination="LPt-cP-0Dg" id="lPI-fG-Qfg"/>
-                        <outlet property="titleTextField" destination="bvW-MO-4Ok" id="mhx-KL-YIp"/>
+                        <outlet property="descriptionTextView" destination="CTC-Yp-SJj" id="pIa-zs-51P"/>
+                        <outlet property="timeLabel" destination="LPt-cP-0Dg" id="uym-NG-clx"/>
+                        <outlet property="titleTextField" destination="bvW-MO-4Ok" id="X1U-sT-R8c"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OQz-Bc-cIL" userLabel="First Responder" sceneMemberID="firstResponder"/>
