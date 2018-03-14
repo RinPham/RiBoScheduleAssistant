@@ -26,6 +26,7 @@
 		D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD972057B7D60015CCDB /* FSCalendarTransitionCoordinator.m */; };
 		D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD992057B7D60015CCDB /* FSCalendarWeekdayView.m */; };
 		D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD9A2057B7D60015CCDB /* Info.plist */; };
+		D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B7675720581857002BEF8B /* AllTaskViewController.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
 		D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046A205121CF00BF7F87 /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 		D04BDD982057B7D60015CCDB /* FSCalendarWeekdayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarWeekdayView.h; sourceTree = "<group>"; };
 		D04BDD992057B7D60015CCDB /* FSCalendarWeekdayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarWeekdayView.m; sourceTree = "<group>"; };
 		D04BDD9A2057B7D60015CCDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0B7675720581857002BEF8B /* AllTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskViewController.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0E60468205121CF00BF7F87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,9 @@
 			isa = PBXGroup;
 			children = (
 				D0E60468205121CF00BF7F87 /* ViewController.swift */,
+				D0B7675620581828002BEF8B /* RiBo */,
+				D0B76755205817B6002BEF8B /* Calendar */,
+				D0B7675420581771002BEF8B /* Tasks */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -189,6 +194,28 @@
 				D04BDD9A2057B7D60015CCDB /* Info.plist */,
 			);
 			path = FSCalendar;
+			sourceTree = "<group>";
+		};
+		D0B7675420581771002BEF8B /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				D0B7675720581857002BEF8B /* AllTaskViewController.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		D0B76755205817B6002BEF8B /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		D0B7675620581828002BEF8B /* RiBo */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = RiBo;
 			sourceTree = "<group>";
 		};
 		D0E6045A205121CF00BF7F87 = {
@@ -381,6 +408,7 @@
 				D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */,
 				D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */,
 				D04BDDA12057B7D60015CCDB /* FSCalendarCollectionViewLayout.m in Sources */,
+				D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */,
 				D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */,
 				D04BDD9E2057B7D60015CCDB /* FSCalendarCalculator.m in Sources */,
 				D04BDD9C2057B7D60015CCDB /* FSCalendar.m in Sources */,
