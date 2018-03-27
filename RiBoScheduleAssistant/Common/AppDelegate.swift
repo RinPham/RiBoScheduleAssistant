@@ -17,8 +17,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        GIDSignIn.sharedInstance().clientID = "196834212204-29ahkv6lv7c6cj9ni1me3l9ju2am6e4c.apps.googleusercontent.com"
+        //GIDSignIn.sharedInstance().clientID = "196834212204-29ahkv6lv7c6cj9ni1me3l9ju2am6e4c.apps.googleusercontent.com"
+        //GIDSignIn.sharedInstance().serverClientID = "196834212204-14c5cmkgmolep90up91insolufugkqec.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().clientID = "310203758762-gmpbthekhtbh5d4e112agava0v585ate.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().serverClientID = "310203758762-vkc9hocnecbbcshsgf2ufctttp74pbgm.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/calendar"]
         GIDSignIn.sharedInstance().delegate = self
+        
+        if let dict = UserDefaults.standard.value(forKey: UserDefaultsKey.GOOGLE_USER) as? [String: String] {
+            let user = User(dict)
+            print("HAVE USER: \(user)")
+            AppLinks.header = ["Authorization": "token \(user.token)"]
+            self.changeRootViewToTabbar()
+        }
         return true
     }
 
@@ -47,6 +58,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
     }
+    
+    fileprivate func changeRootViewToTabbar() {
+        let mainTabbar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDMainTabbarController)
+        self.window?.rootViewController = mainTabbar
+    }
+    
+    
 
 }
 
@@ -56,7 +74,20 @@ extension AppDelegate: GIDSignInDelegate {
             print("Error Google Signin: \(error.localizedDescription)")
             return
         }
+        if let code = user.serverAuthCode {
+            UserService.loginGoogleAccount(code: code, completion: { (result, statusCode, errorText) in
+                if errorText == nil, let userData = result as? User {
+                    let dict = ["id": userData.id, "email": userData.email, "token": userData.token, "firstName": userData.firstName, "lastName": userData.lastName, "avatar": userData.avatar]
+                    UserDefaults.standard.set(dict, forKey: UserDefaultsKey.GOOGLE_USER)
+                    UserDefaults.standard.synchronize()
+                    AppLinks.header = ["Authorization": "token \(userData.token)"]
+                    self.changeRootViewToTabbar()
+                }
+            })
+        }
+        print(user.serverAuthCode)
         print(user.userID)
         print(user.profile.email)
+        
     }
 }

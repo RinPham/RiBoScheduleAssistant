@@ -8,10 +8,40 @@
 
 class TaskService: BaseService {
     
-    class func createNewTask(with task: Task) {
+    class func createNewTask(with task: Task, completion: @escaping Result) {
         let objLink = AppLinks.CREATE_NEW_TASK(task: task)
         self.requestService(apiPath: objLink.link, method: .post, parameters: objLink.paramater) { (data, statusCode, errorText) in
             print(data)
+            completion(Task(data), statusCode, errorText)
+        }
+    }
+    
+    class func editTask(with task: Task, completion: @escaping Result) {
+        let objLink = AppLinks.EDIT_TASK(task: task)
+        self.requestService(apiPath: objLink.link, method: .put, parameters: ["id": task.id, "title": task.title , "content": task.content]) { (data, statusCode, errorText) in
+            print(data)
+            completion(Task(data), statusCode, errorText)
+        }
+    }
+    
+    class func deleteTask(with task: Task , completion: @escaping Result) {
+        self.requestService(apiPath: AppLinks.DELETE_TASK(task: task), method: .delete, parameters: nil) { (data, statusCode, errorText) in
+            print(data)
+            completion("", statusCode, errorText)
+        }
+    }
+    
+    class func getListTask(completion: @escaping ListResult) {
+        self.requestService(apiPath: AppLinks.GET_LIST_TASK, method: .get, parameters: nil) { (data, statusCode, errorText) in
+            print(data)
+            if let jsons = data.array {
+                var tasks = [Task]()
+                for json in jsons {
+                    tasks.append(Task(json))
+                }
+                completion(tasks, statusCode, errorText)
+            }
+            completion([Task](), statusCode, errorText)
         }
     }
     

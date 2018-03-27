@@ -30,12 +30,11 @@ class AddNewTaskTableViewController: UITableViewController {
     }
     
     fileprivate func setup() {
-        self.timeLabel.text = self.time.toTimeString
+        self.timeLabel.text = self.time.toDateAndTimeString
     }
     
     @IBAction func didTouchUpInsideSaveButton(sender: UIBarButtonItem) {
-        self.saveTaskToRealm()
-        self.navigationController?.popViewController(animated: true)
+        self.createNewTask()
     }
     
     fileprivate func saveTaskToRealm() {
@@ -43,6 +42,18 @@ class AddNewTaskTableViewController: UITableViewController {
         let realm = try! Realm()
         try! realm.write {
             realm.add(newTask)
+        }
+    }
+    
+    fileprivate func createNewTask() {
+        
+        TaskService.createNewTask(with: Task(id: "", title: self.titleTextField.text!, time: self.time, content: self.descriptionTextView.text, isDone: false, userId: "", intentId: "")) { (data, statusCode, errorText) in
+            if let errorText = errorText {
+                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                return
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
     }
     

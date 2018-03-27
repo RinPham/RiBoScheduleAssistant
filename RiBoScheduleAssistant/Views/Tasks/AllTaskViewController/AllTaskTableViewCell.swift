@@ -8,11 +8,20 @@
 
 import UIKit
 
+protocol AllTaskTableViewCellDelegate: class {
+    
+    func didTouchUpInsideDoneButton(cell: AllTaskTableViewCell, sender: UIButton)
+    
+}
+
 class AllTaskTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var statusImageView: UIImageView!
+    @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var lineView: UIView!
+    
+    weak var delegate: AllTaskTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,6 +32,10 @@ class AllTaskTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func didTouchUpInsideDoneButton(sender: UIButton) {
+        self.delegate?.didTouchUpInsideDoneButton(cell: self, sender: sender)
     }
 
 }

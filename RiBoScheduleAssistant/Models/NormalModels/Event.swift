@@ -7,13 +7,50 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 struct Event {
     
     var id: String
     var title: String
+    var location: String
     var startDate: Date
     var endDate: Date
-    var note: String
+    var des: String
+    
+    init(id: String, title: String, location: String, startDate: Date, endDate: Date, des: String) {
+        self.id = id
+        self.title = title
+        self.location = location
+        self.startDate = startDate
+        self.endDate = endDate
+        self.des = des
+    }
+    
+    init(_ data: JSON) {
+        self.id = data["id"].string ?? ""
+        self.title = data["summary"].string ?? ""
+        self.location = data["location"].string ?? ""
+        var start = data["start"]["dateTime"].string ?? ""
+        if start == "" {
+            start = data["start"]["date"].string ?? ""
+        }
+        var end = data["end"]["dateTime"].string ?? ""
+        if end == "" {
+            end = data["end"]["date"].string ?? ""
+        }
+        self.startDate = start.toDateTimeEvent
+        self.endDate = end.toDateTimeEvent
+        self.des = data["description"].string ?? ""
+    }
+    
+}
+
+struct DateEvent {
+    
+    var event: Event
+    var date: Date
+    var start: String
+    var endDate: String
     
 }

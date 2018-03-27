@@ -15,7 +15,7 @@ class RTask: Object {
     @objc dynamic var title: String = ""
     @objc dynamic var time: Date = Date()
     @objc dynamic var des: String = ""
-    @objc dynamic var idDone: Bool = false
+    @objc dynamic var isDone: Bool = false
     
     
 }

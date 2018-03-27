@@ -11,6 +11,8 @@ import Alamofire
 import SwiftyJSON
 
 typealias Completion = (_ data: JSON, _ statusCode: Int?, _ error: String?) -> Void
+typealias Result = (_ data: Any, _ statusCode: Int?, _ error: String?) -> Void
+typealias ListResult = (_ data: [Any], _ statusCode: Int?, _ error: String?) -> Void
 typealias ObjectLink = (link: String, paramater: [String: Any])
 
 class BaseService {
@@ -20,7 +22,7 @@ class BaseService {
             Alamofire.request(apiPath, method: method, parameters: parameters, headers: AppLinks.header).responseJSON { response in
                 switch response.result {
                 case .success(let value):
-                    if let error = JSON(value)["errors"]["message"].string {
+                    if let error = JSON(value)["detail"].string {
                         completion(JSON.null, response.response?.statusCode, error)
                     } else {
                         completion(JSON(value), response.response?.statusCode, nil)

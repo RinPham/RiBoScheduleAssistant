@@ -7,13 +7,37 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct Task {
     
     var id: String
     var title: String
     var time: Date
-    var des: String
+    var content: String
     var isDone: Bool
+    var userId: String
+    var intentId: String
+    
+    init(id: String, title: String, time: Date, content: String, isDone: Bool, userId: String, intentId: String) {
+        self.id = id
+        self.title = title
+        self.time = time
+        self.content = content
+        self.isDone = isDone
+        self.userId = userId
+        self.intentId = intentId
+    }
+    
+    init(_ data: JSON) {
+        self.id = data["id"].string ?? ""
+        self.title = data["title"].string ?? ""
+        let timeString = data["at_time"].string ?? ""
+        self.time = timeString.toDateTime
+        self.content = data["content"].string ?? ""
+        self.isDone = data["done"].bool ?? false
+        self.userId = data["user_id"].string ?? ""
+        self.intentId = data["intent_id"].string ?? ""
+    }
     
 }

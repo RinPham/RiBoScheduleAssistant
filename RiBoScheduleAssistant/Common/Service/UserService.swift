@@ -8,10 +8,11 @@
 
 class UserService: BaseService {
     
-    class func loginGoogleAccount(with user: User) {
-        let objLink = AppLinks.LOGIN_GOOGLE_ACCOUNT(user: user)
+    class func loginGoogleAccount(code: String, completion: @escaping Result) {
+        let objLink = AppLinks.LOGIN_GOOGLE(code: code)
         self.requestService(apiPath: objLink.link, method: .post, parameters: objLink.paramater) { (data, statusCode, errorText) in
             print(data)
+            completion(User(data), statusCode, errorText)
         }
     }
     

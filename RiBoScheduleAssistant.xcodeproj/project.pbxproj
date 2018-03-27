@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C86FAD1EDEEF20A7050B876 /* Pods_RiBoScheduleAssistant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5079930A74A2E62F74B608D /* Pods_RiBoScheduleAssistant.framework */; };
+		D035D3C3206A4C49000014EE /* EditEventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D035D3C2206A4C49000014EE /* EditEventViewController.swift */; };
 		D04BDD752057734B0015CCDB /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD742057734B0015CCDB /* credentials.plist */; };
 		D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD7A2057B7D60015CCDB /* FSCalendar+Deprecated.m */; };
 		D04BDD9C2057B7D60015CCDB /* FSCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD7C2057B7D60015CCDB /* FSCalendar.m */; };
@@ -26,6 +27,9 @@
 		D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD972057B7D60015CCDB /* FSCalendarTransitionCoordinator.m */; };
 		D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD992057B7D60015CCDB /* FSCalendarWeekdayView.m */; };
 		D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD9A2057B7D60015CCDB /* Info.plist */; };
+		D0798575206964BF00FE4F43 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0798574206964BF00FE4F43 /* EventDetailViewController.swift */; };
+		D07985782069661A00FE4F43 /* HeaderEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */; };
+		D079857A2069663600FE4F43 /* EventDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07985792069663600FE4F43 /* EventDetailTableViewCell.swift */; };
 		D0A41B602058BBB000DCF080 /* RTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B5F2058BBB000DCF080 /* RTask.swift */; };
 		D0A41B622058BBD900DCF080 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B612058BBD900DCF080 /* Task.swift */; };
 		D0A41B642058C8F600DCF080 /* AddNewTaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */; };
@@ -37,12 +41,14 @@
 		D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */; };
 		D0ADBE8220595AEF00992945 /* AppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8120595AEF00992945 /* AppLinks.swift */; };
 		D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8420595FEA00992945 /* BaseService.swift */; };
-		D0ADBE87205961E100992945 /* UserServie.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE86205961E100992945 /* UserServie.swift */; };
+		D0ADBE87205961E100992945 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE86205961E100992945 /* UserService.swift */; };
 		D0ADBE89205962A800992945 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE88205962A800992945 /* User.swift */; };
 		D0ADBE8B2059661200992945 /* TaskService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8A2059661200992945 /* TaskService.swift */; };
 		D0ADBE8D20596B5B00992945 /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8C20596B5B00992945 /* EventService.swift */; };
 		D0ADBE8F20596C6400992945 /* EditTaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8E20596C6400992945 /* EditTaskTableViewController.swift */; };
 		D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B7675720581857002BEF8B /* AllTaskViewController.swift */; };
+		D0D3B5EE206200C9007C3028 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3B5ED206200C9007C3028 /* LogInViewController.swift */; };
+		D0D3B5F22062678D007C3028 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3B5F12062678D007C3028 /* CalendarTableViewCell.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
 		D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046A205121CF00BF7F87 /* Main.storyboard */; };
@@ -54,6 +60,7 @@
 		4265980FD08BD5A20C5D0ED5 /* Pods-RiBoScheduleAssistant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiBoScheduleAssistant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant.debug.xcconfig"; sourceTree = "<group>"; };
 		9FAA6BD699EF85603C0349D2 /* Pods-RiBoScheduleAssistant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiBoScheduleAssistant.release.xcconfig"; path = "Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant.release.xcconfig"; sourceTree = "<group>"; };
 		C5079930A74A2E62F74B608D /* Pods_RiBoScheduleAssistant.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RiBoScheduleAssistant.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D035D3C2206A4C49000014EE /* EditEventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventViewController.swift; sourceTree = "<group>"; };
 		D04BDD742057734B0015CCDB /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		D04BDD762057B77D0015CCDB /* RiBoScheduleAssistant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RiBoScheduleAssistant-Bridging-Header.h"; sourceTree = "<group>"; };
 		D04BDD7A2057B7D60015CCDB /* FSCalendar+Deprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FSCalendar+Deprecated.m"; sourceTree = "<group>"; };
@@ -89,6 +96,9 @@
 		D04BDD982057B7D60015CCDB /* FSCalendarWeekdayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarWeekdayView.h; sourceTree = "<group>"; };
 		D04BDD992057B7D60015CCDB /* FSCalendarWeekdayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarWeekdayView.m; sourceTree = "<group>"; };
 		D04BDD9A2057B7D60015CCDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0798574206964BF00FE4F43 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderEventTableViewCell.swift; sourceTree = "<group>"; };
+		D07985792069663600FE4F43 /* EventDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailTableViewCell.swift; sourceTree = "<group>"; };
 		D0A41B5F2058BBB000DCF080 /* RTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTask.swift; sourceTree = "<group>"; };
 		D0A41B612058BBD900DCF080 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskTableViewController.swift; sourceTree = "<group>"; };
@@ -100,12 +110,14 @@
 		D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEventTableViewController.swift; sourceTree = "<group>"; };
 		D0ADBE8120595AEF00992945 /* AppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinks.swift; sourceTree = "<group>"; };
 		D0ADBE8420595FEA00992945 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
-		D0ADBE86205961E100992945 /* UserServie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServie.swift; sourceTree = "<group>"; };
+		D0ADBE86205961E100992945 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D0ADBE88205962A800992945 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D0ADBE8A2059661200992945 /* TaskService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskService.swift; sourceTree = "<group>"; };
 		D0ADBE8C20596B5B00992945 /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 		D0ADBE8E20596C6400992945 /* EditTaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskTableViewController.swift; sourceTree = "<group>"; };
 		D0B7675720581857002BEF8B /* AllTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskViewController.swift; sourceTree = "<group>"; };
+		D0D3B5ED206200C9007C3028 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		D0D3B5F12062678D007C3028 /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0E60468205121CF00BF7F87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				D0E60468205121CF00BF7F87 /* ViewController.swift */,
+				D0D3B5EC20620099007C3028 /* LogIn */,
 				D0B7675620581828002BEF8B /* RiBo */,
 				D0B76755205817B6002BEF8B /* Calendar */,
 				D0B7675420581771002BEF8B /* Tasks */,
@@ -149,6 +162,7 @@
 		D04BDD6F20576E210015CCDB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D0D3B5EF2062675F007C3028 /* Calendar */,
 				D0A41B652058CC7600DCF080 /* Tasks */,
 				D04BDD792057B7D60015CCDB /* FSCalendar */,
 			);
@@ -234,6 +248,15 @@
 			path = FSCalendar;
 			sourceTree = "<group>";
 		};
+		D07985762069657600FE4F43 /* EventDetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */,
+				D07985792069663600FE4F43 /* EventDetailTableViewCell.swift */,
+			);
+			path = EventDetailViewController;
+			sourceTree = "<group>";
+		};
 		D0A41B5D2058BA4100DCF080 /* RealmModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,7 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				D0ADBE8420595FEA00992945 /* BaseService.swift */,
-				D0ADBE86205961E100992945 /* UserServie.swift */,
+				D0ADBE86205961E100992945 /* UserService.swift */,
 				D0ADBE8A2059661200992945 /* TaskService.swift */,
 				D0ADBE8C20596B5B00992945 /* EventService.swift */,
 			);
@@ -311,6 +334,8 @@
 			children = (
 				D0A41B6F205907F800DCF080 /* CalendarViewController.swift */,
 				D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */,
+				D0798574206964BF00FE4F43 /* EventDetailViewController.swift */,
+				D035D3C2206A4C49000014EE /* EditEventViewController.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -320,6 +345,31 @@
 			children = (
 			);
 			path = RiBo;
+			sourceTree = "<group>";
+		};
+		D0D3B5EC20620099007C3028 /* LogIn */ = {
+			isa = PBXGroup;
+			children = (
+				D0D3B5ED206200C9007C3028 /* LogInViewController.swift */,
+			);
+			path = LogIn;
+			sourceTree = "<group>";
+		};
+		D0D3B5EF2062675F007C3028 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				D07985762069657600FE4F43 /* EventDetailViewController */,
+				D0D3B5F020626770007C3028 /* CalendarTableViewCell */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		D0D3B5F020626770007C3028 /* CalendarTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				D0D3B5F12062678D007C3028 /* CalendarTableViewCell.swift */,
+			);
+			path = CalendarTableViewCell;
 			sourceTree = "<group>";
 		};
 		D0E6045A205121CF00BF7F87 = {
@@ -521,6 +571,7 @@
 				D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */,
 				D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */,
 				D04BDD9F2057B7D60015CCDB /* FSCalendarCell.m in Sources */,
+				D079857A2069663600FE4F43 /* EventDetailTableViewCell.swift in Sources */,
 				D04BDDA32057B7D60015CCDB /* FSCalendarDelegationFactory.m in Sources */,
 				D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */,
 				D04BDDA42057B7D60015CCDB /* FSCalendarDelegationProxy.m in Sources */,
@@ -532,15 +583,20 @@
 				D0A41B72205910E100DCF080 /* Event.swift in Sources */,
 				D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */,
 				D0A41B6E2058D68000DCF080 /* Extension.swift in Sources */,
+				D0798575206964BF00FE4F43 /* EventDetailViewController.swift in Sources */,
+				D0D3B5EE206200C9007C3028 /* LogInViewController.swift in Sources */,
 				D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */,
-				D0ADBE87205961E100992945 /* UserServie.swift in Sources */,
+				D0ADBE87205961E100992945 /* UserService.swift in Sources */,
 				D04BDDA12057B7D60015CCDB /* FSCalendarCollectionViewLayout.m in Sources */,
+				D07985782069661A00FE4F43 /* HeaderEventTableViewCell.swift in Sources */,
 				D0A41B6B2058CE9E00DCF080 /* AppID.swift in Sources */,
 				D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */,
 				D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */,
 				D0A41B642058C8F600DCF080 /* AddNewTaskTableViewController.swift in Sources */,
 				D04BDD9E2057B7D60015CCDB /* FSCalendarCalculator.m in Sources */,
+				D0D3B5F22062678D007C3028 /* CalendarTableViewCell.swift in Sources */,
 				D04BDD9C2057B7D60015CCDB /* FSCalendar.m in Sources */,
+				D035D3C3206A4C49000014EE /* EditEventViewController.swift in Sources */,
 				D04BDDA22057B7D60015CCDB /* FSCalendarConstants.m in Sources */,
 				D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */,
 				D04BDD9D2057B7D60015CCDB /* FSCalendarAppearance.m in Sources */,
