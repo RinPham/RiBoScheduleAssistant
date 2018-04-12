@@ -19,6 +19,8 @@ class EditEventViewController: UITableViewController {
     @IBOutlet weak var noteTextView: UITextView!
     
     var event: Event!
+    var startDate = Date()
+    var endDate = Date()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,11 +34,33 @@ class EditEventViewController: UITableViewController {
     }
     
     fileprivate func setup() {
-        self.startsLabel.text = self.event.startDate.toDateAndTimeString
-        self.endsLabel.text = self.event.endDate.toDateAndTimeString
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        self.tableView.addGestureRecognizer(tapGesture)
+        self.noteTextView.delegate = self
+        self.noteTextView.textColor = UIColor.lightGray
+        self.noteTextView.text = "Notes"
+        
+        self.startDate = self.event.startDate
+        self.endDate = self.event.endDate
+        self.startsLabel.text = self.startDate.toDateAndTime2String
+        self.updateEndDateLabel()
         self.noteTextView.text = self.event.des
         self.titleTextField.text = self.event.title
         self.locationTextField.text = self.event.location
+    }
+    
+    @objc func dismissKeyboard() {
+        self.tableView.endEditing(true)
+    }
+    
+    fileprivate func updateEndDateLabel() {
+        if Calendar.current.isDate(self.startDate, inSameDayAs: self.endDate) {
+            self.endsLabel.text = self.endDate.toTimeString
+        } else {
+            self.endsLabel.text = self.endDate.toDateAndTime2String
+        }
     }
     
     @IBAction func didTouchUpInsideSaveButton(sender: UIBarButtonItem) {
@@ -44,6 +68,8 @@ class EditEventViewController: UITableViewController {
         self.event.des = self.noteTextView.text
         self.event.title = self.titleTextField.text!
         self.event.location = self.locationTextField.text!
+        self.event.startDate = self.startDate
+        self.event.endDate = self.endDate
         
         EventService.editEvent(with: self.event) { (data, statusCode, errorText) in
             if let errorText = errorText {
@@ -68,19 +94,25 @@ class EditEventViewController: UITableViewController {
     }
     
     fileprivate func showStartDatePicker() {
-        DatePickerDialog().show("Change Starts", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.event.startDate, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog().show("Change Starts", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.startDate, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
-                self.event.startDate = date
-                self.startsLabel.text = date.toDateAndTimeString
+                self.startDate = date
+                self.startsLabel.text = date.toDateAndTime2String
+                if self.startDate >= self.endDate {
+                    if let newDate = Calendar.current.date(byAdding: .hour, value: 1, to: self.event.startDate) {
+                        self.endDate = newDate
+                    }
+                }
+                self.updateEndDateLabel()
             }
         }
     }
     
     fileprivate func showEndsDatePicker() {
-        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.event.endDate, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.endDate, minimumDate: self.startDate, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
-                self.event.endDate = date
-                self.endsLabel.text = date.toDateAndTimeString
+                self.endDate = date
+                self.updateEndDateLabel()
             }
         }
     }
@@ -98,4 +130,22 @@ class EditEventViewController: UITableViewController {
         }
     }
 
+}
+
+extension EditEventViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Notes"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
 }

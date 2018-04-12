@@ -12,6 +12,7 @@ struct AppLinks {
     
     static var header: [String: String] = [:]
     static let LINK_API = "http://35.196.234.119:8000/api/v1"
+    static let LINK_SOCKET = "ws://35.196.234.119:8000/"
     
     //User
     static func LOGIN_GOOGLE(code: String) -> ObjectLink {
@@ -55,5 +56,10 @@ struct AppLinks {
     
     static func DELETE_EVENT(event: Event) -> String {
         return LINK_API + "/event/\(event.id)"
+    }
+    
+    //MESSAGES
+    static var GET_MESSAGES: String {
+        return LINK_API + "/messages"
     }
 }

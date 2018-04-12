@@ -8,12 +8,13 @@
 
 import UIKit
 import GoogleSignIn
+import SocketRocket
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var currentUser: User!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -27,9 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let dict = UserDefaults.standard.value(forKey: UserDefaultsKey.GOOGLE_USER) as? [String: String] {
             let user = User(dict)
             print("HAVE USER: \(user)")
+            self.currentUser = user
             AppLinks.header = ["Authorization": "token \(user.token)"]
+            //AppLinks.header = ["Authorization": "token QL7RXWUJKDIISITBDLPRUPQZAXD81XYEHZ4HPL5J"]
             self.changeRootViewToTabbar()
         }
+        //self.connectSocket()
         return true
     }
 
@@ -59,13 +63,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
     }
     
+    class func shared() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
     fileprivate func changeRootViewToTabbar() {
         let mainTabbar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDMainTabbarController)
         self.window?.rootViewController = mainTabbar
+        
+    }
+    
+    fileprivate func connectSocket() {
+        
+        let socket = SRWebSocket(url: URL(string: "ws://192.168.1.15:8888/message/5aabf738e3d8ee4a91e48f0d")!)
+        socket?.open()
+        socket?.delegate = self
+        
+    }
+}
+
+extension AppDelegate: SRWebSocketDelegate {
+    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+        
+    }
+    
+    func webSocketDidOpen(_ webSocket: SRWebSocket!) {
+        print("OPEND")
+        let dict = "{\"text\":\"hehe\"}"
+        webSocket.send(dict)
     }
     
     
-
+    
 }
 
 extension AppDelegate: GIDSignInDelegate {
@@ -78,6 +107,7 @@ extension AppDelegate: GIDSignInDelegate {
             UserService.loginGoogleAccount(code: code, completion: { (result, statusCode, errorText) in
                 if errorText == nil, let userData = result as? User {
                     let dict = ["id": userData.id, "email": userData.email, "token": userData.token, "firstName": userData.firstName, "lastName": userData.lastName, "avatar": userData.avatar]
+                    self.currentUser = userData
                     UserDefaults.standard.set(dict, forKey: UserDefaultsKey.GOOGLE_USER)
                     UserDefaults.standard.synchronize()
                     AppLinks.header = ["Authorization": "token \(userData.token)"]

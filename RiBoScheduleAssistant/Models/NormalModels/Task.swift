@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-struct Task {
+class Task {
     
     var id: String
     var title: String

@@ -11,6 +11,8 @@ import UIKit
 class EventDetailViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     var event: Event!
     
@@ -29,7 +31,13 @@ class EventDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
         self.setupData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.isHidden = false
     }
 
     fileprivate func setup() {
@@ -48,8 +56,12 @@ class EventDetailViewController: UIViewController {
         self.tableView.reloadData()
     }
     
-    @IBAction func didTouchUpInsideEditButton(sender: UIBarButtonItem) {
+    @IBAction func didTouchUpInsideEditButton(_ sender: UIButton) {
         self.performSegue(withIdentifier: AppID.IDEventDetailToEditEventVC, sender: nil)
+    }
+    
+    @IBAction func didTouchUpInsideCloseButton(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -82,11 +94,13 @@ extension EventDetailViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDHeaderEventTableViewCell, for: indexPath) as? HeaderEventTableViewCell else { return UITableViewCell() }
             cell.titleLabel.text = self.event.title
             cell.timeLabel.text = self.event.startDate.toDateAndTimeString + " - " + self.event.endDate.toDateAndTimeString
+            cell.selectionStyle = .none
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDEventDetailTableViewCell, for: indexPath) as? EventDetailTableViewCell else { return UITableViewCell() }
             cell.titleLabel.text = self.datasForSection1[indexPath.row].title.uppercased()
             cell.contentLabel.text = self.datasForSection1[indexPath.row].content
+            cell.selectionStyle = .none
             return cell
         default:
             return UITableViewCell()

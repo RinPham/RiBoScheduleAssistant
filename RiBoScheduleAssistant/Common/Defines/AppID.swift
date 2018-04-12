@@ -13,7 +13,8 @@ struct AppID {
     
     //View Controller ID
     static let IDMainTabbarController = "IDMainTabbarController"
-    
+    static let IDChatViewController = "IDChatViewController"
+    static let IDSpeechViewController = "IDSpeechViewController"
     
     //Segue ID
     static let IDAllTaskVCToAddNewTaskVC = "IDAllTaskVCToAddNewTaskVC"
@@ -21,6 +22,7 @@ struct AppID {
     static let IDAllTaskVCToEditTaskVC = "IDAllTaskVCToEditTaskVC"
     static let IDCalendarToEventDetailVC = "IDCalendarToEventDetailVC"
     static let IDEventDetailToEditEventVC = "IDEventDetailToEditEventVC"
+    static let IDCalendarToEditTaskVC = "IDCalendarToEditTaskVC"
     
     
     //TableViewCell ID
@@ -28,6 +30,12 @@ struct AppID {
     static let IDCalendarTableViewCell = "IDCalendarTableViewCell"
     static let IDEventDetailTableViewCell = "IDEventDetailTableViewCell"
     static let IDHeaderEventTableViewCell = "IDHeaderEventTableViewCell"
+    static let IDSenderTableViewCell = "IDSenderTableViewCell"
+    static let IDReceiverTableViewCell = "IDReceiverTableViewCell"
+    static let IDHeaderSectionTableViewCell = "IDHeaderSectionTableViewCell"
+    static let IDHeaderTaskTableViewCell = "IDHeaderTaskTableViewCell"
+    static let IDTypeTaskTableViewCell = "IDTypeTaskTableViewCell"
+    static let IDUserInfoTableViewCell = "IDUserInfoTableViewCell"
     
     //CollectionViewCell ID
     

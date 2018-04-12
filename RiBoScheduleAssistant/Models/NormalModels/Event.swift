@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-struct Event {
+class Event {
     
     var id: String
     var title: String
@@ -46,11 +46,20 @@ struct Event {
     
 }
 
-struct DateEvent {
+class DateEvent {
     
-    var event: Event
+    var event: Any
     var date: Date
     var start: String
     var endDate: String
+    var isAllDay = false
+    
+    init(event: Any, date: Date, start: String, endDate: String, isAllDay: Bool) {
+        self.event = event
+        self.date = date
+        self.start = start
+        self.endDate = endDate
+        self.isAllDay = isAllDay
+    }
     
 }

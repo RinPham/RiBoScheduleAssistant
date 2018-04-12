@@ -8,14 +8,16 @@
 
 import UIKit
 import DatePickerDialog
+import DropDown
 
 class EditTaskTableViewController: UITableViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var repeatButton: UIButton!
     
     var task: Task!
+    let dropDown = DropDown()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +33,17 @@ class EditTaskTableViewController: UITableViewController {
     fileprivate func setup() {
         self.titleTextField.text = self.task.title
         self.timeLabel.text = self.task.time.toDateAndTimeString
-        self.descriptionTextView.text = self.task.content
+        
+        self.repeatButton.cornerRadius(5, borderWidth: 1, color: .gray)
+        
+        self.dropDown.anchorView = self.repeatButton
+        self.dropDown.dataSource = ["None", "Daily", "Weekly", "Monthly", "Weekdays", "Weekends"]
+        self.dropDown.bottomOffset = CGPoint(x: 0, y: self.repeatButton.bounds.height)
+        self.dropDown.selectRow(0)
+        self.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            print("Selected item: \(item) at index: \(index)")
+            self.repeatButton.setTitle(self.dropDown.dataSource[index], for: .normal)
+        }
     }
 
     fileprivate func showDatePicker() {
@@ -44,7 +56,7 @@ class EditTaskTableViewController: UITableViewController {
     }
     
     @IBAction func didTouchUpInsideEditButton(sender: UIBarButtonItem) {
-        TaskService.editTask(with: Task(id: self.task.id, title: self.titleTextField.text!, time: self.task.time, content: self.descriptionTextView.text, isDone: self.task.isDone, userId: self.task.userId, intentId: self.task.intentId)) { (data, statusCode, errorText) in
+        TaskService.editTask(with: Task(id: self.task.id, title: self.titleTextField.text!, time: self.task.time, content: "", isDone: self.task.isDone, userId: self.task.userId, intentId: self.task.intentId)) { (data, statusCode, errorText) in
             if let errorText = errorText {
                 self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
                 return
@@ -52,6 +64,10 @@ class EditTaskTableViewController: UITableViewController {
                 self.navigationController?.popViewController(animated: true)
             }
         }
+    }
+    
+    @IBAction func didTouchUpInsideRepeatButton(_ sender: UIButton) {
+        self.dropDown.show()
     }
 
     @IBAction func didTouchUpInsideDeleteButton(sender: UIButton) {
@@ -67,7 +83,7 @@ class EditTaskTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath == IndexPath(row: 1, section: 0) {
+        if indexPath == IndexPath(row: 0, section: 1) {
             self.showDatePicker()
         }
     }

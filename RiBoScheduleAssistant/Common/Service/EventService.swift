@@ -17,8 +17,9 @@ class EventService: BaseService {
                     events.append(Event(json))
                 }
                 completion(events, statusCode, errorText)
+            } else {
+                completion([Event](), statusCode, errorText)
             }
-            completion([Event](), statusCode, errorText)
         }
     }
     

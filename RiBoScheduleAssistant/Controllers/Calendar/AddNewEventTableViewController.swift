@@ -33,8 +33,32 @@ class AddNewEventTableViewController: UITableViewController {
     }
     
     fileprivate func setup() {
-        self.startsLabel.text = self.startsDay.toDateAndTimeString
-        self.endsLabel.text = self.endsDay.toDateAndTimeString
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        self.tableView.addGestureRecognizer(tapGesture)
+        self.noteTextView.delegate = self
+        self.noteTextView.textColor = UIColor.lightGray
+        self.noteTextView.text = "Notes"
+        self.startsLabel.text = self.startsDay.toDateAndTime2String
+        
+        if let date = Calendar.current.date(byAdding: .hour, value: 1, to: self.startsDay) {
+            self.endsDay = date
+        }
+        self.updateEndDateLabel()
+        
+    }
+    
+    fileprivate func updateEndDateLabel() {
+        if Calendar.current.isDate(self.startsDay, inSameDayAs: self.endsDay) {
+            self.endsLabel.text = self.endsDay.toTimeString
+        } else {
+            self.endsLabel.text = self.endsDay.toDateAndTime2String
+        }
+    }
+    
+    @objc func dismissKeyboard() {
+        self.view.endEditing(true)
     }
 
     @IBAction func didTouchUpInsideSaveButton(sender: UIBarButtonItem) {
@@ -54,16 +78,22 @@ class AddNewEventTableViewController: UITableViewController {
         DatePickerDialog().show("Change Starts", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.startsDay, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
                 self.startsDay = date
-                self.startsLabel.text = date.toDateAndTimeString
+                self.startsLabel.text = date.toDateAndTime2String
+                if self.startsDay >= self.endsDay {
+                    if let newDate = Calendar.current.date(byAdding: .hour, value: 1, to: self.startsDay) {
+                        self.endsDay = newDate
+                    }
+                }
+                self.updateEndDateLabel()
             }
         }
     }
     
     fileprivate func showEndsDatePicker() {
-        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.endsDay, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.endsDay, minimumDate: self.startsDay, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
                 self.endsDay = date
-                self.endsLabel.text = date.toDateAndTimeString
+                self.updateEndDateLabel()
             }
         }
     }
@@ -80,4 +110,22 @@ class AddNewEventTableViewController: UITableViewController {
             break
         }
     }
+}
+
+extension AddNewEventTableViewController: UITextViewDelegate {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .lightGray {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Notes"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
 }

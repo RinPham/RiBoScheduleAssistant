@@ -14,8 +14,9 @@ class AllTaskViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     //var tasks = [RTask]()
-    
+    var loadingView: UIActivityIndicatorView!
     var datas = [[Task]]()
+    var titleSections: [(title: String, isExpand: Bool)] = [("Older", false), ("Today", true), ("Tomorrow", true), ("Upcoming", false)]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,7 @@ class AllTaskViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.setupData()
+        self.navigationController?.navigationBar.isHidden = false
     }
     //MARK: - Setup
     
@@ -40,17 +42,20 @@ class AllTaskViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        self.loadingView.hidesWhenStopped = true
+        self.tableView.backgroundView = self.loadingView
         
         self.navigationItem.title = "ALL TASK"
     }
     
     fileprivate func setupData() {
-//        let realm = try! Realm()
-//        let tasks = Array(realm.objects(RTask.self)).sorted{$0.time < $1.time}
-//        self.sortTasks(tasks: tasks)
+        
+        self.loadingView.startAnimating()
         TaskService.getListTask { (tasks, statusCode, errorText) in
             if let tasks = tasks as? [Task] {
-                self.sortTasks(tasks: tasks.sorted{ $0.time < $1.time })
+                self.getDatasFromTasks(tasks: tasks.sorted{ $0.time < $1.time })
+                self.loadingView.stopAnimating()
                 self.tableView.reloadData()
             }
         }
@@ -58,31 +63,33 @@ class AllTaskViewController: UIViewController {
         
     }
     
-    func sortTasks(tasks: [Task]) {
-        if tasks.count == 0 {
+    func getDatasFromTasks(tasks: [Task]) {
+        self.datas = [[Task](), [Task](), [Task](), [Task]()]
+        guard tasks.count > 0 else {
             return
         }
-        self.datas = [[Task]]()
-        var tasksTemp = [Task]()
-        var taskCheck = tasks[0]
-        for (index, task) in tasks.enumerated() {
-            if Calendar.current.isDate(task.time, inSameDayAs: taskCheck.time) {
-                tasksTemp.append(task)
+        for task in tasks {
+            if !task.time.isSameDayWith(date: Date()) && task.time < Date() {
+                self.datas[0].append(task)  //Older
+            } else if task.time.isSameDayWith(date: Date()) {
+                self.datas[1].append(task)  //Today
+            } else if let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()), task.time.isSameDayWith(date: tomorrow) {
+                self.datas[2].append(task)  //Tomorrow
             } else {
-                self.datas.append(tasksTemp)
-                tasksTemp = []
-                taskCheck = tasks[index]
-                tasksTemp.append(task)
+                self.datas[3].append(task)  //Upcoming
             }
-            if index == tasks.count - 1 {
-                self.datas.append(tasksTemp)
-            }
+            
         }
-        
     }
     
     @IBAction func didTouchUpInsideAddButton(sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: AppID.IDAllTaskVCToAddNewTaskVC, sender: nil)
+    }
+    
+    @IBAction func didTouchUpInsideChatButton(_ sender: UIButton) {
+        if let vc = ChatViewController.shared() {
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -101,7 +108,7 @@ extension AllTaskViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.datas[section].count
+        return self.titleSections[section].isExpand ? self.datas[section].count : 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -109,24 +116,62 @@ extension AllTaskViewController: UITableViewDataSource {
         cell.delegate = self
         let task = self.datas[indexPath.section][indexPath.row]
         cell.titleLabel.text = task.title
-        cell.timeLabel.text = task.time.toTimeString
-        cell.lineView.isHidden = !task.isDone
-        cell.titleLabel.textColor = task.isDone ? UIColor.darkGray : UIColor.black
+        if indexPath.section == 1 || indexPath.section == 2 {
+            cell.timeLabel.text = task.time.toTimeString
+        } else {
+            cell.timeLabel.text = task.time.toDateAndTimeString
+        }
+        
+        if task.isDone {
+            cell.lineView.isHidden = false
+            cell.titleLabel.textColor = UIColor.darkGray
+            cell.doneButton.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
+        } else {
+            cell.lineView.isHidden = true
+            cell.titleLabel.textColor = UIColor.black
+            cell.doneButton.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+        }
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.datas[section].first?.time.toDateString
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableCell(withIdentifier: AppID.IDHeaderTaskTableViewCell) as? HeaderTaskTableViewCell else { return nil }
+        headerView.titleLabel.text = self.titleSections[section].title
+        headerView.toggleButton.tag = section
+        headerView.toggleButton.addTarget(self, action: #selector(self.toggleExpandSection(_:)), for: .touchUpInside)
+        if self.titleSections[section].isExpand {
+            headerView.toggleButton.setImage(#imageLiteral(resourceName: "ic_expand_button"), for: .normal)
+        } else {
+            headerView.toggleButton.setImage(#imageLiteral(resourceName: "ic_up_button"), for: .normal)
+        }
+        switch self.datas[section].count {
+        case 0:
+            headerView.countTasksLabel.text = "empty"
+        case 1:
+            headerView.countTasksLabel.text = "1 task"
+        default:
+            headerView.countTasksLabel.text = "\(self.datas[section].count) tasks"
+        }
+        
+        return headerView.contentView
     }
     
+    @objc func toggleExpandSection(_ sender: UIButton) {
+        self.titleSections[sender.tag].isExpand = !self.titleSections[sender.tag].isExpand
+        self.tableView.reloadSections(IndexSet(integer: sender.tag), with: .automatic)
+    }
 }
 
 //MARK: - UITableViewDelegate
 extension AllTaskViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 55
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -154,13 +199,13 @@ extension AllTaskViewController: AllTaskTableViewCellDelegate {
     
     func didTouchUpInsideDoneButton(cell: AllTaskTableViewCell, sender: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-//        let realm = try! Realm()
-//        try! realm.write {
-//            self.datas[indexPath.section][indexPath.row].isDone = !self.datas[indexPath.section][indexPath.row].isDone
-//        }
+
         self.datas[indexPath.section][indexPath.row].isDone = !self.datas[indexPath.section][indexPath.row].isDone
         TaskService.editTask(with: self.datas[indexPath.section][indexPath.row]) { (data, statusCode, errorText) in
-            
+            if let task = data as? Task {
+                print("Update task ok")
+                print(task.isDone)
+            }
         }
         
         if self.datas[indexPath.section][indexPath.row].isDone {
