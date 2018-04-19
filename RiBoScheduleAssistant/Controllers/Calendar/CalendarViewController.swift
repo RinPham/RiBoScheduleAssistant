@@ -39,17 +39,23 @@ class CalendarViewController: UIViewController {
     fileprivate func setup() {
         
         self.navigationItem.title = "CALENDAR"
-        self.calendar.scope = .month
-        self.calendar.delegate = self
-        self.calendar.dataSource = self
+        
+        self.setupCalendar()
         
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        self.tableView.contentInset.bottom = 70
         
         self.loadingView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         self.loadingView.hidesWhenStopped = true
         self.tableView.backgroundView = self.loadingView
+    }
+    
+    fileprivate func setupCalendar() {
+        self.calendar.scope = .month
+        self.calendar.delegate = self
+        self.calendar.dataSource = self
     }
     
     fileprivate func getData() {

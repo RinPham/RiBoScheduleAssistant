@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 extension Date {
     
@@ -157,6 +158,119 @@ extension UIViewController {
             alert.addAction(button)
         }
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func confureNotification(id: String, task: Task) {
+        let message = "Today is \(task.title)."
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+            var dateInfo = DateComponents()
+            let calendar = Calendar.current
+            dateInfo.day = calendar.component(.day, from: task.time)
+            dateInfo.month = calendar.component(.month, from: task.time)
+            dateInfo.year = calendar.component(.year, from: task.time)
+            dateInfo.hour = calendar.component(.hour, from: task.time)
+            dateInfo.minute = calendar.component(.minute, from: task.time)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: false)
+            
+            // Create the request object.
+            let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+            
+            let center = UNUserNotificationCenter.current()
+            center.add(request) { (error : Error?) in
+                if let theError = error {
+                    print(theError.localizedDescription)
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+            // ios 9
+            let notification = UILocalNotification()
+            notification.fireDate = task.time
+            notification.alertBody = message
+            notification.soundName = UILocalNotificationDefaultSoundName
+            UIApplication.shared.scheduleLocalNotification(notification)
+        }
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+    
+    func configureNotificationUpdateBadge() {
+        if #available(iOS 10.0, *) {
+            let content = UNMutableNotificationContent()
+            content.badge = NSNumber(value: 0)
+            var dateInfo = DateComponents()
+            dateInfo.hour = 00
+            dateInfo.minute = 00
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
+            
+            // Create the request object.
+            let request = UNNotificationRequest(identifier: "UpdateNumberBadge", content: content, trigger: trigger)
+            
+            let center = UNUserNotificationCenter.current()
+            center.add(request) { (error : Error?) in
+                if let theError = error {
+                    print(theError.localizedDescription)
+                }
+            }
+        } else {
+            // Fallback on earlier versions
+            // ios 9
+            var dateInfo = DateComponents()
+            dateInfo.hour = 00
+            dateInfo.minute = 00
+            let date = Calendar.current.date(from: dateInfo)
+            let notification = UILocalNotification()
+            notification.fireDate = date
+            notification.applicationIconBadgeNumber = 0
+            notification.soundName = UILocalNotificationDefaultSoundName
+            UIApplication.shared.scheduleLocalNotification(notification)
+        }
+    }
+    
+    func checkReachability() -> Bool {
+        if currentReachabilityStatus == .reachableViaWiFi {
+            print("User is connected to the internet via wifi.")
+            return true
+        } else if currentReachabilityStatus == .reachableViaWWAN{
+            print("User is connected to the internet via WWAN.")
+            return true
+        } else {
+            print("There is no internet connection")
+            let alert = UIAlertController(title: "No Internet Connection", message: "Turn on cellular data or use Wi-fi to access data", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(ok)
+            self.present(alert, animated: true, completion: nil)
+            return false
+        }
+    }
+    
+}
+
+extension UIColor {
+    
+    func hexStringToUIColor(hex:String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.characters.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
     }
     
 }

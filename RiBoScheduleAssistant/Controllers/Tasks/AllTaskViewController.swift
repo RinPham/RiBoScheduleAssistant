@@ -138,12 +138,14 @@ extension AllTaskViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableCell(withIdentifier: AppID.IDHeaderTaskTableViewCell) as? HeaderTaskTableViewCell else { return nil }
         headerView.titleLabel.text = self.titleSections[section].title
+        headerView.titleLabel.textColor = App.Color.mainDarkColor
         headerView.toggleButton.tag = section
         headerView.toggleButton.addTarget(self, action: #selector(self.toggleExpandSection(_:)), for: .touchUpInside)
+        headerView.toggleButton.tintColor = App.Color.mainDarkColor
         if self.titleSections[section].isExpand {
-            headerView.toggleButton.setImage(#imageLiteral(resourceName: "ic_expand_button"), for: .normal)
+            headerView.toggleButton.setImage(#imageLiteral(resourceName: "ic_expand_button").withRenderingMode(.alwaysTemplate), for: .normal)
         } else {
-            headerView.toggleButton.setImage(#imageLiteral(resourceName: "ic_up_button"), for: .normal)
+            headerView.toggleButton.setImage(#imageLiteral(resourceName: "ic_up_button").withRenderingMode(.alwaysTemplate), for: .normal)
         }
         switch self.datas[section].count {
         case 0:
@@ -189,7 +191,10 @@ extension AllTaskViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            print("DELETE TASK")
+            TaskService.deleteTask(with: self.datas[indexPath.section][indexPath.row], completion: { (data, statusCode, error) in
+                print("DELETE TASK")
+                self.setupData()
+            })
         }
     }
 }

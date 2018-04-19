@@ -11,8 +11,12 @@ import Foundation
 struct AppLinks {
     
     static var header: [String: String] = [:]
-    static let LINK_API = "http://35.196.234.119:8000/api/v1"
-    static let LINK_SOCKET = "ws://35.196.234.119:8000/"
+    //localhost
+    //static var LINK_API = "http://192.168.3.157:8888/api/v1"
+    //static var LINK_SOCKET = "ws://192.168.3.157:8888/"
+    //Host
+    static var LINK_API = "http://35.196.234.119:8000/api/v1"
+    static var LINK_SOCKET = "ws://35.196.234.119:8000/"
     
     //User
     static func LOGIN_GOOGLE(code: String) -> ObjectLink {
@@ -22,12 +26,12 @@ struct AppLinks {
     
     //Task
     static func CREATE_NEW_TASK(task: Task) -> ObjectLink {
-        let paramater: [String: Any] = ["title": task.title, "content": task.content, "at_time": task.time.toDateAPIFormat]
+        let paramater: [String: Any] = ["title": task.title, "repeat": task.repeatType.rawValue, "at_time": task.time.toDateAPIFormat, "type": task.type.rawValue]
         return ObjectLink(link: LINK_API + "/task", paramater: paramater)
     }
     
     static func EDIT_TASK(task: Task) -> ObjectLink {
-        let paramater: [String: Any] = ["id": task.id,"user_id": task.userId, "intent_id": task.intentId, "title": task.title, "content": task.content, "at_time": task.time.toDateAPIFormat, "done": task.isDone]
+        let paramater: [String: Any] = ["id": task.id,"user_id": task.userId, "intent_id": task.intentId, "title": task.title, "at_time": task.time.toDateAPIFormat, "done": task.isDone]
         return ObjectLink(link: LINK_API + "/task/\(task.id)", paramater: paramater)
     }
     

@@ -12,6 +12,7 @@ import GoogleSignIn
 class LogInViewController: UIViewController {
 
     @IBOutlet weak var logInButton: UIButton!
+    @IBOutlet weak var hostTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +34,13 @@ class LogInViewController: UIViewController {
         GIDSignIn.sharedInstance().signIn()
     }
     
+    @IBAction func didTouchUpInsideSetupButton(_ sender: UIButton) {
+        if let host = self.hostTextField.text, host != "" {
+            AppLinks.LINK_API = "http://" + host + "/api/v1"
+            AppLinks.LINK_SOCKET = "ws://" + host + "/"
+            self.hostTextField.resignFirstResponder()
+        }
+    }
     
 }
 

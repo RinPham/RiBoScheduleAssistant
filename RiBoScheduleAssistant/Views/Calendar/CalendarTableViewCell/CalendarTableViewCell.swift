@@ -13,10 +13,13 @@ class CalendarTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var effectView: UIView!
+    @IBOutlet weak var circleIconImageView: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.circleIconImageView.image = #imageLiteral(resourceName: "blue_circle_icon").withRenderingMode(.alwaysTemplate)
+        self.circleIconImageView.tintColor = App.Color.mainDarkColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

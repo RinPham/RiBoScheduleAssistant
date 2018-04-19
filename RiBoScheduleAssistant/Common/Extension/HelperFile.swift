@@ -28,3 +28,18 @@ enum MessageOwner {
 enum MessageType {
     case text
 }
+
+enum RepeatType: Int {
+    case none
+    case daily
+    case weekly
+    case weekdays
+    case weekends
+    case monthly
+}
+
+enum TaskType: Int {
+    case normal
+    case call
+    case email
+}

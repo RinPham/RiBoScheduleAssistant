@@ -8,6 +8,7 @@
 
 import UIKit
 import SocketRocket
+import SwiftyJSON
 
 class ChatViewController: UIViewController {
     
@@ -16,6 +17,11 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var inputTextField: UITextField!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var voiceButton: UIButton!
     
     var socket: SRWebSocket?
     
@@ -50,6 +56,7 @@ class ChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setup()
+        self.setupUI()
         self.getMessages()
     }
     
@@ -60,6 +67,7 @@ class ChatViewController: UIViewController {
     
     //MARK: - Setup
     fileprivate func setup() {
+        
         self.tableView.estimatedRowHeight = self.barHeight
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.contentInset.bottom = self.barHeight
@@ -71,7 +79,18 @@ class ChatViewController: UIViewController {
         if let user = AppDelegate.shared().currentUser, let url = URL(string: AppLinks.LINK_SOCKET + "message/" + user.id) {
             self.socket = SRWebSocket(url: url)
         }
-        self.connectSocket()
+        
+    }
+    
+    fileprivate func setupUI() {
+        self.headerView.backgroundColor = App.Color.mainColor
+        self.closeButton.setImage(#imageLiteral(resourceName: "ic_cancel").withRenderingMode(.alwaysTemplate), for: .normal)
+        self.closeButton.tintColor = UIColor.white
+        self.titleLabel.textColor = UIColor.white
+        self.sendButton.setBackgroundImage(#imageLiteral(resourceName: "send").withRenderingMode(.alwaysTemplate), for: .normal)
+        self.sendButton.tintColor = App.Color.mainDarkColor
+        self.voiceButton.setImage(#imageLiteral(resourceName: "ic_microphone").withRenderingMode(.alwaysTemplate), for: .normal)
+        self.voiceButton.tintColor = App.Color.mainDarkColor
     }
     
     @IBAction func didTouchUpInsideCloseButton(_ sender: UIButton) {
@@ -104,7 +123,9 @@ class ChatViewController: UIViewController {
             if let messages = datas as? [Message] {
                 self.messages = messages.sorted{$0.timestamp < $1.timestamp}
                 self.tableView.reloadData()
+                self.scrollToBottom()
             }
+            self.connectSocket()
         }
         
     }
@@ -131,7 +152,7 @@ class ChatViewController: UIViewController {
     
     fileprivate func scrollToBottom() {
         if self.messages.count > 0 {
-            self.tableView.scrollToRow(at: IndexPath.init(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+            self.tableView.scrollToRow(at: IndexPath.init(row: self.messages.count - 1, section: 0), at: .bottom, animated: false)
         }
     }
     
@@ -213,20 +234,30 @@ extension ChatViewController: UITableViewDelegate {
 extension ChatViewController: SRWebSocketDelegate {
     func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
         print("Meesage Reveive: \(message)")
+        if let string = message as? String {
+            let json = JSON.init(parseJSON: string)
+            print(json)
+            self.messages.append(contentsOf: Message.prepareMessage(json).filter{$0.owner == .ribo})
+            self.tableView.reloadData()
+            self.scrollToBottom()
+        }
     }
     
     func webSocketDidOpen(_ webSocket: SRWebSocket!) {
-        print("OPEND")
-//        let dict = "{\"text\":\"hehe\"}"
-//        let dict = "{\"body\":\"hihi\",\"user_id\":\"5aabf738e3d8ee4a91e48f0d\"}"
-//        webSocket.send(dict)
+        print("Connected Server!!!")
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
+        print("Connected Error!!!")
         print(error.localizedDescription)
     }
     
     func webSocket(_ webSocket: SRWebSocket!, didReceivePong pongPayload: Data!) {
         print("Pong: \(pongPayload)")
+    }
+    
+    func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+        print("Close Socket")
+        print(reason)
     }
 }

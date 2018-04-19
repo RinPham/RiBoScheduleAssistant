@@ -18,8 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        //GIDSignIn.sharedInstance().clientID = "196834212204-29ahkv6lv7c6cj9ni1me3l9ju2am6e4c.apps.googleusercontent.com"
-        //GIDSignIn.sharedInstance().serverClientID = "196834212204-14c5cmkgmolep90up91insolufugkqec.apps.googleusercontent.com"
+        self.configureNavigationBarAppearance()
         GIDSignIn.sharedInstance().clientID = "310203758762-gmpbthekhtbh5d4e112agava0v585ate.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().serverClientID = "310203758762-vkc9hocnecbbcshsgf2ufctttp74pbgm.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/calendar"]
@@ -68,9 +67,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     fileprivate func changeRootViewToTabbar() {
-        let mainTabbar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDMainTabbarController)
+        let mainTabbar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDMainTabbarController) as? UITabBarController
+        mainTabbar?.tabBar.items![0].selectedImage = #imageLiteral(resourceName: "ic_tb_task").withRenderingMode(.alwaysTemplate)
+        mainTabbar?.tabBar.items![1].selectedImage = #imageLiteral(resourceName: "ic_tb_calendar").withRenderingMode(.alwaysTemplate)
+        mainTabbar?.tabBar.items![2].selectedImage = #imageLiteral(resourceName: "ic_tb_settings").withRenderingMode(.alwaysTemplate)
+        mainTabbar?.tabBar.tintColor = App.Color.mainColor
+        self.configureTabBar()
         self.window?.rootViewController = mainTabbar
         
+    }
+    
+    func configureNavigationBarAppearance() {
+        UINavigationBar.appearance().barTintColor = App.Color.mainColor
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.white]
+    }
+    
+    func configureTabBar() {
+        let tabbarItem = UITabBarItem.appearance()
+        tabbarItem.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: App.Color.mainColor], for: .selected)
+        //tabbarItem.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white], for: .normal)
     }
     
     fileprivate func connectSocket() {

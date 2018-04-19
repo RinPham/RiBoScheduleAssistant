@@ -37,11 +37,12 @@
 		D07985782069661A00FE4F43 /* HeaderEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */; };
 		D079857A2069663600FE4F43 /* EventDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07985792069663600FE4F43 /* EventDetailTableViewCell.swift */; };
 		D08EB37F207C6AE7005B5B12 /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EB37E207C6AE7005B5B12 /* SpeechViewController.swift */; };
+		D08FE41B20858B3B00ED0DF7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FE41A20858B3B00ED0DF7 /* App.swift */; };
+		D08FE41D2085F4F900ED0DF7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FE41C2085F4F900ED0DF7 /* Reachability.swift */; };
 		D09CFFF720777A7D00045BE1 /* AddNewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */; };
 		D09CFFFA20777FB000045BE1 /* TypeTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09CFFF920777FB000045BE1 /* TypeTaskTableViewCell.swift */; };
 		D0A41B602058BBB000DCF080 /* RTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B5F2058BBB000DCF080 /* RTask.swift */; };
 		D0A41B622058BBD900DCF080 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B612058BBD900DCF080 /* Task.swift */; };
-		D0A41B642058C8F600DCF080 /* AddNewTaskTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */; };
 		D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B672058CD1C00DCF080 /* AllTaskTableViewCell.swift */; };
 		D0A41B6B2058CE9E00DCF080 /* AppID.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B6A2058CE9E00DCF080 /* AppID.swift */; };
 		D0A41B6E2058D68000DCF080 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B6D2058D68000DCF080 /* Extension.swift */; };
@@ -120,11 +121,12 @@
 		D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderEventTableViewCell.swift; sourceTree = "<group>"; };
 		D07985792069663600FE4F43 /* EventDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailTableViewCell.swift; sourceTree = "<group>"; };
 		D08EB37E207C6AE7005B5B12 /* SpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
+		D08FE41A20858B3B00ED0DF7 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		D08FE41C2085F4F900ED0DF7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskViewController.swift; sourceTree = "<group>"; };
 		D09CFFF920777FB000045BE1 /* TypeTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTaskTableViewCell.swift; sourceTree = "<group>"; };
 		D0A41B5F2058BBB000DCF080 /* RTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTask.swift; sourceTree = "<group>"; };
 		D0A41B612058BBD900DCF080 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskTableViewController.swift; sourceTree = "<group>"; };
 		D0A41B672058CD1C00DCF080 /* AllTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTaskTableViewCell.swift; sourceTree = "<group>"; };
 		D0A41B6A2058CE9E00DCF080 /* AppID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppID.swift; sourceTree = "<group>"; };
 		D0A41B6D2058D68000DCF080 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 			children = (
 				D0A41B6A2058CE9E00DCF080 /* AppID.swift */,
 				D0ADBE8120595AEF00992945 /* AppLinks.swift */,
+				D08FE41A20858B3B00ED0DF7 /* App.swift */,
 			);
 			path = Defines;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 			children = (
 				D0A41B6D2058D68000DCF080 /* Extension.swift */,
 				D041C28F2073144900397EF3 /* HelperFile.swift */,
+				D08FE41C2085F4F900ED0DF7 /* Reachability.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -394,7 +398,6 @@
 			isa = PBXGroup;
 			children = (
 				D0B7675720581857002BEF8B /* AllTaskViewController.swift */,
-				D0A41B632058C8F600DCF080 /* AddNewTaskTableViewController.swift */,
 				D0ADBE8E20596C6400992945 /* EditTaskTableViewController.swift */,
 				D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */,
 			);
@@ -656,6 +659,7 @@
 				D0ADBE89205962A800992945 /* User.swift in Sources */,
 				D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */,
 				D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */,
+				D08FE41B20858B3B00ED0DF7 /* App.swift in Sources */,
 				D04BDD9F2057B7D60015CCDB /* FSCalendarCell.m in Sources */,
 				D079857A2069663600FE4F43 /* EventDetailTableViewCell.swift in Sources */,
 				D04BDDA32057B7D60015CCDB /* FSCalendarDelegationFactory.m in Sources */,
@@ -664,6 +668,7 @@
 				D041C292207318DF00397EF3 /* Message.swift in Sources */,
 				D04BDDA42057B7D60015CCDB /* FSCalendarDelegationProxy.m in Sources */,
 				D0ADBE8B2059661200992945 /* TaskService.swift in Sources */,
+				D08FE41D2085F4F900ED0DF7 /* Reachability.swift in Sources */,
 				D0ADBE8F20596C6400992945 /* EditTaskTableViewController.swift in Sources */,
 				D041C29420731A9700397EF3 /* ChatViewController.swift in Sources */,
 				D04BDDA82057B7D60015CCDB /* FSCalendarStickyHeader.m in Sources */,
@@ -689,7 +694,6 @@
 				D0B7675820581857002BEF8B /* AllTaskViewController.swift in Sources */,
 				D041C2902073144900397EF3 /* HelperFile.swift in Sources */,
 				D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */,
-				D0A41B642058C8F600DCF080 /* AddNewTaskTableViewController.swift in Sources */,
 				D04BDD9E2057B7D60015CCDB /* FSCalendarCalculator.m in Sources */,
 				D0D3B5F22062678D007C3028 /* CalendarTableViewCell.swift in Sources */,
 				D04BDD9C2057B7D60015CCDB /* FSCalendar.m in Sources */,

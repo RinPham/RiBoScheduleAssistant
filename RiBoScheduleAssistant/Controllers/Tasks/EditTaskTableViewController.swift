@@ -56,7 +56,7 @@ class EditTaskTableViewController: UITableViewController {
     }
     
     @IBAction func didTouchUpInsideEditButton(sender: UIBarButtonItem) {
-        TaskService.editTask(with: Task(id: self.task.id, title: self.titleTextField.text!, time: self.task.time, content: "", isDone: self.task.isDone, userId: self.task.userId, intentId: self.task.intentId)) { (data, statusCode, errorText) in
+        TaskService.editTask(with: Task(id: self.task.id, title: self.titleTextField.text!, time: self.task.time, type: .normal, isDone: self.task.isDone, userId: self.task.userId, intentId: self.task.intentId)) { (data, statusCode, errorText) in
             if let errorText = errorText {
                 self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
                 return

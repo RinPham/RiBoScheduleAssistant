@@ -22,10 +22,11 @@ class AddNewTaskViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var speechButton: UIButton!
     
-    
     var time = Date()
     var typeTasks: [(image: UIImage, name: String)] = [(#imageLiteral(resourceName: "ic_task_call"), "Call"), (#imageLiteral(resourceName: "ic_task_email"), "Email"), (#imageLiteral(resourceName: "ic_task_check"), "Check"), (#imageLiteral(resourceName: "ic_task_get"), "Get"), (#imageLiteral(resourceName: "ic_task_buy"), "Buy"), (#imageLiteral(resourceName: "ic_task_meet"), "Meet"), (#imageLiteral(resourceName: "ic_task_clean"), "Clean"), (#imageLiteral(resourceName: "ic_task_take"), "Take"), (#imageLiteral(resourceName: "ic_task_send"), "Send"), (#imageLiteral(resourceName: "ic_task_pay"), "Pay"), (#imageLiteral(resourceName: "ic_task_make"), "Make"), (#imageLiteral(resourceName: "ic_task_finish"), "Finish"), (#imageLiteral(resourceName: "ic_task_print"), "Print"), (#imageLiteral(resourceName: "ic_task_read"), "Read"), (#imageLiteral(resourceName: "ic_task_study"), "Study"), (#imageLiteral(resourceName: "ic_task_work"), "Work")]
     let dropDown = DropDown()
+    var indexSelected = 0
+    var taskType: TaskType = .normal
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,12 +53,13 @@ class AddNewTaskViewController: UIViewController {
         self.repeatButton.cornerRadius(5, borderWidth: 1, color: .gray)
         
         self.dropDown.anchorView = self.repeatButton
-        self.dropDown.dataSource = ["None", "Daily", "Weekly", "Monthly", "Weekdays", "Weekends"]
+        self.dropDown.dataSource = ["None", "Daily", "Weekly", "Weekdays", "Weekends", "Monthly"]
         self.dropDown.bottomOffset = CGPoint(x: 0, y: self.repeatButton.bounds.height)
         self.dropDown.selectRow(0)
         self.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.repeatButton.setTitle(self.dropDown.dataSource[index], for: .normal)
+            self.indexSelected = index
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.showKeyboard(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
@@ -90,12 +92,14 @@ class AddNewTaskViewController: UIViewController {
         } else {
             self.tableView.isHidden = false
             self.speechButton.isHidden = false
+            self.taskType = .normal
         }
     }
     
     fileprivate func createNewTask() {
-        
-        TaskService.createNewTask(with: Task(id: "", title: self.titleTextField.text!, time: self.time, content: "hihi", isDone: false, userId: "", intentId: "")) { (data, statusCode, errorText) in
+        let repeatType = RepeatType(rawValue: self.indexSelected) ?? .none
+        let newTask = Task(id: "", title: self.titleTextField.text!, time: self.time, type: self.taskType, isDone: false, userId: "", intentId: "", repeatType: repeatType)
+        TaskService.createNewTask(with: newTask) { (data, statusCode, errorText) in
             if let errorText = errorText {
                 self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
                 return
@@ -163,6 +167,14 @@ extension AddNewTaskViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         self.titleTextField.text = self.typeTasks[indexPath.row].name + " "
         tableView.isHidden = true
+        switch indexPath.row {
+        case 0:
+            self.taskType = .call
+        case 1:
+            self.taskType = .email
+        default:
+            self.taskType = .normal
+        }
     }
     
 }
