@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DatePickerDialog
 import DropDown
 
 class EditTaskTableViewController: UITableViewController {
@@ -47,7 +46,7 @@ class EditTaskTableViewController: UITableViewController {
     }
 
     fileprivate func showDatePicker() {
-        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
                 self.task.time = date
                 self.timeLabel.text = self.task.time.toDateAndTimeString

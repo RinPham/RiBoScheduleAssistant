@@ -21,6 +21,9 @@ struct App {
             return UIColor().hexStringToUIColor(hex: "#008e76")
         }
         
+        static var mainLightColor: UIColor {
+            return UIColor().hexStringToUIColor(hex: "#5df2d6")
+        }
     }
     
     //Font

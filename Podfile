@@ -5,7 +5,6 @@ target 'RiBoScheduleAssistant' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'RealmSwift'
-  pod 'DatePickerDialog'
   pod 'SocketRocket'
   pod 'DropDown'
   pod 'PINRemoteImage'

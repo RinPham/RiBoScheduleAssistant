@@ -43,3 +43,10 @@ enum TaskType: Int {
     case call
     case email
 }
+
+enum ActionButtonType {
+    case delete
+    case call
+    case email
+    case none
+}

@@ -32,13 +32,14 @@ open class DatePickerDialog: UIView {
     private var textColor: UIColor!
     private var buttonColor: UIColor!
     private var font: UIFont!
+    private var titleLabelColor: UIColor!
 
     // MARK: - Dialog initialization
     public init(textColor: UIColor = UIColor.black,
                 buttonColor: UIColor = UIColor.blue,
                 font: UIFont = .boldSystemFont(ofSize: 15),
                 locale: Locale? = nil,
-                showCancelButton: Bool = true) {
+                showCancelButton: Bool = true, titleLabelColor: UIColor = UIColor.black) {
         let size = UIScreen.main.bounds.size
         super.init(frame: CGRect(x: 0, y: 0, width: size.width, height: size.height))
         self.textColor = textColor
@@ -46,6 +47,7 @@ open class DatePickerDialog: UIView {
         self.font = font
         self.showCancelButton = showCancelButton
         self.locale = locale
+        self.titleLabelColor = titleLabelColor
         setupView()
     }
 
@@ -203,7 +205,7 @@ open class DatePickerDialog: UIView {
         //Title
         self.titleLabel = UILabel(frame: CGRect(x: 10, y: 10, width: 280, height: 30))
         self.titleLabel.textAlignment = .center
-        self.titleLabel.textColor = self.textColor
+        self.titleLabel.textColor = self.titleLabelColor
         self.titleLabel.font = self.font.withSize(17)
         container.addSubview(self.titleLabel)
 

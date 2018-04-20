@@ -51,6 +51,7 @@
 		D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */; };
 		D0A87C98207E0D39009E9777 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A87C97207E0D39009E9777 /* SettingsViewController.swift */; };
 		D0A87C9B207E0DBA009E9777 /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */; };
+		D0ABE6FE2088A1AD0044788D /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */; };
 		D0ADBE8220595AEF00992945 /* AppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8120595AEF00992945 /* AppLinks.swift */; };
 		D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8420595FEA00992945 /* BaseService.swift */; };
 		D0ADBE87205961E100992945 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE86205961E100992945 /* UserService.swift */; };
@@ -135,6 +136,7 @@
 		D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEventTableViewController.swift; sourceTree = "<group>"; };
 		D0A87C97207E0D39009E9777 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		D0ADBE8120595AEF00992945 /* AppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinks.swift; sourceTree = "<group>"; };
 		D0ADBE8420595FEA00992945 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
 		D0ADBE86205961E100992945 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				D0D3B5EF2062675F007C3028 /* Calendar */,
 				D0A41B652058CC7600DCF080 /* Tasks */,
 				D04BDD792057B7D60015CCDB /* FSCalendar */,
+				D0ABE6FC2088A1AD0044788D /* DatePickerDialog */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -380,6 +383,14 @@
 				D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		D0ABE6FC2088A1AD0044788D /* DatePickerDialog */ = {
+			isa = PBXGroup;
+			children = (
+				D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */,
+			);
+			path = DatePickerDialog;
 			sourceTree = "<group>";
 		};
 		D0ADBE8320595C5400992945 /* Service */ = {
@@ -573,7 +584,6 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-RiBoScheduleAssistant/Pods-RiBoScheduleAssistant-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/DatePickerDialog/DatePickerDialog.framework",
 				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
@@ -589,7 +599,6 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DatePickerDialog.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
@@ -655,6 +664,7 @@
 				D09CFFFA20777FB000045BE1 /* TypeTaskTableViewCell.swift in Sources */,
 				D0ADBE8D20596B5B00992945 /* EventService.swift in Sources */,
 				D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */,
+				D0ABE6FE2088A1AD0044788D /* DatePickerDialog.swift in Sources */,
 				D04BDDA72057B7D60015CCDB /* FSCalendarScopeHandle.m in Sources */,
 				D0ADBE89205962A800992945 /* User.swift in Sources */,
 				D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */,

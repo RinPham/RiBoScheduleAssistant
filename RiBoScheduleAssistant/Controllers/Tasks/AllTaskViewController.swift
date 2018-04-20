@@ -121,11 +121,20 @@ extension AllTaskViewController: UITableViewDataSource {
         } else {
             cell.timeLabel.text = task.time.toDateAndTimeString
         }
-        
+        switch task.type {
+        case .call:
+            cell.typeActionButton = .call
+        case .email:
+            cell.typeActionButton = .email
+        default:
+            cell.typeActionButton = .none
+        }
         if task.isDone {
             cell.lineView.isHidden = false
             cell.titleLabel.textColor = UIColor.darkGray
             cell.doneButton.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
+            cell.typeActionButton = .delete
+            cell.selectionStyle = .none
         } else {
             cell.lineView.isHidden = true
             cell.titleLabel.textColor = UIColor.black
@@ -177,8 +186,10 @@ extension AllTaskViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !self.datas[indexPath.section][indexPath.row].isDone {
+            self.performSegue(withIdentifier: AppID.IDAllTaskVCToEditTaskVC, sender: self.datas[indexPath.section][indexPath.row])
+        }
         tableView.deselectRow(at: indexPath, animated: true)
-        self.performSegue(withIdentifier: AppID.IDAllTaskVCToEditTaskVC, sender: self.datas[indexPath.section][indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -203,24 +214,30 @@ extension AllTaskViewController: UITableViewDelegate {
 extension AllTaskViewController: AllTaskTableViewCellDelegate {
     
     func didTouchUpInsideDoneButton(cell: AllTaskTableViewCell, sender: UIButton) {
+        
+        sender.isEnabled = false
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-
         self.datas[indexPath.section][indexPath.row].isDone = !self.datas[indexPath.section][indexPath.row].isDone
         TaskService.editTask(with: self.datas[indexPath.section][indexPath.row]) { (data, statusCode, errorText) in
             if let task = data as? Task {
                 print("Update task ok")
                 print(task.isDone)
+                sender.isEnabled = true
             }
         }
-        
-        if self.datas[indexPath.section][indexPath.row].isDone {
-            cell.lineView.isHidden = false
-            cell.titleLabel.textColor = UIColor.darkGray
-            sender.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
-        } else {
-            cell.lineView.isHidden = true
-            cell.titleLabel.textColor = UIColor.black
-            sender.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+        self.tableView.reloadRows(at: [indexPath], with: .none)
+    }
+    
+    func didTouchUpInsideActionButton(cell: AllTaskTableViewCell, sender: UIButton) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        switch cell.typeActionButton {
+        case .delete:
+            TaskService.deleteTask(with: self.datas[indexPath.section][indexPath.row], completion: { (data, statusCode, error) in
+                print("DELETE TASK")
+                self.setupData()
+            })
+        default:
+            break
         }
     }
     

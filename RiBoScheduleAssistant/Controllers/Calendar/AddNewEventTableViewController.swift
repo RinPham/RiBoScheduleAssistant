@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DatePickerDialog
 
 class AddNewEventTableViewController: UITableViewController {
     
@@ -75,7 +74,7 @@ class AddNewEventTableViewController: UITableViewController {
     }
     
     fileprivate func showStartDatePicker() {
-        DatePickerDialog().show("Change Starts", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.startsDay, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Starts", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.startsDay, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
                 self.startsDay = date
                 self.startsLabel.text = date.toDateAndTime2String
@@ -90,7 +89,7 @@ class AddNewEventTableViewController: UITableViewController {
     }
     
     fileprivate func showEndsDatePicker() {
-        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.endsDay, minimumDate: self.startsDay, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.endsDay, minimumDate: self.startsDay, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
                 self.endsDay = date
                 self.updateEndDateLabel()

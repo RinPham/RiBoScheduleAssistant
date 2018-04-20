@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DatePickerDialog
 import DropDown
 
 class AddNewTaskViewController: UIViewController {
@@ -62,6 +61,9 @@ class AddNewTaskViewController: UIViewController {
             self.indexSelected = index
         }
         
+        self.saveButton.cornerRadius(self.saveButton.bounds.height/2, borderWidth: 1, color: App.Color.mainDarkColor)
+        self.saveButton.setTitleColor(App.Color.mainDarkColor, for: .normal)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.showKeyboard(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
     }
     
@@ -110,7 +112,7 @@ class AddNewTaskViewController: UIViewController {
     }
     
     fileprivate func showDatePicker() {
-        DatePickerDialog().show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+        DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
             if let date = date {
                 self.time = date
                 self.timeContentLabel.text = self.time.toDateAndTimeString
@@ -149,7 +151,7 @@ extension AddNewTaskViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDTypeTaskTableViewCell, for: indexPath) as? TypeTaskTableViewCell else { return UITableViewCell() }
         cell.iconImageView.image = self.typeTasks[indexPath.row].image.withRenderingMode(.alwaysTemplate)
-        cell.iconImageView.tintColor = UIColor.blue
+        cell.iconImageView.tintColor = App.Color.mainDarkColor
         cell.nameLabel.text = self.typeTasks[indexPath.row].name
         
         return cell
