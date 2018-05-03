@@ -236,6 +236,14 @@ extension AllTaskViewController: AllTaskTableViewCellDelegate {
                 print("DELETE TASK")
                 self.setupData()
             })
+        case .call:
+            if let url = URL(string: "tel:") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        case .email:
+            if let url = URL(string: "mailto:") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
         default:
             break
         }

@@ -15,6 +15,7 @@ struct AppID {
     static let IDMainTabbarController = "IDMainTabbarController"
     static let IDChatViewController = "IDChatViewController"
     static let IDSpeechViewController = "IDSpeechViewController"
+    static let IDLogInViewController = "IDLogInViewController"
     
     //Segue ID
     static let IDAllTaskVCToAddNewTaskVC = "IDAllTaskVCToAddNewTaskVC"

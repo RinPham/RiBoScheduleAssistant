@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol UserInfoTableViewCellDelegate: class {
+    func didTouchUpInsideLogOutButton(_ cell: UserInfoTableViewCell, sender: UIButton)
+}
+
 class UserInfoTableViewCell: UITableViewCell {
     
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
+    
+    weak var delegate: UserInfoTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,4 +31,7 @@ class UserInfoTableViewCell: UITableViewCell {
         self.avatarImageView.cornerRadius(self.avatarImageView.bounds.width/2, borderWidth: 1, color: .darkGray)
     }
 
+    @IBAction func didTouchUpInsideLogOutButton(_ sender: UIButton) {
+        self.delegate?.didTouchUpInsideLogOutButton(self, sender: sender)
+    }
 }

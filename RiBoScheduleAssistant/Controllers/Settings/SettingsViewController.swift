@@ -8,6 +8,7 @@
 
 import UIKit
 import PINRemoteImage
+import GoogleSignIn
 
 class SettingsViewController: UIViewController {
     
@@ -27,6 +28,19 @@ class SettingsViewController: UIViewController {
     fileprivate func setup() {
         self.tableView.dataSource = self
         self.tableView.delegate = self
+    }
+    
+    fileprivate func logOut() {
+        self.showAlert(title: "Log Out", message: "Are you sure you want to Log out?", option: .alert, btnCancel: UIAlertAction(title: "Cancel", style: .cancel, handler: nil), buttonNormal: [UIAlertAction(title: "Log Out", style: .destructive, handler: { (action) in
+            GIDSignIn.sharedInstance().signOut()
+            if let signInVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDLogInViewController) as? LogInViewController {
+                AppDelegate.shared().window?.rootViewController = signInVC
+                AppDelegate.shared().currentUser = nil
+                UserDefaults.standard.set(nil, forKey: UserDefaultsKey.GOOGLE_USER)
+                UserDefaults.standard.synchronize()
+                AppLinks.header = [:]
+            }
+        })])
     }
 }
 
@@ -50,6 +64,7 @@ extension SettingsViewController: UITableViewDataSource {
                 cell.emailLabel.text = user.email
                 cell.avatarImageView.pin_setImage(from: URL.init(string: user.avatar), placeholderImage: #imageLiteral(resourceName: "ic_avatar"))
             }
+            cell.delegate = self
             cell.selectionStyle = .none
             return cell
         default:
@@ -64,10 +79,17 @@ extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
-            return 140
+            return 190
         default:
             return 0
         }
     }
     
+}
+
+extension SettingsViewController: UserInfoTableViewCellDelegate {
+    
+    func didTouchUpInsideLogOutButton(_ cell: UserInfoTableViewCell, sender: UIButton) {
+        self.logOut()
+    }
 }

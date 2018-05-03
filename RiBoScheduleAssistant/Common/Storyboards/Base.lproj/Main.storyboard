@@ -20,7 +20,7 @@
         <!--Log In View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LogInViewController" customModule="RiBoScheduleAssistant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IDLogInViewController" id="BYZ-38-t0r" customClass="LogInViewController" customModule="RiBoScheduleAssistant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -187,7 +187,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Zx-iP-mgF">
-                                                    <rect key="frame" x="50" y="23" width="205" height="22"/>
+                                                    <rect key="frame" x="50" y="23" width="195" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="u6t-KF-E43"/>
                                                     </constraints>
@@ -196,9 +196,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:59 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="Jt4-lb-Ypi">
-                                                    <rect key="frame" x="265" y="0.0" width="70" height="68"/>
+                                                    <rect key="frame" x="255" y="0.0" width="80" height="68"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="70" id="wKI-rX-suC"/>
+                                                        <constraint firstAttribute="width" constant="80" id="wKI-rX-suC"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -792,7 +792,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjb-Ik-bNW">
-                                                    <rect key="frame" x="50" y="23" width="205" height="22"/>
+                                                    <rect key="frame" x="50" y="23" width="175" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="Q03-z2-p24"/>
                                                     </constraints>
@@ -801,9 +801,9 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:59 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="P1g-lf-zF7">
-                                                    <rect key="frame" x="265" y="0.0" width="70" height="68"/>
+                                                    <rect key="frame" x="235" y="0.0" width="100" height="68"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="70" id="ZHI-WQ-u26"/>
+                                                        <constraint firstAttribute="width" constant="100" id="ZHI-WQ-u26"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -969,7 +969,7 @@
             <objects>
                 <tableViewController id="dAn-4A-gzm" customClass="EditTaskTableViewController" customModule="RiBoScheduleAssistant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="iLx-b8-sp0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -1759,11 +1759,11 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IDUserInfoTableViewCell" rowHeight="153" id="XfV-o3-j0w" customClass="UserInfoTableViewCell" customModule="RiBoScheduleAssistant" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="153"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IDUserInfoTableViewCell" rowHeight="177" id="XfV-o3-j0w" customClass="UserInfoTableViewCell" customModule="RiBoScheduleAssistant" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="177"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XfV-o3-j0w" id="kre-Fd-6t1">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="153"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="177"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rxb-c3-Qu2">
@@ -1791,16 +1791,31 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Lx-lQ-44V">
+                                                    <rect key="frame" x="87.5" y="132" width="200" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="P4S-e4-cq8"/>
+                                                        <constraint firstAttribute="width" constant="200" id="sBp-FE-U8o"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Log Out">
+                                                        <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="didTouchUpInsideLogOutButton:" destination="XfV-o3-j0w" eventType="touchUpInside" id="d5U-DW-mEt"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="9rN-f6-qew" secondAttribute="trailing" constant="10" id="4QI-IE-eEO"/>
                                                 <constraint firstItem="rxb-c3-Qu2" firstAttribute="top" secondItem="kre-Fd-6t1" secondAttribute="top" constant="10" id="6YJ-nm-Z2q"/>
                                                 <constraint firstItem="N9R-1Q-K8a" firstAttribute="leading" secondItem="kre-Fd-6t1" secondAttribute="leading" constant="10" id="GJh-dw-EU6"/>
+                                                <constraint firstItem="9Lx-lQ-44V" firstAttribute="top" secondItem="9rN-f6-qew" secondAttribute="bottom" id="GwC-Sj-gkT"/>
                                                 <constraint firstItem="9rN-f6-qew" firstAttribute="top" secondItem="N9R-1Q-K8a" secondAttribute="bottom" id="Jhp-hL-3Eu"/>
                                                 <constraint firstAttribute="trailing" secondItem="N9R-1Q-K8a" secondAttribute="trailing" constant="10" id="NKL-1M-uj0"/>
                                                 <constraint firstItem="rxb-c3-Qu2" firstAttribute="centerX" secondItem="kre-Fd-6t1" secondAttribute="centerX" id="iWm-iy-QBN"/>
                                                 <constraint firstItem="9rN-f6-qew" firstAttribute="leading" secondItem="kre-Fd-6t1" secondAttribute="leading" constant="10" id="iao-P4-4VQ"/>
                                                 <constraint firstItem="N9R-1Q-K8a" firstAttribute="top" secondItem="rxb-c3-Qu2" secondAttribute="bottom" constant="10" id="j7u-9M-zNJ"/>
+                                                <constraint firstItem="9Lx-lQ-44V" firstAttribute="centerX" secondItem="kre-Fd-6t1" secondAttribute="centerX" id="rHI-jb-nhQ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -2131,6 +2146,6 @@
         <image name="send" width="32" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DRB-bP-ctB"/>
+        <segue reference="ugj-fM-kev"/>
     </inferredMetricsTieBreakers>
 </document>

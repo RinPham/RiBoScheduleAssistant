@@ -68,6 +68,7 @@ class CalendarViewController: UIViewController {
         
         TaskService.getListTask { (tasks, statusCode, errorText) in
             if let tasks = tasks as? [Task] {
+                
                 for task in tasks {
                     let dateEvent = DateEvent(event: task, date: task.time, start: "", endDate: "", isAllDay: false)
                     if task.time > Date() {
@@ -210,6 +211,16 @@ extension CalendarViewController: UITableViewDataSource {
             
             cell.titleLabel.text = task.title
             cell.timeLabel.text = task.time.toTimeString
+            
+            switch task.type {
+            case .call:
+                cell.typeActionButton = .call
+            case .email:
+                cell.typeActionButton = .email
+            default:
+                cell.typeActionButton = .none
+            }
+            
             if task.isDone {
                 cell.lineView.isHidden = false
                 cell.titleLabel.textColor = UIColor.darkGray
@@ -286,12 +297,14 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
 extension CalendarViewController: AllTaskTableViewCellDelegate {
     
     func didTouchUpInsideDoneButton(cell: AllTaskTableViewCell, sender: UIButton) {
+        sender.isEnabled = false
         guard let indexPath = tableView.indexPath(for: cell), let task = self.datas[indexPath.section][indexPath.row].event as? Task else { return }
         task.isDone = !task.isDone
         TaskService.editTask(with: task) { (data, statusCode, errorText) in
             if let task = data as? Task {
                 print("Update task ok")
                 print(task.isDone)
+                sender.isEnabled = true
             }
         }
         
@@ -304,9 +317,28 @@ extension CalendarViewController: AllTaskTableViewCellDelegate {
             cell.titleLabel.textColor = UIColor.black
             sender.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
         }
+        
+        self.tableView.reloadRows(at: [indexPath], with: .none)
     }
     
     func didTouchUpInsideActionButton(cell: AllTaskTableViewCell, sender: UIButton) {
-        
+        guard let indexPath = tableView.indexPath(for: cell), let task = self.datas[indexPath.section][indexPath.row].event as? Task else { return }
+        switch cell.typeActionButton {
+        case .delete:
+            TaskService.deleteTask(with: task, completion: { (data, statusCode, error) in
+                print("DELETE TASK")
+                self.getData()
+            })
+        case .call:
+            if let url = URL(string: "tel:") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        case .email:
+            if let url = URL(string: "mailto:") {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        default:
+            break
+        }
     }
 }
