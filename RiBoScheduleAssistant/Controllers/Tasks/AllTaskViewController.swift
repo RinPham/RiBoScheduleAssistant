@@ -46,7 +46,7 @@ class AllTaskViewController: UIViewController {
         self.loadingView.hidesWhenStopped = true
         self.tableView.backgroundView = self.loadingView
         
-        self.navigationItem.title = "ALL TASK"
+        self.navigationItem.title = "REMINDERS"
     }
     
     fileprivate func setupData() {
@@ -60,11 +60,10 @@ class AllTaskViewController: UIViewController {
             }
         }
         
-        
     }
     
     func getDatasFromTasks(tasks: [Task]) {
-        self.datas = [[Task](), [Task](), [Task](), [Task]()]
+        self.datas = [[Task](), [Task](), [Task](), [Task]()] //[Older, Today, Tomorrow, Upcoming]
         guard tasks.count > 0 else {
             return
         }
@@ -73,13 +72,73 @@ class AllTaskViewController: UIViewController {
                 self.datas[0].append(task)  //Older
             } else if task.time.isSameDayWith(date: Date()) {
                 self.datas[1].append(task)  //Today
-            } else if let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()), task.time.isSameDayWith(date: tomorrow) {
+            } else if task.time.isTomorrow() {
                 self.datas[2].append(task)  //Tomorrow
             } else {
                 self.datas[3].append(task)  //Upcoming
             }
-            
+            //Task have repeat type
+            switch task.repeatType {
+            case .daily:
+                if !self.datas[1].contains(where: {$0.id == task.id}) {
+                    self.datas[1].append(task)
+                }
+                if !self.datas[2].contains(where: {$0.id == task.id}) {
+                    self.datas[2].append(task)
+                }
+            case .monthly:
+                if let day = task.time.component(.day) {
+                    if let currentDay = Date().component(.day), day == currentDay, !self.datas[1].contains(where: {$0.id == task.id}) {
+                        datas[1].append(task)
+                    }
+                    if let tomorrowDay = Date().dateFor(.tomorrow).component(.day), day == tomorrowDay, !self.datas[2].contains(where: {$0.id == task.id}) {
+                        datas[2].append(task)
+                    }
+                }
+            case .weekdays:
+                if Date().compare(.isWeekday) && !self.datas[1].contains(where: {$0.id == task.id}) {
+                    self.datas[1].append(task)
+                }
+                if Date().adjust(.day, offset: 1).compare(.isWeekday) && !self.datas[2].contains(where: {$0.id == task.id}) {
+                    self.datas[2].append(task)
+                }
+            case .weekends:
+                if Date().compare(.isWeekend) && !self.datas[1].contains(where: {$0.id == task.id}) {
+                    self.datas[1].append(task)
+                }
+                if Date().adjust(.day, offset: 1).compare(.isWeekend) && !self.datas[2].contains(where: {$0.id == task.id}) {
+                    self.datas[2].append(task)
+                }
+            case .weekly:
+                if task.time.toString(format: "EEE") == Date().toString(format: "EEE") && !self.datas[1].contains(where: {$0.id == task.id}) {
+                    self.datas[1].append(task)
+                }
+                if task.time.toString(format: "EEE") == Date().dateFor(.tomorrow).toString(format: "EEE") && !self.datas[2].contains(where: {$0.id == task.id}) {
+                    self.datas[2].append(task)
+                }
+            default:
+                break
+            }
         }
+        
+        self.datas[0] = self.datas[0].sorted{$0.time < $1.time}
+        self.datas[1] = self.datas[1].sorted(by: { (a, b) -> Bool in
+            let dateString = Date().toString(format: "dd/MM/yy") + " " + a.time.toString(format: "HH:mm")
+            let dateString2 = Date().toString(format: "dd/MM/yy") + " " + b.time.toString(format: "HH:mm")
+            if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")), let taskTime2 = Date.init(fromString: dateString2, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                return taskTime < taskTime2
+            }
+            return true
+        })
+        self.datas[2] = self.datas[2].sorted(by: { (a, b) -> Bool in
+            let dateString = Date().toString(format: "dd/MM/yy") + " " + a.time.toString(format: "HH:mm")
+            let dateString2 = Date().toString(format: "dd/MM/yy") + " " + b.time.toString(format: "HH:mm")
+            if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")), let taskTime2 = Date.init(fromString: dateString2, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                return taskTime < taskTime2
+            }
+            return true
+        })
+        self.datas[3] = self.datas[3].sorted{$0.time < $1.time}
     }
     
     @IBAction func didTouchUpInsideAddButton(sender: UIBarButtonItem) {
@@ -160,9 +219,9 @@ extension AllTaskViewController: UITableViewDataSource {
         case 0:
             headerView.countTasksLabel.text = "empty"
         case 1:
-            headerView.countTasksLabel.text = "1 task"
+            headerView.countTasksLabel.text = "1 reminder"
         default:
-            headerView.countTasksLabel.text = "\(self.datas[section].count) tasks"
+            headerView.countTasksLabel.text = "\(self.datas[section].count) reminders"
         }
         
         return headerView.contentView
@@ -218,7 +277,7 @@ extension AllTaskViewController: AllTaskTableViewCellDelegate {
         sender.isEnabled = false
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         self.datas[indexPath.section][indexPath.row].isDone = !self.datas[indexPath.section][indexPath.row].isDone
-        TaskService.editTask(with: self.datas[indexPath.section][indexPath.row]) { (data, statusCode, errorText) in
+        TaskService.editTask(with: self.datas[indexPath.section][indexPath.row], paramater: ["done": self.datas[indexPath.section][indexPath.row].isDone]) { (data, statusCode, errorText) in
             if let task = data as? Task {
                 print("Update task ok")
                 print(task.isDone)

@@ -30,9 +30,8 @@ struct AppLinks {
         return ObjectLink(link: LINK_API + "/task", paramater: paramater)
     }
     
-    static func EDIT_TASK(task: Task) -> ObjectLink {
-        let paramater: [String: Any] = ["id": task.id,"user_id": task.userId, "intent_id": task.intentId, "title": task.title, "at_time": task.time.toDateAPIFormat, "done": task.isDone]
-        return ObjectLink(link: LINK_API + "/task/\(task.id)", paramater: paramater)
+    static func EDIT_TASK(task: Task) -> String {
+        return LINK_API + "/task/\(task.id)"
     }
     
     static func DELETE_TASK(task: Task) -> String {

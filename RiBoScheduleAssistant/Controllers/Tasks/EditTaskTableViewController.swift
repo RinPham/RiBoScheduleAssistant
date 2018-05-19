@@ -17,6 +17,8 @@ class EditTaskTableViewController: UITableViewController {
     
     var task: Task!
     let dropDown = DropDown()
+    var time = Date()
+    var repeatType = RepeatType.none
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,32 +32,75 @@ class EditTaskTableViewController: UITableViewController {
     }
     
     fileprivate func setup() {
+        self.navigationItem.title = "Reminder"
         self.titleTextField.text = self.task.title
-        self.timeLabel.text = self.task.time.toDateAndTimeString
+        self.time = self.task.time
+        self.repeatType = self.task.repeatType
+        self.updateTimeLabel()
         
         self.repeatButton.cornerRadius(5, borderWidth: 1, color: .gray)
         
         self.dropDown.anchorView = self.repeatButton
-        self.dropDown.dataSource = ["None", "Daily", "Weekly", "Monthly", "Weekdays", "Weekends"]
+        self.dropDown.dataSource = ["None", "Daily", "Weekly", "Weekdays", "Weekends", "Monthly"]
         self.dropDown.bottomOffset = CGPoint(x: 0, y: self.repeatButton.bounds.height)
-        self.dropDown.selectRow(0)
+        
+        
         self.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.repeatButton.setTitle(self.dropDown.dataSource[index], for: .normal)
+            if let type = RepeatType(rawValue: index) {
+                self.repeatType = type
+                self.updateTimeLabel()
+            }
         }
+        self.dropDown.selectRow(self.task.repeatType.rawValue)
+        self.repeatButton.setTitle(self.dropDown.dataSource[self.task.repeatType.rawValue], for: .normal)
     }
 
     fileprivate func showDatePicker() {
-        DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
-            if let date = date {
-                self.task.time = date
-                self.timeLabel.text = self.task.time.toDateAndTimeString
+        switch self.repeatType {
+        case .daily, .weekdays, .weekends:
+            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .time) { (date) in
+                if let date = date {
+                    self.time = date
+                    self.updateTimeLabel()
+                }
+            }
+        default:
+            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+                if let date = date {
+                    self.time = date
+                    self.updateTimeLabel()
+                }
             }
         }
     }
     
+    fileprivate func updateTimeLabel() {
+        switch self.repeatType {
+        case .daily, .weekdays, .weekends:
+            self.timeLabel.text = self.time.toString(format: "HH:mm")
+        case .weekly:
+            self.timeLabel.text = self.time.toString(format: "EEEE, HH:mm")
+        default:
+            self.timeLabel.text = self.time.toDateAndTimeString
+        }
+    }
+    
     @IBAction func didTouchUpInsideEditButton(sender: UIBarButtonItem) {
-        TaskService.editTask(with: Task(id: self.task.id, title: self.titleTextField.text!, time: self.task.time, type: .normal, isDone: self.task.isDone, userId: self.task.userId, intentId: self.task.intentId)) { (data, statusCode, errorText) in
+        
+        var paramater: [String: Any] = [:]
+        if self.task.title != self.titleTextField.text! {
+            paramater["title"] = self.titleTextField.text!
+        }
+        if self.task.time != self.time {
+            paramater["at_time"] = self.time.toDateAPIFormat
+        }
+        if self.task.repeatType != self.repeatType {
+            paramater["repeat"] = self.repeatType.rawValue
+        }
+        
+        TaskService.editTask(with: self.task, paramater: paramater) { (data, statusCode, errorText) in
             if let errorText = errorText {
                 self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
                 return

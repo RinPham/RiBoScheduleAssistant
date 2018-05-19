@@ -19,10 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         self.configureNavigationBarAppearance()
-        GIDSignIn.sharedInstance().clientID = "310203758762-gmpbthekhtbh5d4e112agava0v585ate.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance().serverClientID = "310203758762-vkc9hocnecbbcshsgf2ufctttp74pbgm.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/calendar"]
-        GIDSignIn.sharedInstance().delegate = self
+        self.setupGoogleAPI()
         
         if let dict = UserDefaults.standard.value(forKey: UserDefaultsKey.GOOGLE_USER) as? [String: String] {
             let user = User(dict)
@@ -90,11 +87,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     fileprivate func connectSocket() {
-        
         let socket = SRWebSocket(url: URL(string: "ws://192.168.1.15:8888/message/5aabf738e3d8ee4a91e48f0d")!)
         socket?.open()
         socket?.delegate = self
-        
+    }
+    
+    fileprivate func setupGoogleAPI() {
+        GIDSignIn.sharedInstance().clientID = "310203758762-gmpbthekhtbh5d4e112agava0v585ate.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().serverClientID = "310203758762-vkc9hocnecbbcshsgf2ufctttp74pbgm.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/calendar"]
+        GIDSignIn.sharedInstance().delegate = self
     }
 }
 

@@ -24,6 +24,7 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var voiceButton: UIButton!
     
     var socket: SRWebSocket?
+    var objectId = ""
     
     override var inputAccessoryView: UIView? {
         get {
@@ -67,7 +68,6 @@ class ChatViewController: UIViewController {
     
     //MARK: - Setup
     fileprivate func setup() {
-        
         self.tableView.estimatedRowHeight = self.barHeight
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.contentInset.bottom = self.barHeight
@@ -79,7 +79,6 @@ class ChatViewController: UIViewController {
         if let user = AppDelegate.shared().currentUser, let url = URL(string: AppLinks.LINK_SOCKET + "message/" + user.id) {
             self.socket = SRWebSocket(url: url)
         }
-        
     }
     
     fileprivate func setupUI() {
@@ -139,14 +138,28 @@ class ChatViewController: UIViewController {
     
     fileprivate func sendMessage() {
         if let text = self.inputTextField.text, text != "" {
+            self.sendButton.isEnabled = false
+            if let index = Int(text), index > 0, let lastMessage = self.messages.last, (index - 1 < lastMessage.tasks.count || index - 1 < lastMessage.events.count) {
+                let realmIndex = index - 1
+                if realmIndex < lastMessage.tasks.count {
+                    let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(lastMessage.tasks[realmIndex].id)\"}"
+                    socket?.send(dict)
+                } else if realmIndex < lastMessage.events.count {
+                    let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(lastMessage.events[realmIndex].id)\"}"
+                    socket?.send(dict)
+                }
+            } else if self.objectId != "" {
+                let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(self.objectId)\"}"
+                socket?.send(dict)
+            } else {
+                let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\"}"
+                socket?.send(dict)
+            }
             let message = Message(id: "", owner: .sender, type: .text, content: text, timestamp: Date().timeIntervalSince1970, senderId: "")
             self.messages.append(message)
             self.tableView.reloadData()
             self.inputTextField.text = ""
             self.scrollToBottom()
-            
-            let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\"}"
-            socket?.send(dict)
         }
     }
     
@@ -164,6 +177,25 @@ class ChatViewController: UIViewController {
             self.view.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
             vc.delegate = self
+        }
+    }
+    
+    fileprivate func detectIndexObjectInMessage(text: String) {
+        if let index = Int(text), let lastMessage = self.messages.last, index < lastMessage.tasks.count {
+            
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let id = segue.identifier, id == AppID.IDChatVCToTaskListVC, let tasks = sender as? [Task], let navi = segue.destination as? UINavigationController, let vc = navi.viewControllers.first as? TaskListViewController {
+            vc.tasks = tasks
+        } else if let id = segue.identifier, id == AppID.IDChatVCToEventListVC, let events = sender as? [Event], let navi = segue.destination as? UINavigationController, let vc = navi.viewControllers.first as? EventListViewController {
+            vc.events = events
+        } else if let id = segue.identifier, id == AppID.IDChatVCToDetailEventVC, let event = sender as? Event, let vc = segue.destination as? EventDetailViewController {
+            vc.event = event
+            vc.isHiddenEditButton = true
+        } else if let id = segue.identifier, id == AppID.IDChatVCToEditTaskVC, let task = sender as? Task, let vc = segue.destination as? EditTaskTableViewController {
+            vc.task = task
         }
     }
 }
@@ -205,21 +237,53 @@ extension ChatViewController: UITableViewDataSource {
             }
             cell.clearCellData()
             if message.type == .text, let text = message.content as? String {
-                cell.message.text = text + "\n \(Date.init(timeIntervalSince1970: message.timestamp))"
+//                cell.message.text = text + "\n \(Date.init(timeIntervalSince1970: message.timestamp))"
+                cell.message.text = text
             }
             
             return cell
         case .ribo:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDReceiverTableViewCell, for: indexPath) as? ReceiverTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.clearCellData()
-            if message.type == .text, let text = message.content as? String {
-                cell.message.text = text + "\n \(Date.init(timeIntervalSince1970: message.timestamp))"
-            }
-            cell.profilePic.image = #imageLiteral(resourceName: "ic_chatbot")
+            if (message.tasks.count > 0 && message.action == .taskGet) || (message.events.count > 0 && message.action == .eventGet) { //Show tasks or events
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDShowMoreTableViewCell, for: indexPath) as? ShowMoreTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.clearCellData()
             
-            return cell
+                if let text = message.content as? String {
+                    if message.tasks.count > 3 || message.events.count > 3 {
+                        cell.message.text = text + "\n . . . \n\n"
+                    } else {
+                        cell.message.text = text + "\n\n"
+                    }
+                }
+                cell.profilePic.image = #imageLiteral(resourceName: "ic_chatbot")
+                cell.delegate = self
+                
+                return cell
+            } else if (message.action == .taskRemove || message.action == .eventRemove) && (message.tasks.count == 1 || message.events.count == 1) {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDConfirmTableViewCell, for: indexPath) as? ConfirmTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.clearCellData()
+                if message.type == .text, let text = message.content as? String {
+                    cell.message.text = text + "\n\n"
+                }
+                cell.profilePic.image = #imageLiteral(resourceName: "ic_chatbot")
+                cell.delegate = self
+                
+                return cell
+            } else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDReceiverTableViewCell, for: indexPath) as? ReceiverTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.clearCellData()
+                if message.type == .text, let text = message.content as? String {
+                    cell.message.text = text
+                }
+                cell.profilePic.image = #imageLiteral(resourceName: "ic_chatbot")
+                
+                return cell
+            }
         }
     }
     
@@ -233,13 +297,23 @@ extension ChatViewController: UITableViewDelegate {
 
 extension ChatViewController: SRWebSocketDelegate {
     func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
-        print("Meesage Reveive: \(message)")
+        self.objectId = ""
         if let string = message as? String {
             let json = JSON.init(parseJSON: string)
-            print(json)
+            print("Meesage Reveive: \(message)")
             self.messages.append(contentsOf: Message.prepareMessage(json).filter{$0.owner == .ribo})
             self.tableView.reloadData()
             self.scrollToBottom()
+            self.sendButton.isEnabled = true
+            //Get object ID
+            if let lastMessage = self.messages.last {
+                if lastMessage.tasks.count == 1 {
+                    self.objectId = lastMessage.tasks[0].id
+                }
+                if lastMessage.events.count == 1 {
+                    self.objectId = lastMessage.events[0].id
+                }
+            }
         }
     }
     
@@ -259,5 +333,37 @@ extension ChatViewController: SRWebSocketDelegate {
     func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         print("Close Socket")
         print(reason)
+    }
+}
+
+extension ChatViewController: ShowMoreTableViewCellDelegate {
+    
+    func didTouchUpInsideShowButton(_ cell: ShowMoreTableViewCell, sender: UIButton) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else { return }
+        let message = self.messages[indexPath.row]
+        if message.tasks.count > 1 {
+            self.performSegue(withIdentifier: AppID.IDChatVCToTaskListVC, sender: message.tasks)
+        } else if message.events.count > 1 {
+            self.performSegue(withIdentifier: AppID.IDChatVCToEventListVC, sender: message.events)
+        } else if message.tasks.count == 1 {
+            //self.performSegue(withIdentifier: AppID.IDChatVCToEditTaskVC, sender: message.tasks[0])
+        } else if message.events.count == 1 {
+            self.performSegue(withIdentifier: AppID.IDChatVCToDetailEventVC, sender: message.events[0])
+        }
+        
+    }
+    
+}
+
+extension ChatViewController: ConfirmTableViewCellDelegate {
+    
+    func didTouchUpInsideNoButton(_ cell: ConfirmTableViewCell, sender: UIButton) {
+        self.inputTextField.text = "No"
+        self.sendMessage()
+    }
+    
+    func didTouchUpInsideYesButton(_ cell: ConfirmTableViewCell, sender: UIButton) {
+        self.inputTextField.text = "Yes"
+        self.sendMessage()
     }
 }

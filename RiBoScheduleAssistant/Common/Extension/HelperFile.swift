@@ -29,6 +29,19 @@ enum MessageType {
     case text
 }
 
+enum MessageAction: String {
+    case none = ""
+    case taskAdd = "reminders.add"
+    case taskGet = "reminders.get"
+    case taskRemove = "reminders.remove"
+    case taskRename = "reminders.rename"
+    case eventAdd = "events.add"
+    case eventGet = "events.get"
+    case eventRemove = "events.remove"
+    case eventRename = "events.rename"
+    case unknown = "input.unknown"
+}
+
 enum RepeatType: Int {
     case none
     case daily

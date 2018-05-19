@@ -68,17 +68,62 @@ class CalendarViewController: UIViewController {
         
         TaskService.getListTask { (tasks, statusCode, errorText) in
             if let tasks = tasks as? [Task] {
-                
-                for task in tasks {
-                    let dateEvent = DateEvent(event: task, date: task.time, start: "", endDate: "", isAllDay: false)
-                    if task.time > Date() {
-                         self.datasTemp.append(dateEvent)
-                    }
-                }
+                self.getAllTaskInMonth(tasks: tasks)
                 self.sortDatas()
             }
         }
         
+    }
+    
+    fileprivate func getAllTaskInMonth(tasks: [Task]) {
+        for i in 0...30 {
+            let date = Date().adjust(.day, offset: i)
+            for task in tasks {
+                let dateString = date.toString(format: "dd/MM/yy") + " " + task.time.toString(format: "HH:mm")
+                switch task.repeatType{
+                case .daily:
+                    if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                        let dateEvent = DateEvent(event: task, date: taskTime , start: "", endDate: "", isAllDay: false)
+                        self.datasTemp.append(dateEvent)
+                    }
+                case .weekly:
+                    if task.time.toString(format: "EEE") == date.toString(format: "EEE") {
+                        if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                            let dateEvent = DateEvent(event: task, date: taskTime , start: "", endDate: "", isAllDay: false)
+                            self.datasTemp.append(dateEvent)
+                        }
+                    }
+                case .monthly:
+                    if let day = task.time.component(.day) {
+                        if let currentDay = date.component(.day), day == currentDay {
+                            if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                                let dateEvent = DateEvent(event: task, date: taskTime , start: "", endDate: "", isAllDay: false)
+                                self.datasTemp.append(dateEvent)
+                            }
+                        }
+                    }
+                case .weekdays:
+                    if date.compare(.isWeekday) {
+                        if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                            let dateEvent = DateEvent(event: task, date: taskTime , start: "", endDate: "", isAllDay: false)
+                            self.datasTemp.append(dateEvent)
+                        }
+                    }
+                case .weekends:
+                    if date.compare(.isWeekend) {
+                        if let taskTime = Date.init(fromString: dateString, format: DateFormatType.custom("dd/MM/yy HH:mm")) {
+                            let dateEvent = DateEvent(event: task, date: taskTime , start: "", endDate: "", isAllDay: false)
+                            self.datasTemp.append(dateEvent)
+                        }
+                    }
+                default:
+                    if task.time.isSameDayWith(date: date) {
+                        let dateEvent = DateEvent(event: task, date: task.time, start: "", endDate: "", isAllDay: false)
+                        self.datasTemp.append(dateEvent)
+                    }
+                }
+            }
+        }
     }
     
     fileprivate func getDateEventOfEvent() {
@@ -118,7 +163,7 @@ class CalendarViewController: UIViewController {
         self.tableView.reloadData()
         self.loadingView.stopAnimating()
         self.calendar.reloadData()
-        self.scrollToEventComingSoon()
+        //self.scrollToEventComingSoon()
     }
     
     func getAllDateEvent(event: Event) -> [DateEvent] {
@@ -300,7 +345,7 @@ extension CalendarViewController: AllTaskTableViewCellDelegate {
         sender.isEnabled = false
         guard let indexPath = tableView.indexPath(for: cell), let task = self.datas[indexPath.section][indexPath.row].event as? Task else { return }
         task.isDone = !task.isDone
-        TaskService.editTask(with: task) { (data, statusCode, errorText) in
+        TaskService.editTask(with: task, paramater: ["done": task.isDone]) { (data, statusCode, errorText) in
             if let task = data as? Task {
                 print("Update task ok")
                 print(task.isDone)

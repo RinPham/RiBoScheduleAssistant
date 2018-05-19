@@ -24,7 +24,12 @@ struct AppID {
     static let IDCalendarToEventDetailVC = "IDCalendarToEventDetailVC"
     static let IDEventDetailToEditEventVC = "IDEventDetailToEditEventVC"
     static let IDCalendarToEditTaskVC = "IDCalendarToEditTaskVC"
-    
+    static let IDChatVCToTaskListVC = "IDChatVCToTaskListVC"
+    static let IDChatVCToEventListVC = "IDChatVCToEventListVC"
+    static let IDTaskListVCToEditTaskVC = "IDTaskListVCToEditTaskVC"
+    static let IDEventListVCToEditEventVC = "IDEventListVCToEditEventVC"
+    static let IDChatVCToDetailEventVC = "IDChatVCToDetailEventVC"
+    static let IDChatVCToEditTaskVC = "IDChatVCToEditTaskVC"
     
     //TableViewCell ID
     static let IDAllTaskTableViewCell = "IDAllTaskTableViewCell"
@@ -37,6 +42,10 @@ struct AppID {
     static let IDHeaderTaskTableViewCell = "IDHeaderTaskTableViewCell"
     static let IDTypeTaskTableViewCell = "IDTypeTaskTableViewCell"
     static let IDUserInfoTableViewCell = "IDUserInfoTableViewCell"
+    static let IDShowMoreTableViewCell = "IDShowMoreTableViewCell"
+    static let IDConfirmTableViewCell = "IDConfirmTableViewCell"
+    static let IDTaskListTableViewCell = "IDTaskListTableViewCell"
+    static let IDEventListTableViewCell = "IDEventListTableViewCell"
     
     //CollectionViewCell ID
     

@@ -19,6 +19,7 @@ class BaseService {
     
     static func requestService(apiPath: String?, method: HTTPMethod, parameters: Parameters?, completion: @escaping Completion) {
         if let apiPath = apiPath {
+            Alamofire.SessionManager.default.session.configuration.timeoutIntervalForRequest = 120
             Alamofire.request(apiPath, method: method, parameters: parameters, headers: AppLinks.header).responseJSON { response in
                 switch response.result {
                 case .success(let value):

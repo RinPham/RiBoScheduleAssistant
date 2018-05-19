@@ -28,6 +28,7 @@ extension Date {
     var toTimeString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
+        //dateFormatter.timeZone = TimeZone(identifier: "UTC")
         
         return dateFormatter.string(from: self)
     }
@@ -49,12 +50,30 @@ extension Date {
     var toDateAPIFormat: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        //dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        
+        //var result = dateFormatter.string(from: self)
+        //result = result.replacingOccurrences(of: "+0700", with: "+0000", options: .literal, range: nil)
+        
+        return dateFormatter.string(from: self)
+    }
+    
+    func toString(format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
         
         return dateFormatter.string(from: self)
     }
     
     func isSameDayWith(date: Date) -> Bool {
         return Calendar.current.isDate(self, inSameDayAs: date)
+    }
+    
+    func isTomorrow() -> Bool {
+        if let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) {
+            return Calendar.current.isDate(self, inSameDayAs: tomorrow)
+        }
+        return false
     }
 }
 
@@ -63,6 +82,7 @@ extension String {
     var toDateTime: Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ" //2018-09-08T07:00:00Z
+        //dateFormatter.timeZone = TimeZone(identifier: "UTC")
         if let date = dateFormatter.date(from: self) {
             return date
         }
@@ -161,36 +181,20 @@ extension UIViewController {
     }
     
     func confureNotification(id: String, task: Task) {
-        let message = "Today is \(task.title)."
-        if #available(iOS 10.0, *) {
-            let content = UNMutableNotificationContent()
-            content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
-            var dateInfo = DateComponents()
-            let calendar = Calendar.current
-            dateInfo.day = calendar.component(.day, from: task.time)
-            dateInfo.month = calendar.component(.month, from: task.time)
-            dateInfo.year = calendar.component(.year, from: task.time)
-            dateInfo.hour = calendar.component(.hour, from: task.time)
-            dateInfo.minute = calendar.component(.minute, from: task.time)
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: false)
-            
-            // Create the request object.
-            let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-            
-            let center = UNUserNotificationCenter.current()
-            center.add(request) { (error : Error?) in
-                if let theError = error {
-                    print(theError.localizedDescription)
-                }
+        let message = "You have a reminder: \(task.title)."
+        let content = UNMutableNotificationContent()
+        content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
+        let dateInfo = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: task.time)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: false)
+        
+        // Create the request object.
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        
+        let center = UNUserNotificationCenter.current()
+        center.add(request) { (error : Error?) in
+            if let theError = error {
+                print(theError.localizedDescription)
             }
-        } else {
-            // Fallback on earlier versions
-            // ios 9
-            let notification = UILocalNotification()
-            notification.fireDate = task.time
-            notification.alertBody = message
-            notification.soundName = UILocalNotificationDefaultSoundName
-            UIApplication.shared.scheduleLocalNotification(notification)
         }
         DispatchQueue.main.async {
             UIApplication.shared.registerForRemoteNotifications()

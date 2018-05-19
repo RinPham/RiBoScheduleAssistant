@@ -24,7 +24,7 @@ class AddNewTaskViewController: UIViewController {
     var time = Date()
     var typeTasks: [(image: UIImage, name: String)] = [(#imageLiteral(resourceName: "ic_task_call"), "Call"), (#imageLiteral(resourceName: "ic_task_email"), "Email"), (#imageLiteral(resourceName: "ic_task_check"), "Check"), (#imageLiteral(resourceName: "ic_task_get"), "Get"), (#imageLiteral(resourceName: "ic_task_buy"), "Buy"), (#imageLiteral(resourceName: "ic_task_meet"), "Meet"), (#imageLiteral(resourceName: "ic_task_clean"), "Clean"), (#imageLiteral(resourceName: "ic_task_take"), "Take"), (#imageLiteral(resourceName: "ic_task_send"), "Send"), (#imageLiteral(resourceName: "ic_task_pay"), "Pay"), (#imageLiteral(resourceName: "ic_task_make"), "Make"), (#imageLiteral(resourceName: "ic_task_finish"), "Finish"), (#imageLiteral(resourceName: "ic_task_print"), "Print"), (#imageLiteral(resourceName: "ic_task_read"), "Read"), (#imageLiteral(resourceName: "ic_task_study"), "Study"), (#imageLiteral(resourceName: "ic_task_work"), "Work")]
     let dropDown = DropDown()
-    var indexSelected = 0
+    var repeatType = RepeatType.none
     var taskType: TaskType = .normal
 
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class AddNewTaskViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
         
-        self.timeContentLabel.text = self.time.toDateAndTimeString
+        self.updateTimeLabel()
         self.headerView.createShadow(color: UIColor.black, opacity: 0.3, width: 0, height: 0, shadowRadius: 5)
         
         self.repeatButton.cornerRadius(5, borderWidth: 1, color: .gray)
@@ -58,7 +58,10 @@ class AddNewTaskViewController: UIViewController {
         self.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.repeatButton.setTitle(self.dropDown.dataSource[index], for: .normal)
-            self.indexSelected = index
+            if let type = RepeatType(rawValue: index) {
+                self.repeatType = type
+                self.updateTimeLabel()
+            }
         }
         
         self.saveButton.cornerRadius(self.saveButton.bounds.height/2, borderWidth: 1, color: App.Color.mainDarkColor)
@@ -99,8 +102,8 @@ class AddNewTaskViewController: UIViewController {
     }
     
     fileprivate func createNewTask() {
-        let repeatType = RepeatType(rawValue: self.indexSelected) ?? .none
-        let newTask = Task(id: "", title: self.titleTextField.text!, time: self.time, type: self.taskType, isDone: false, userId: "", intentId: "", repeatType: repeatType)
+
+        let newTask = Task(id: "", title: self.titleTextField.text!, time: self.time, type: self.taskType, isDone: false, userId: "", intentId: "", repeatType: self.repeatType)
         TaskService.createNewTask(with: newTask) { (data, statusCode, errorText) in
             if let errorText = errorText {
                 self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
@@ -112,11 +115,32 @@ class AddNewTaskViewController: UIViewController {
     }
     
     fileprivate func showDatePicker() {
-        DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
-            if let date = date {
-                self.time = date
-                self.timeContentLabel.text = self.time.toDateAndTimeString
+        switch self.repeatType {
+        case .daily, .weekdays, .weekends:
+            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .time) { (date) in
+                if let date = date {
+                    self.time = date
+                    self.updateTimeLabel()
+                }
             }
+        default:
+            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+                if let date = date {
+                    self.time = date
+                    self.updateTimeLabel()
+                }
+            }
+        }
+    }
+    
+    fileprivate func updateTimeLabel() {
+        switch self.repeatType {
+        case .daily, .weekdays, .weekends:
+            self.timeContentLabel.text = self.time.toString(format: "HH:mm")
+        case .weekly:
+            self.timeContentLabel.text = self.time.toString(format: "EEEE, HH:mm")
+        default:
+            self.timeContentLabel.text = self.time.toDateAndTimeString
         }
     }
     

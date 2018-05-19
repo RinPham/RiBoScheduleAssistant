@@ -19,6 +19,9 @@ class Message {
     var content: Any
     var timestamp: Double
     var senderId: String?
+    var tasks = [Task]()
+    var events = [Event]()
+    var action: MessageAction = .none
     
     init(id: String = "", owner: MessageOwner = .sender, type: MessageType = .text, content: Any = "", timestamp: Double = 0, senderId: String = "") {
         self.id = id
@@ -40,6 +43,7 @@ class Message {
         let update = data["updated_at"].string ?? ""
         let updateTime = update.toDateTimeMessage.timeIntervalSince1970
         let userId = data["user_id"].string ?? ""
+        let action = data["action"].string ?? ""
         
         let message1 = Message()
         message1.content = question
@@ -48,10 +52,28 @@ class Message {
         message1.timestamp = createTime
         message1.type = .text
         message1.senderId = userId
+        message1.action = MessageAction(rawValue: action) ?? .none
+        if let slots = data["slots"].array {
+            for slot in slots {
+                if let stringJson = slot.string {
+                    //print(JSON.init(parseJSON: stringJson))
+                    switch message1.action {
+                    case .taskGet, .taskAdd, .taskRemove, .taskRename:
+                        let task = Task.init(JSON.init(parseJSON: stringJson))
+                        message1.tasks.append(task)
+                    case .eventGet, .eventAdd, .eventRemove, .eventRename:
+                        let event = Event.init(JSON.init(parseJSON: stringJson))
+                        message1.events.append(event)
+                    default:
+                        break
+                    }
+                    
+                }
+            }
+        }
         result.append(message1)
         
         if answer != "" {
-            
             let message = Message()
             message.content = answer
             message.id = id
@@ -59,6 +81,7 @@ class Message {
             message.timestamp = updateTime
             message.type = .text
             message.senderId = userId
+            message.action = MessageAction(rawValue: action) ?? .none
             result.append(message)
         }
         

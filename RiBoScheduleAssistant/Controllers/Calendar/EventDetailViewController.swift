@@ -16,6 +16,7 @@ class EventDetailViewController: UIViewController {
     
     var event: Event!
     
+    var isHiddenEditButton = false
     var datasForSection1: [(title: String, content: String)] = []
 
     override func viewDidLoad() {
@@ -41,6 +42,7 @@ class EventDetailViewController: UIViewController {
     }
 
     fileprivate func setup() {
+        self.editButton.isHidden = isHiddenEditButton
         self.tableView.dataSource = self
         self.tableView.delegate = self
     }
@@ -61,7 +63,11 @@ class EventDetailViewController: UIViewController {
     }
     
     @IBAction func didTouchUpInsideCloseButton(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+        if self.isHiddenEditButton {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

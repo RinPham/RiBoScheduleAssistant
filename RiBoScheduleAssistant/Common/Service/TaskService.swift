@@ -16,9 +16,16 @@ class TaskService: BaseService {
         }
     }
     
-    class func editTask(with task: Task, completion: @escaping Result) {
-        let objLink = AppLinks.EDIT_TASK(task: task)
-        self.requestService(apiPath: objLink.link, method: .put, parameters: ["id": task.id, "title": task.title , "done": task.isDone]) { (data, statusCode, errorText) in
+//    class func editTask(with task: Task, completion: @escaping Result) {
+//        let objLink = AppLinks.EDIT_TASK(task: task)
+//        self.requestService(apiPath: objLink.link, method: .put, parameters: ["id": task.id, "title": task.title , "done": task.isDone]) { (data, statusCode, errorText) in
+//            print(data)
+//            completion(Task(data), statusCode, errorText)
+//        }
+//    }
+    
+    class func editTask(with task: Task, paramater: [String: Any], completion: @escaping Result) {
+        self.requestService(apiPath: AppLinks.EDIT_TASK(task: task), method: .put, parameters: paramater) { (data, statusCode, errorText) in
             print(data)
             completion(Task(data), statusCode, errorText)
         }
