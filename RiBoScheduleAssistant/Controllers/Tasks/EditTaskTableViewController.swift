@@ -14,15 +14,17 @@ class EditTaskTableViewController: UITableViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var repeatButton: UIButton!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     var task: Task!
     let dropDown = DropDown()
     var time = Date()
     var repeatType = RepeatType.none
+    var isEditTask = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.setup()
     }
 

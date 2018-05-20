@@ -117,7 +117,7 @@ class ChatViewController: UIViewController {
     
     //MARK: - Support methods
     fileprivate func getMessages() {
-        
+        self.showActivityIndicator(type: .ballScaleRippleMultiple)
         MessagesService.getListMessages { (datas, statusCode, errorText) in
             if let messages = datas as? [Message] {
                 self.messages = messages.sorted{$0.timestamp < $1.timestamp}
@@ -125,8 +125,11 @@ class ChatViewController: UIViewController {
                 self.scrollToBottom()
             }
             self.connectSocket()
+            self.stopActivityIndicator()
         }
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.stopActivityIndicator()
+        }
     }
     
     fileprivate func connectSocket() {
@@ -260,7 +263,7 @@ extension ChatViewController: UITableViewDataSource {
                 cell.delegate = self
                 
                 return cell
-            } else if (message.action == .taskRemove || message.action == .eventRemove) && (message.tasks.count == 1 || message.events.count == 1) {
+            } else if (message.action == .taskRemove || message.action == .eventRemove) && (message.tasks.count == 1 || message.events.count == 1) { //Confirm when delete event or task
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDConfirmTableViewCell, for: indexPath) as? ConfirmTableViewCell else {
                     return UITableViewCell()
                 }
@@ -272,7 +275,25 @@ extension ChatViewController: UITableViewDataSource {
                 cell.delegate = self
                 
                 return cell
-            } else {
+            } else if (message.action == .taskRemove || message.action == .eventRemove) && (message.tasks.count > 1 || message.events.count > 1) {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDShowMoreTableViewCell, for: indexPath) as? ShowMoreTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.clearCellData()
+                
+                if let text = message.content as? String {
+                    if message.tasks.count > 3 || message.events.count > 3 {
+                        cell.message.text = text + "\n . . . \n\n"
+                    } else {
+                        cell.message.text = text + "\n\n"
+                    }
+                }
+                cell.profilePic.image = #imageLiteral(resourceName: "ic_chatbot")
+                cell.delegate = self
+                
+                return cell
+            }
+            else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDReceiverTableViewCell, for: indexPath) as? ReceiverTableViewCell else {
                     return UITableViewCell()
                 }
@@ -341,6 +362,24 @@ extension ChatViewController: ShowMoreTableViewCellDelegate {
     func didTouchUpInsideShowButton(_ cell: ShowMoreTableViewCell, sender: UIButton) {
         guard let indexPath = self.tableView.indexPath(for: cell) else { return }
         let message = self.messages[indexPath.row]
+        if (message.action == .taskRemove || message.action == .eventRemove) && (message.tasks.count > 1 || message.events.count > 1) {
+            self.inputTextField.resignFirstResponder()
+            if message.action == .taskRemove {
+                let chosseItemView = ChooseItemView.instance(ratio: 0.8, type: ChooseItemView.TypeItem.task, title: "Select reminder you want delete", tasks: message.tasks)
+                chosseItemView.delegate = self
+                chosseItemView.open(supView: self.view) {
+                    
+                }
+            } else {
+                let chosseItemView = ChooseItemView.instance(ratio: 0.8, type: ChooseItemView.TypeItem.event, title: "Select event you want delete", events: message.events)
+                chosseItemView.delegate = self
+                chosseItemView.open(supView: self.view) {
+                    
+                }
+            }
+            self.inputBar.isHidden = true
+            return
+        }
         if message.tasks.count > 1 {
             self.performSegue(withIdentifier: AppID.IDChatVCToTaskListVC, sender: message.tasks)
         } else if message.events.count > 1 {
@@ -365,5 +404,22 @@ extension ChatViewController: ConfirmTableViewCellDelegate {
     func didTouchUpInsideYesButton(_ cell: ConfirmTableViewCell, sender: UIButton) {
         self.inputTextField.text = "Yes"
         self.sendMessage()
+    }
+}
+
+extension ChatViewController: ChooseItemViewDelegate {
+    
+    func eventChoosed(_ chooseItemView: ChooseItemView, event: Event) {
+        self.inputTextField.text = "Remove event about \(event.title)"
+        self.sendMessage()
+    }
+    
+    func taskChoosed(_ chooseItemView: ChooseItemView, task: Task) {
+        self.inputTextField.text = "Remove task about \(task.title)"
+        self.sendMessage()
+    }
+    
+    func chooseItemViewClosed() {
+        self.inputBar.isHidden = false
     }
 }

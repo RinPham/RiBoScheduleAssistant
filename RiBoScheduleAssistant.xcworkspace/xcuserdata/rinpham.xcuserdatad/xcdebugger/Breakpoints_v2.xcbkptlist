@@ -26,7 +26,7 @@
                   moduleName = "RiBoScheduleAssistant"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rinpham/Documents/DoAnTotNghiep/RiBoScheduleAssistant/RiBoScheduleAssistant/Controllers/Calendar/EditEventViewController.swift"
-                  timestampString = "548429189.046519"
+                  timestampString = "548527394.318862"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
@@ -41,7 +41,7 @@
                   moduleName = "RiBoScheduleAssistant"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rinpham/Documents/DoAnTotNghiep/RiBoScheduleAssistant/RiBoScheduleAssistant/Controllers/Calendar/EditEventViewController.swift"
-                  timestampString = "548429189.075592"
+                  timestampString = "548527394.321183"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "86"
@@ -49,6 +49,54 @@
                   offsetFromSymbolStart = "57">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiBoScheduleAssistant/Controllers/LogIn/LogInViewController.swift"
+            timestampString = "548527394.1205389"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "sign(inWillDispatch:error:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiBoScheduleAssistant/Controllers/LogIn/LogInViewController.swift"
+            timestampString = "548527394.120635"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "sign(_:present:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RiBoScheduleAssistant/Controllers/LogIn/LogInViewController.swift"
+            timestampString = "548527394.1206779"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "sign(_:dismiss:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

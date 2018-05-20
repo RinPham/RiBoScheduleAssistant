@@ -15,6 +15,8 @@
 		D041C2902073144900397EF3 /* HelperFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D041C28F2073144900397EF3 /* HelperFile.swift */; };
 		D041C292207318DF00397EF3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = D041C291207318DF00397EF3 /* Message.swift */; };
 		D041C29420731A9700397EF3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D041C29320731A9700397EF3 /* ChatViewController.swift */; };
+		D046CD1D20B1B79A0050A708 /* ChooseItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D046CD1C20B1B79A0050A708 /* ChooseItemView.swift */; };
+		D046CD1F20B1B7A90050A708 /* ChooseItemView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D046CD1E20B1B7A90050A708 /* ChooseItemView.xib */; };
 		D04BDD752057734B0015CCDB /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD742057734B0015CCDB /* credentials.plist */; };
 		D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD7A2057B7D60015CCDB /* FSCalendar+Deprecated.m */; };
 		D04BDD9C2057B7D60015CCDB /* FSCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD7C2057B7D60015CCDB /* FSCalendar.m */; };
@@ -90,6 +92,8 @@
 		D041C28F2073144900397EF3 /* HelperFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFile.swift; sourceTree = "<group>"; };
 		D041C291207318DF00397EF3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		D041C29320731A9700397EF3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		D046CD1C20B1B79A0050A708 /* ChooseItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseItemView.swift; sourceTree = "<group>"; };
+		D046CD1E20B1B7A90050A708 /* ChooseItemView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChooseItemView.xib; sourceTree = "<group>"; };
 		D04BDD742057734B0015CCDB /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		D04BDD762057B77D0015CCDB /* RiBoScheduleAssistant-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RiBoScheduleAssistant-Bridging-Header.h"; sourceTree = "<group>"; };
 		D04BDD7A2057B7D60015CCDB /* FSCalendar+Deprecated.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FSCalendar+Deprecated.m"; sourceTree = "<group>"; };
@@ -198,10 +202,20 @@
 		D041C28A2073129000397EF3 /* RiBo */ = {
 			isa = PBXGroup;
 			children = (
+				D046CD1B20B1B7400050A708 /* ChooseItemView */,
 				D0FEE9E120AA85D900F602AB /* ListCell */,
 				D0FEE9E020AA85C300F602AB /* MessageCell */,
 			);
 			path = RiBo;
+			sourceTree = "<group>";
+		};
+		D046CD1B20B1B7400050A708 /* ChooseItemView */ = {
+			isa = PBXGroup;
+			children = (
+				D046CD1C20B1B79A0050A708 /* ChooseItemView.swift */,
+				D046CD1E20B1B7A90050A708 /* ChooseItemView.xib */,
+			);
+			path = ChooseItemView;
 			sourceTree = "<group>";
 		};
 		D04BDD6E20576DE80015CCDB /* Controllers */ = {
@@ -606,6 +620,7 @@
 				D04BDD752057734B0015CCDB /* credentials.plist in Resources */,
 				D0E6046E205121CF00BF7F87 /* Assets.xcassets in Resources */,
 				D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */,
+				D046CD1F20B1B7A90050A708 /* ChooseItemView.xib in Resources */,
 				D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -626,6 +641,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
 				"${BUILT_PRODUCTS_DIR}/PINRemoteImage/PINRemoteImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -641,6 +657,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINRemoteImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -682,7 +699,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -754,6 +771,7 @@
 				D035D3C3206A4C49000014EE /* EditEventViewController.swift in Sources */,
 				D04BDDA22057B7D60015CCDB /* FSCalendarConstants.m in Sources */,
 				D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */,
+				D046CD1D20B1B79A0050A708 /* ChooseItemView.swift in Sources */,
 				D04BDD9D2057B7D60015CCDB /* FSCalendarAppearance.m in Sources */,
 				D04BDDA02057B7D60015CCDB /* FSCalendarCollectionView.m in Sources */,
 				D0A41B622058BBD900DCF080 /* Task.swift in Sources */,

@@ -16,11 +16,14 @@ class ShowMoreTableViewCell: ReceiverTableViewCell {
 
     @IBOutlet weak var showButton: UIButton!
     
+    var titleButton = "Show"
+    
     weak var delegate: ShowMoreTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.showButton.setTitle(self.titleButton, for: .normal)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

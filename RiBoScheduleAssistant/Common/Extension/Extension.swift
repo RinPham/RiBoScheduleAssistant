@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import NVActivityIndicatorView
 
 extension Date {
     
@@ -115,6 +116,21 @@ extension String {
 
 extension UIView {
     
+    class func loadFromNibNamed(nibNamed: String, bundle : Bundle? = nil) -> UIView? {
+        return UINib(
+            nibName: nibNamed,
+            bundle: bundle
+            ).instantiate(withOwner: nil, options: nil)[0] as? UIView
+    }
+    
+    class func createBlurView(rect: CGRect, style: UIBlurEffectStyle) -> UIVisualEffectView {
+        let blurEffect = UIBlurEffect(style: style)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = rect
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return blurEffectView
+    }
+    
     func cornerRadius(_ radius: CGFloat, borderWidth width: CGFloat, color: UIColor) {
         self.clipsToBounds = true
         self.layer.cornerRadius = radius
@@ -160,6 +176,15 @@ extension UIView {
 }
 
 extension UIViewController {
+    
+    public func showActivityIndicator(type: NVActivityIndicatorType) {
+        NVActivityIndicatorView.DEFAULT_TYPE = type
+        NVActivityIndicatorPresenter.sharedInstance.startAnimating(ActivityData())
+    }
+    
+    public func stopActivityIndicator() {
+        NVActivityIndicatorPresenter.sharedInstance.stopAnimating()
+    }
     
     public func showAlert(title: String?, message: String?, option: UIAlertControllerStyle, btnCancel: UIAlertAction, buttonNormal: [UIAlertAction]) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: option)

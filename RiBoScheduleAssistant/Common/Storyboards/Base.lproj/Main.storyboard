@@ -1117,13 +1117,14 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Task" id="cDU-LL-NTy">
                         <barButtonItem key="backBarButtonItem" title=" " id="X3h-ke-tgf"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="e2H-cQ-GIp">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="e2H-cQ-GIp">
                             <connections>
                                 <action selector="didTouchUpInsideEditButtonWithSender:" destination="dAn-4A-gzm" id="qxd-1f-wxl"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="e2H-cQ-GIp" id="61G-Wj-MfJ"/>
                         <outlet property="repeatButton" destination="lgP-P8-thT" id="xpF-he-nkA"/>
                         <outlet property="timeLabel" destination="LPt-cP-0Dg" id="uym-NG-clx"/>
                         <outlet property="titleTextField" destination="bvW-MO-4Ok" id="X1U-sT-R8c"/>

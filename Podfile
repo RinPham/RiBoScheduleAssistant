@@ -8,5 +8,6 @@ target 'RiBoScheduleAssistant' do
   pod 'SocketRocket'
   pod 'DropDown'
   pod 'PINRemoteImage'
+  pod 'NVActivityIndicatorView'
 
 end

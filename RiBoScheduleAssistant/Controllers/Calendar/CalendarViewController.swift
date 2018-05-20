@@ -375,7 +375,7 @@ extension CalendarViewController: AllTaskTableViewCellDelegate {
                 self.getData()
             })
         case .call:
-            if let url = URL(string: "tel:") {
+            if let url = URL(string: "tel://") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         case .email:

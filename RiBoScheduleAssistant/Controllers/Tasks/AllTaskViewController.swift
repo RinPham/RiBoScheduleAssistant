@@ -296,7 +296,7 @@ extension AllTaskViewController: AllTaskTableViewCellDelegate {
                 self.setupData()
             })
         case .call:
-            if let url = URL(string: "tel:") {
+            if let url = URL(string: "tel://") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         case .email:
