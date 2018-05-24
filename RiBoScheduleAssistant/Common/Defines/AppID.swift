@@ -16,6 +16,8 @@ struct AppID {
     static let IDChatViewController = "IDChatViewController"
     static let IDSpeechViewController = "IDSpeechViewController"
     static let IDLogInViewController = "IDLogInViewController"
+    static let IDEditTaskTableViewController = "IDEditTaskTableViewController"
+    static let IDEventDetailViewController = "IDEventDetailViewController"
     
     //Segue ID
     static let IDAllTaskVCToAddNewTaskVC = "IDAllTaskVCToAddNewTaskVC"
@@ -46,6 +48,7 @@ struct AppID {
     static let IDConfirmTableViewCell = "IDConfirmTableViewCell"
     static let IDTaskListTableViewCell = "IDTaskListTableViewCell"
     static let IDEventListTableViewCell = "IDEventListTableViewCell"
+    static let IDTypingTableViewCell = "IDTypingTableViewCell"
     
     //CollectionViewCell ID
     

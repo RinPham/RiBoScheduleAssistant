@@ -8,7 +8,7 @@
 
 import UIKit
 import GoogleSignIn
-import SocketRocket
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.configureNavigationBarAppearance()
         self.setupGoogleAPI()
+        
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
         
         if let dict = UserDefaults.standard.value(forKey: UserDefaultsKey.GOOGLE_USER) as? [String: String] {
             let user = User(dict)
@@ -86,12 +89,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //tabbarItem.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white], for: .normal)
     }
     
-    fileprivate func connectSocket() {
-        let socket = SRWebSocket(url: URL(string: "ws://192.168.1.15:8888/message/5aabf738e3d8ee4a91e48f0d")!)
-        socket?.open()
-        socket?.delegate = self
-    }
-    
     fileprivate func setupGoogleAPI() {
         GIDSignIn.sharedInstance().clientID = "310203758762-gmpbthekhtbh5d4e112agava0v585ate.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().serverClientID = "310203758762-vkc9hocnecbbcshsgf2ufctttp74pbgm.apps.googleusercontent.com"
@@ -100,19 +97,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
-extension AppDelegate: SRWebSocketDelegate {
-    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("TAPPP NOTICE")
+        let arrString = response.notification.request.identifier.components(separatedBy: "_")
+        if arrString.count == 2 {
+            if arrString[0] == "event" {
+                if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDEventDetailViewController) as? EventDetailViewController, let tabbar = self.window?.rootViewController as? UITabBarController {
+                    vc.event = Event.init(id: arrString[1], title: "", location: "", startDate: Date(), endDate: Date(), des: "")
+                    tabbar.selectedIndex = 1
+                    (tabbar.viewControllers![1] as? UINavigationController)?.pushViewController(vc, animated: true)
+                }
+            } else if arrString[0] == "reminder" {
+                if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDEditTaskTableViewController) as? EditTaskTableViewController, let tabbar = self.window?.rootViewController as? UITabBarController {
+                    vc.task = Task.init(id: arrString[1], title: "", time: Date(), isDone: false, userId: "", intentId: "")
+                    tabbar.selectedIndex = 0
+                    (tabbar.viewControllers![0] as? UINavigationController)?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("NOTICE")
+        let arrString = notification.request.identifier.components(separatedBy: "_")
+        if arrString.count == 2 {
+            if arrString[0] == "event" {
+                EventService.getEvent(with: arrString[1]) { (data, statusCode, errorText) in
+                    if let event = data as? Event {
+                        if event.startDate.adjust(.second, offset: 10) >= Date() {
+                            NotificationCustomView.sharedInstance.pushNotification(message: notification.request.content.body, id: notification.request.identifier)
+                        }
+                    }
+                }
+            } else if arrString[0] == "reminder" {
+                TaskService.getTask(with: arrString[1]) { (data, statusCode, errorText) in
+                    if let task = data as? Task {
+                        if task.time.adjust(.second, offset: 10) >= Date() {
+                            NotificationCustomView.sharedInstance.pushNotification(message: notification.request.content.body, id: notification.request.identifier)
+                        }
+                    }
+                }
+            }
+        }
         
     }
-    
-    func webSocketDidOpen(_ webSocket: SRWebSocket!) {
-        print("OPEND")
-        let dict = "{\"text\":\"hehe\"}"
-        webSocket.send(dict)
-    }
-    
-    
-    
 }
 
 extension AppDelegate: GIDSignInDelegate {

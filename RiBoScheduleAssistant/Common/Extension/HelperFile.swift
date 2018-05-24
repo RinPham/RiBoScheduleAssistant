@@ -27,6 +27,7 @@ enum MessageOwner {
 
 enum MessageType {
     case text
+    case typing
 }
 
 enum MessageAction: String {
@@ -35,10 +36,12 @@ enum MessageAction: String {
     case taskGet = "reminders.get"
     case taskRemove = "reminders.remove"
     case taskRename = "reminders.rename"
+    case taskConfirmRemove = "reminders.remove.confirm"
     case eventAdd = "events.add"
     case eventGet = "events.get"
     case eventRemove = "events.remove"
     case eventRename = "events.rename"
+    case eventConfirmRemove = "events.remove.confirm"
     case unknown = "input.unknown"
 }
 

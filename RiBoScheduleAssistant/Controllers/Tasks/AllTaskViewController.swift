@@ -20,7 +20,7 @@ class AllTaskViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       
         self.setup()
     }
 
@@ -55,6 +55,7 @@ class AllTaskViewController: UIViewController {
         TaskService.getListTask { (tasks, statusCode, errorText) in
             if let tasks = tasks as? [Task] {
                 self.getDatasFromTasks(tasks: tasks.sorted{ $0.time < $1.time })
+                self.setupNotificationFor(tasks: tasks.sorted{$0.time < $1.time})
                 self.loadingView.stopAnimating()
                 self.tableView.reloadData()
             }
@@ -139,6 +140,12 @@ class AllTaskViewController: UIViewController {
             return true
         })
         self.datas[3] = self.datas[3].sorted{$0.time < $1.time}
+    }
+    
+    fileprivate func setupNotificationFor(tasks: [Task]) {
+        for task in tasks {
+            NotificationService.confureNotification(task: task)
+        }
     }
     
     @IBAction func didTouchUpInsideAddButton(sender: UIBarButtonItem) {

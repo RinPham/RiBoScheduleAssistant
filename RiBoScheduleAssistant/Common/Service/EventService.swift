@@ -46,4 +46,11 @@ class EventService: BaseService {
         }
     }
     
+    class func getEvent(with id: String, completion: @escaping Result) {
+        self.requestService(apiPath: AppLinks.GET_EVENT(id: id), method: .get, parameters: nil) { (data, statusCode, errorText) in
+            print(data)
+            completion(Event(data), statusCode, errorText)
+        }
+    }
+    
 }

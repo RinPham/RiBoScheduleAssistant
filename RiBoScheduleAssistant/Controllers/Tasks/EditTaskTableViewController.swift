@@ -25,12 +25,31 @@ class EditTaskTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setup()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        self.getTask()
+    }
+    
+    fileprivate func getTask() {
+        self.showActivityIndicator()
+        TaskService.getTask(with: self.task.id) { (data, statusCode, errorText) in
+            self.stopActivityIndicator()
+            if let task = data as? Task {
+                self.task = task
+            }
+            self.setup()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            self.stopActivityIndicator()
+        }
     }
     
     fileprivate func setup() {
@@ -62,14 +81,14 @@ class EditTaskTableViewController: UITableViewController {
     fileprivate func showDatePicker() {
         switch self.repeatType {
         case .daily, .weekdays, .weekends:
-            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .time) { (date) in
+            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .time) { (date) in
                 if let date = date {
                     self.time = date
                     self.updateTimeLabel()
                 }
             }
         default:
-            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: nil, maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
+            DatePickerDialog(buttonColor: App.Color.mainDarkColor, titleLabelColor: App.Color.mainDarkColor).show("Change Time", doneButtonTitle: "Done", cancelButtonTitle: "Cancel", defaultDate: self.task.time, minimumDate: Date(), maximumDate: nil, datePickerMode: .dateAndTime) { (date) in
                 if let date = date {
                     self.time = date
                     self.updateTimeLabel()

@@ -44,6 +44,8 @@
 		D08EB37F207C6AE7005B5B12 /* SpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08EB37E207C6AE7005B5B12 /* SpeechViewController.swift */; };
 		D08FE41B20858B3B00ED0DF7 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FE41A20858B3B00ED0DF7 /* App.swift */; };
 		D08FE41D2085F4F900ED0DF7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FE41C2085F4F900ED0DF7 /* Reachability.swift */; };
+		D095954020B5AC6E00668489 /* NotificationCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095953F20B5AC6E00668489 /* NotificationCustomView.swift */; };
+		D095954220B5AC7900668489 /* NotificationCustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D095954120B5AC7900668489 /* NotificationCustomView.xib */; };
 		D09CFFF720777A7D00045BE1 /* AddNewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */; };
 		D09CFFFA20777FB000045BE1 /* TypeTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09CFFF920777FB000045BE1 /* TypeTaskTableViewCell.swift */; };
 		D0A41B602058BBB000DCF080 /* RTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B5F2058BBB000DCF080 /* RTask.swift */; };
@@ -56,6 +58,9 @@
 		D0A41B742059251100DCF080 /* AddNewEventTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */; };
 		D0A87C98207E0D39009E9777 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A87C97207E0D39009E9777 /* SettingsViewController.swift */; };
 		D0A87C9B207E0DBA009E9777 /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */; };
+		D0ABDE5920B47E0700C6EC24 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABDE5820B47E0700C6EC24 /* iOSDevCenters+GIF.swift */; };
+		D0ABDE5B20B47E4600C6EC24 /* message_loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = D0ABDE5A20B47E4600C6EC24 /* message_loader.gif */; };
+		D0ABDE5D20B47F5500C6EC24 /* TypingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABDE5C20B47F5500C6EC24 /* TypingTableViewCell.swift */; };
 		D0ABE6FE2088A1AD0044788D /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */; };
 		D0ADBE8220595AEF00992945 /* AppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8120595AEF00992945 /* AppLinks.swift */; };
 		D0ADBE8520595FEA00992945 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8420595FEA00992945 /* BaseService.swift */; };
@@ -70,6 +75,7 @@
 		D0D1AC3A2075C686003E63B7 /* HeaderTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D1AC392075C686003E63B7 /* HeaderTaskTableViewCell.swift */; };
 		D0D3B5EE206200C9007C3028 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3B5ED206200C9007C3028 /* LogInViewController.swift */; };
 		D0D3B5F22062678D007C3028 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3B5F12062678D007C3028 /* CalendarTableViewCell.swift */; };
+		D0E072B920B4537C00A7ED9A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E072B820B4537C00A7ED9A /* NotificationService.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
 		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
 		D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046A205121CF00BF7F87 /* Main.storyboard */; };
@@ -138,6 +144,8 @@
 		D08EB37E207C6AE7005B5B12 /* SpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechViewController.swift; sourceTree = "<group>"; };
 		D08FE41A20858B3B00ED0DF7 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		D08FE41C2085F4F900ED0DF7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		D095953F20B5AC6E00668489 /* NotificationCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCustomView.swift; sourceTree = "<group>"; };
+		D095954120B5AC7900668489 /* NotificationCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationCustomView.xib; sourceTree = "<group>"; };
 		D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskViewController.swift; sourceTree = "<group>"; };
 		D09CFFF920777FB000045BE1 /* TypeTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTaskTableViewCell.swift; sourceTree = "<group>"; };
 		D0A41B5F2058BBB000DCF080 /* RTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTask.swift; sourceTree = "<group>"; };
@@ -150,6 +158,9 @@
 		D0A41B732059251100DCF080 /* AddNewEventTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewEventTableViewController.swift; sourceTree = "<group>"; };
 		D0A87C97207E0D39009E9777 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
+		D0ABDE5820B47E0700C6EC24 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
+		D0ABDE5A20B47E4600C6EC24 /* message_loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = message_loader.gif; sourceTree = "<group>"; };
+		D0ABDE5C20B47F5500C6EC24 /* TypingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingTableViewCell.swift; sourceTree = "<group>"; };
 		D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		D0ADBE8120595AEF00992945 /* AppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinks.swift; sourceTree = "<group>"; };
 		D0ADBE8420595FEA00992945 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
@@ -164,6 +175,7 @@
 		D0D1AC392075C686003E63B7 /* HeaderTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTaskTableViewCell.swift; sourceTree = "<group>"; };
 		D0D3B5ED206200C9007C3028 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		D0D3B5F12062678D007C3028 /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
+		D0E072B820B4537C00A7ED9A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0E60468205121CF00BF7F87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -234,6 +246,7 @@
 		D04BDD6F20576E210015CCDB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D095953E20B5AC3600668489 /* NotificationCustomView */,
 				D0A87C99207E0D98009E9777 /* Settings */,
 				D041C28A2073129000397EF3 /* RiBo */,
 				D0D3B5EF2062675F007C3028 /* Calendar */,
@@ -332,6 +345,15 @@
 			path = EventDetailViewController;
 			sourceTree = "<group>";
 		};
+		D095953E20B5AC3600668489 /* NotificationCustomView */ = {
+			isa = PBXGroup;
+			children = (
+				D095953F20B5AC6E00668489 /* NotificationCustomView.swift */,
+				D095954120B5AC7900668489 /* NotificationCustomView.xib */,
+			);
+			path = NotificationCustomView;
+			sourceTree = "<group>";
+		};
 		D09CFFF820777F8400045BE1 /* AddNewTaskViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +416,7 @@
 				D041C28F2073144900397EF3 /* HelperFile.swift */,
 				D08FE41C2085F4F900ED0DF7 /* Reachability.swift */,
 				D0407EFA209F36C500D3EBD7 /* DateHelper.swift */,
+				D0ABDE5820B47E0700C6EC24 /* iOSDevCenters+GIF.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -430,6 +453,7 @@
 				D0ADBE8A2059661200992945 /* TaskService.swift */,
 				D0ADBE8C20596B5B00992945 /* EventService.swift */,
 				D0C7A984207E498000AA2815 /* MessagesSevice.swift */,
+				D0E072B820B4537C00A7ED9A /* NotificationService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -513,6 +537,7 @@
 		D0E60465205121CF00BF7F87 /* RiBoScheduleAssistant */ = {
 			isa = PBXGroup;
 			children = (
+				D0ABDE5A20B47E4600C6EC24 /* message_loader.gif */,
 				D04BDD7120576E6D0015CCDB /* Common */,
 				D04BDD6E20576DE80015CCDB /* Controllers */,
 				D04BDD6F20576E210015CCDB /* Views */,
@@ -531,6 +556,7 @@
 				D041C28D2073133500397EF3 /* ReceiverTableViewCell.swift */,
 				D08C6F4D20A9EA9D002833AD /* ShowMoreTableViewCell.swift */,
 				D08C6F4F20A9F6D0002833AD /* ConfirmTableViewCell.swift */,
+				D0ABDE5C20B47F5500C6EC24 /* TypingTableViewCell.swift */,
 			);
 			path = MessageCell;
 			sourceTree = "<group>";
@@ -616,10 +642,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D095954220B5AC7900668489 /* NotificationCustomView.xib in Resources */,
 				D0E60471205121CF00BF7F87 /* LaunchScreen.storyboard in Resources */,
 				D04BDD752057734B0015CCDB /* credentials.plist in Resources */,
 				D0E6046E205121CF00BF7F87 /* Assets.xcassets in Resources */,
 				D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */,
+				D0ABDE5B20B47E4600C6EC24 /* message_loader.gif in Resources */,
 				D046CD1F20B1B7A90050A708 /* ChooseItemView.xib in Resources */,
 				D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */,
 			);
@@ -726,6 +754,7 @@
 				D0FEE9E320AA85F700F602AB /* TaskListTableViewCell.swift in Sources */,
 				D0A41B682058CD1C00DCF080 /* AllTaskTableViewCell.swift in Sources */,
 				D08FE41B20858B3B00ED0DF7 /* App.swift in Sources */,
+				D0ABDE5920B47E0700C6EC24 /* iOSDevCenters+GIF.swift in Sources */,
 				D04BDD9F2057B7D60015CCDB /* FSCalendarCell.m in Sources */,
 				D079857A2069663600FE4F43 /* EventDetailTableViewCell.swift in Sources */,
 				D04BDDA32057B7D60015CCDB /* FSCalendarDelegationFactory.m in Sources */,
@@ -741,6 +770,8 @@
 				D04BDDA82057B7D60015CCDB /* FSCalendarStickyHeader.m in Sources */,
 				D09CFFF720777A7D00045BE1 /* AddNewTaskViewController.swift in Sources */,
 				D041C28E2073133500397EF3 /* ReceiverTableViewCell.swift in Sources */,
+				D0ABDE5D20B47F5500C6EC24 /* TypingTableViewCell.swift in Sources */,
+				D0E072B920B4537C00A7ED9A /* NotificationService.swift in Sources */,
 				D0A41B70205907F800DCF080 /* CalendarViewController.swift in Sources */,
 				D0A87C98207E0D39009E9777 /* SettingsViewController.swift in Sources */,
 				D0FEE9E720AA9BB500F602AB /* EventListTableViewCell.swift in Sources */,
@@ -754,6 +785,7 @@
 				D0798575206964BF00FE4F43 /* EventDetailViewController.swift in Sources */,
 				D0D3B5EE206200C9007C3028 /* LogInViewController.swift in Sources */,
 				D04BDD9B2057B7D60015CCDB /* FSCalendar+Deprecated.m in Sources */,
+				D095954020B5AC6E00668489 /* NotificationCustomView.swift in Sources */,
 				D041C28C2073132000397EF3 /* SenderTableViewCell.swift in Sources */,
 				D0ADBE87205961E100992945 /* UserService.swift in Sources */,
 				D08C6F4E20A9EA9D002833AD /* ShowMoreTableViewCell.swift in Sources */,

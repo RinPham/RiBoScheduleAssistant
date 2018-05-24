@@ -177,7 +177,7 @@ extension UIView {
 
 extension UIViewController {
     
-    public func showActivityIndicator(type: NVActivityIndicatorType) {
+    public func showActivityIndicator(type: NVActivityIndicatorType = .ballScaleRippleMultiple) {
         NVActivityIndicatorView.DEFAULT_TYPE = type
         NVActivityIndicatorPresenter.sharedInstance.startAnimating(ActivityData())
     }

@@ -42,6 +42,10 @@ struct AppLinks {
         return LINK_API + "/task"
     }
     
+    static func GET_TASK(id: String) -> String {
+        return LINK_API + "/task/\(id)"
+    }
+    
     //EVENT
     static var GET_LIST_EVENT: String {
         return LINK_API + "/event"
@@ -59,6 +63,10 @@ struct AppLinks {
     
     static func DELETE_EVENT(event: Event) -> String {
         return LINK_API + "/event/\(event.id)"
+    }
+    
+    static func GET_EVENT(id: String) -> String {
+        return LINK_API + "/event/\(id)"
     }
     
     //MESSAGES

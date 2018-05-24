@@ -33,7 +33,7 @@ class EventDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
-        self.setupData()
+        self.getEvent()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,7 +47,19 @@ class EventDetailViewController: UIViewController {
         self.tableView.delegate = self
     }
     
+    fileprivate func getEvent() {
+        self.showActivityIndicator()
+        EventService.getEvent(with: self.event.id) { (data, statusCode, errorText) in
+            self.stopActivityIndicator()
+            if let event = data as? Event {
+                self.event = event
+            }
+            self.setupData()
+        }
+    }
+    
     fileprivate func setupData() {
+        
         self.datasForSection1 = []
         if self.event.location == "" {
             self.datasForSection1.append(("Location", "No location set"))

@@ -130,11 +130,18 @@ class CalendarViewController: UIViewController {
         EventService.getListEvent { (datas, statusCode, errorText) in
             if let datas = datas as? [Event] {
                 self.events = datas
+                self.setupNoticationFor(events: datas)
                 for event in self.events {
                     self.datasTemp.append(contentsOf: self.getAllDateEvent(event: event))
                 }
                 self.getDateEventOfTask()
             }
+        }
+    }
+    
+    fileprivate func setupNoticationFor(events: [Event]) {
+        for event in events {
+            NotificationService.confureNotification(event: event)
         }
     }
     

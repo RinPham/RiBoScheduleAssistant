@@ -53,4 +53,10 @@ class TaskService: BaseService {
         }
     }
     
+    class func getTask(with id: String, completion: @escaping Result) {
+        self.requestService(apiPath: AppLinks.GET_TASK(id: id), method: .get, parameters: nil) { (data, statusCode, errorText) in
+            print(data)
+            completion(Task(data), statusCode, errorText)
+        }
+    }
 }

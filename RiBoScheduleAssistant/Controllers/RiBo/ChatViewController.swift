@@ -24,7 +24,6 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var voiceButton: UIButton!
     
     var socket: SRWebSocket?
-    var objectId = ""
     
     override var inputAccessoryView: UIView? {
         get {
@@ -118,6 +117,7 @@ class ChatViewController: UIViewController {
     //MARK: - Support methods
     fileprivate func getMessages() {
         self.showActivityIndicator(type: .ballScaleRippleMultiple)
+        self.inputBar.isHidden = true
         MessagesService.getListMessages { (datas, statusCode, errorText) in
             if let messages = datas as? [Message] {
                 self.messages = messages.sorted{$0.timestamp < $1.timestamp}
@@ -126,9 +126,11 @@ class ChatViewController: UIViewController {
             }
             self.connectSocket()
             self.stopActivityIndicator()
+            self.inputBar.isHidden = false
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             self.stopActivityIndicator()
+            self.inputBar.isHidden = false
         }
     }
     
@@ -142,24 +144,25 @@ class ChatViewController: UIViewController {
     fileprivate func sendMessage() {
         if let text = self.inputTextField.text, text != "" {
             self.sendButton.isEnabled = false
-            if let index = Int(text), index > 0, let lastMessage = self.messages.last, (index - 1 < lastMessage.tasks.count || index - 1 < lastMessage.events.count) {
-                let realmIndex = index - 1
-                if realmIndex < lastMessage.tasks.count {
-                    let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(lastMessage.tasks[realmIndex].id)\"}"
-                    socket?.send(dict)
-                } else if realmIndex < lastMessage.events.count {
-                    let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(lastMessage.events[realmIndex].id)\"}"
-                    socket?.send(dict)
-                }
-            } else if self.objectId != "" {
-                let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(self.objectId)\"}"
-                socket?.send(dict)
-            } else {
-                let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\"}"
-                socket?.send(dict)
-            }
+//            if let index = Int(text), index > 0, let lastMessage = self.messages.last, (index - 1 < lastMessage.tasks.count || index - 1 < lastMessage.events.count) {
+//                let realmIndex = index - 1
+//                if realmIndex < lastMessage.tasks.count {
+//                    let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(lastMessage.tasks[realmIndex].id)\"}"
+//                    socket?.send(dict)
+//                } else if realmIndex < lastMessage.events.count {
+//                    let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\",\"object_id\":\"\(lastMessage.events[realmIndex].id)\"}"
+//                    socket?.send(dict)
+//                }
+//            } else {
+//                let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\"}"
+//                socket?.send(dict)
+//            }
+            let dict = "{\"body\":\"\(text)\",\"user_id\":\"\(AppDelegate.shared().currentUser.id)\"}"
+            socket?.send(dict)
             let message = Message(id: "", owner: .sender, type: .text, content: text, timestamp: Date().timeIntervalSince1970, senderId: "")
             self.messages.append(message)
+//            let messageLoading = Message(id: "", owner: .ribo, type: .typing, content: "", timestamp: Date().timeIntervalSince1970, senderId: "")
+//            self.messages.append(messageLoading)
             self.tableView.reloadData()
             self.inputTextField.text = ""
             self.scrollToBottom()
@@ -246,6 +249,18 @@ extension ChatViewController: UITableViewDataSource {
             
             return cell
         case .ribo:
+            if message.type == .typing {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDTypingTableViewCell, for: indexPath) as? TypingTableViewCell else {
+                    return UITableViewCell()
+                }
+                cell.clearCellData()
+                if message.type == .text, let text = message.content as? String {
+                    cell.message.text = text
+                }
+                cell.profilePic.image = #imageLiteral(resourceName: "ic_chatbot")
+                
+                return cell
+            }
             if (message.tasks.count > 0 && message.action == .taskGet) || (message.events.count > 0 && message.action == .eventGet) { //Show tasks or events
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDShowMoreTableViewCell, for: indexPath) as? ShowMoreTableViewCell else {
                     return UITableViewCell()
@@ -263,7 +278,7 @@ extension ChatViewController: UITableViewDataSource {
                 cell.delegate = self
                 
                 return cell
-            } else if (message.action == .taskRemove || message.action == .eventRemove) && (message.tasks.count == 1 || message.events.count == 1) { //Confirm when delete event or task
+            } else if (message.action == .taskConfirmRemove || message.action == .eventConfirmRemove) { //Confirm when delete event or task
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: AppID.IDConfirmTableViewCell, for: indexPath) as? ConfirmTableViewCell else {
                     return UITableViewCell()
                 }
@@ -318,7 +333,6 @@ extension ChatViewController: UITableViewDelegate {
 
 extension ChatViewController: SRWebSocketDelegate {
     func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
-        self.objectId = ""
         if let string = message as? String {
             let json = JSON.init(parseJSON: string)
             print("Meesage Reveive: \(message)")
@@ -326,15 +340,7 @@ extension ChatViewController: SRWebSocketDelegate {
             self.tableView.reloadData()
             self.scrollToBottom()
             self.sendButton.isEnabled = true
-            //Get object ID
-            if let lastMessage = self.messages.last {
-                if lastMessage.tasks.count == 1 {
-                    self.objectId = lastMessage.tasks[0].id
-                }
-                if lastMessage.events.count == 1 {
-                    self.objectId = lastMessage.events[0].id
-                }
-            }
+            
         }
     }
     

@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleSignIn
+import UserNotifications
 
 class LogInViewController: UIViewController {
 
@@ -28,6 +29,11 @@ class LogInViewController: UIViewController {
     fileprivate func setup() {
         self.logInButton.layer.cornerRadius = 20
         GIDSignIn.sharedInstance().uiDelegate = self
+        
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+            // Enable or disable features based on authorization.
+        }
     }
     
     @IBAction func didTouchUpInsideLogInButton(_ sender: UIButton) {
