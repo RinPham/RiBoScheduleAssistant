@@ -268,10 +268,12 @@ extension UIViewController {
             return true
         } else {
             print("There is no internet connection")
-            let alert = UIAlertController(title: "No Internet Connection", message: "Turn on cellular data or use Wi-fi to access data", preferredStyle: .alert)
-            let ok = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alert.addAction(ok)
-            self.present(alert, animated: true, completion: nil)
+            self.showAlert(title: "No Internet Connection", message: "Turn on cellular data or use Wi-fi to access data", option: .alert, btnCancel: UIAlertAction(title: "OK", style: .default, handler: nil), buttonNormal: [UIAlertAction(title: "Settings", style: .cancel) { (action) in
+                if let url = URL(string: "App-Prefs:root=WIFI") {
+                    UIApplication.shared.open(url, options: [ : ], completionHandler: nil)
+                }
+                }])
+        
             return false
         }
     }
@@ -287,7 +289,7 @@ extension UIColor {
             cString.remove(at: cString.startIndex)
         }
         
-        if ((cString.characters.count) != 6) {
+        if ((cString.count) != 6) {
             return UIColor.gray
         }
         

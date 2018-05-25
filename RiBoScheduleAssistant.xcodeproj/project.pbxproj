@@ -35,6 +35,7 @@
 		D04BDDA92057B7D60015CCDB /* FSCalendarTransitionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD972057B7D60015CCDB /* FSCalendarTransitionCoordinator.m */; };
 		D04BDDAA2057B7D60015CCDB /* FSCalendarWeekdayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D04BDD992057B7D60015CCDB /* FSCalendarWeekdayView.m */; };
 		D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D04BDD9A2057B7D60015CCDB /* Info.plist */; };
+		D05B068720B70ADA008BFC64 /* typing_message2.gif in Resources */ = {isa = PBXBuildFile; fileRef = D05B068620B70AD9008BFC64 /* typing_message2.gif */; };
 		D071AD442074889600961493 /* HeaderSectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D071AD432074889600961493 /* HeaderSectionTableViewCell.swift */; };
 		D0798575206964BF00FE4F43 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0798574206964BF00FE4F43 /* EventDetailViewController.swift */; };
 		D07985782069661A00FE4F43 /* HeaderEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */; };
@@ -59,7 +60,6 @@
 		D0A87C98207E0D39009E9777 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A87C97207E0D39009E9777 /* SettingsViewController.swift */; };
 		D0A87C9B207E0DBA009E9777 /* UserInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */; };
 		D0ABDE5920B47E0700C6EC24 /* iOSDevCenters+GIF.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABDE5820B47E0700C6EC24 /* iOSDevCenters+GIF.swift */; };
-		D0ABDE5B20B47E4600C6EC24 /* message_loader.gif in Resources */ = {isa = PBXBuildFile; fileRef = D0ABDE5A20B47E4600C6EC24 /* message_loader.gif */; };
 		D0ABDE5D20B47F5500C6EC24 /* TypingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABDE5C20B47F5500C6EC24 /* TypingTableViewCell.swift */; };
 		D0ABE6FE2088A1AD0044788D /* DatePickerDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */; };
 		D0ADBE8220595AEF00992945 /* AppLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ADBE8120595AEF00992945 /* AppLinks.swift */; };
@@ -77,7 +77,6 @@
 		D0D3B5F22062678D007C3028 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D3B5F12062678D007C3028 /* CalendarTableViewCell.swift */; };
 		D0E072B920B4537C00A7ED9A /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E072B820B4537C00A7ED9A /* NotificationService.swift */; };
 		D0E60467205121CF00BF7F87 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60466205121CF00BF7F87 /* AppDelegate.swift */; };
-		D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E60468205121CF00BF7F87 /* ViewController.swift */; };
 		D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046A205121CF00BF7F87 /* Main.storyboard */; };
 		D0E6046E205121CF00BF7F87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046D205121CF00BF7F87 /* Assets.xcassets */; };
 		D0E60471205121CF00BF7F87 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0E6046F205121CF00BF7F87 /* LaunchScreen.storyboard */; };
@@ -135,6 +134,7 @@
 		D04BDD982057B7D60015CCDB /* FSCalendarWeekdayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarWeekdayView.h; sourceTree = "<group>"; };
 		D04BDD992057B7D60015CCDB /* FSCalendarWeekdayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarWeekdayView.m; sourceTree = "<group>"; };
 		D04BDD9A2057B7D60015CCDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D05B068620B70AD9008BFC64 /* typing_message2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = typing_message2.gif; sourceTree = "<group>"; };
 		D071AD432074889600961493 /* HeaderSectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSectionTableViewCell.swift; sourceTree = "<group>"; };
 		D0798574206964BF00FE4F43 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		D07985772069661A00FE4F43 /* HeaderEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderEventTableViewCell.swift; sourceTree = "<group>"; };
@@ -159,7 +159,6 @@
 		D0A87C97207E0D39009E9777 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D0A87C9A207E0DBA009E9777 /* UserInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewCell.swift; sourceTree = "<group>"; };
 		D0ABDE5820B47E0700C6EC24 /* iOSDevCenters+GIF.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "iOSDevCenters+GIF.swift"; sourceTree = "<group>"; };
-		D0ABDE5A20B47E4600C6EC24 /* message_loader.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = message_loader.gif; sourceTree = "<group>"; };
 		D0ABDE5C20B47F5500C6EC24 /* TypingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingTableViewCell.swift; sourceTree = "<group>"; };
 		D0ABE6FD2088A1AD0044788D /* DatePickerDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerDialog.swift; sourceTree = "<group>"; };
 		D0ADBE8120595AEF00992945 /* AppLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLinks.swift; sourceTree = "<group>"; };
@@ -178,7 +177,6 @@
 		D0E072B820B4537C00A7ED9A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D0E60463205121CF00BF7F87 /* RiBoScheduleAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RiBoScheduleAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0E60466205121CF00BF7F87 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D0E60468205121CF00BF7F87 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D0E6046B205121CF00BF7F87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0E6046D205121CF00BF7F87 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D0E60470205121CF00BF7F87 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 		D04BDD6E20576DE80015CCDB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D0E60468205121CF00BF7F87 /* ViewController.swift */,
 				D0D3B5EC20620099007C3028 /* LogIn */,
 				D0B7675620581828002BEF8B /* RiBo */,
 				D0B76755205817B6002BEF8B /* Calendar */,
@@ -537,7 +534,7 @@
 		D0E60465205121CF00BF7F87 /* RiBoScheduleAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				D0ABDE5A20B47E4600C6EC24 /* message_loader.gif */,
+				D05B068620B70AD9008BFC64 /* typing_message2.gif */,
 				D04BDD7120576E6D0015CCDB /* Common */,
 				D04BDD6E20576DE80015CCDB /* Controllers */,
 				D04BDD6F20576E210015CCDB /* Views */,
@@ -645,9 +642,9 @@
 				D095954220B5AC7900668489 /* NotificationCustomView.xib in Resources */,
 				D0E60471205121CF00BF7F87 /* LaunchScreen.storyboard in Resources */,
 				D04BDD752057734B0015CCDB /* credentials.plist in Resources */,
+				D05B068720B70ADA008BFC64 /* typing_message2.gif in Resources */,
 				D0E6046E205121CF00BF7F87 /* Assets.xcassets in Resources */,
 				D04BDDAB2057B7D60015CCDB /* Info.plist in Resources */,
-				D0ABDE5B20B47E4600C6EC24 /* message_loader.gif in Resources */,
 				D046CD1F20B1B7A90050A708 /* ChooseItemView.xib in Resources */,
 				D0E6046C205121CF00BF7F87 /* Main.storyboard in Resources */,
 			);
@@ -745,7 +742,6 @@
 				D04BDDA62057B7D60015CCDB /* FSCalendarHeaderView.m in Sources */,
 				D09CFFFA20777FB000045BE1 /* TypeTaskTableViewCell.swift in Sources */,
 				D0ADBE8D20596B5B00992945 /* EventService.swift in Sources */,
-				D0E60469205121CF00BF7F87 /* ViewController.swift in Sources */,
 				D0ABE6FE2088A1AD0044788D /* DatePickerDialog.swift in Sources */,
 				D04BDDA72057B7D60015CCDB /* FSCalendarScopeHandle.m in Sources */,
 				D0ADBE89205962A800992945 /* User.swift in Sources */,

@@ -70,7 +70,8 @@ struct AppLinks {
     }
     
     //MESSAGES
-    static var GET_MESSAGES: String {
-        return LINK_API + "/messages"
+    static func GET_MESSAGES(offset: Int) -> ObjectLink {
+        let paramater: [String: Any] = ["offset": offset]
+        return ObjectLink(link: LINK_API + "/messages", paramater: paramater)
     }
 }

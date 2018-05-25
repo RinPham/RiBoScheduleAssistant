@@ -48,6 +48,8 @@ class EditEventViewController: UITableViewController {
         self.noteTextView.text = self.event.des
         self.titleTextField.text = self.event.title
         self.locationTextField.text = self.event.location
+        
+        
     }
     
     @objc func dismissKeyboard() {

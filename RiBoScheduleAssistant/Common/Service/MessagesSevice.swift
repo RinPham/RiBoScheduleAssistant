@@ -7,8 +7,9 @@
 //
 
 class MessagesService: BaseService {
-    class func getListMessages(completion: @escaping ListResult) {
-        self.requestService(apiPath: AppLinks.GET_MESSAGES, method: .get, parameters: nil) { (data, statusCode, errorText) in
+    class func getListMessages(offset: Int, completion: @escaping ListResult) {
+        let objLink = AppLinks.GET_MESSAGES(offset: offset)
+        self.requestService(apiPath: objLink.link, method: .get, parameters: objLink.paramater) { (data, statusCode, errorText) in
             print(data)
             if let jsons = data.array {
                 var messages = [Message]()

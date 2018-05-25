@@ -66,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UIApplication.shared.delegate as! AppDelegate
     }
     
-    fileprivate func changeRootViewToTabbar() {
+    func changeRootViewToTabbar() {
         let mainTabbar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDMainTabbarController) as? UITabBarController
         mainTabbar?.tabBar.items![0].selectedImage = #imageLiteral(resourceName: "ic_tb_task").withRenderingMode(.alwaysTemplate)
         mainTabbar?.tabBar.items![1].selectedImage = #imageLiteral(resourceName: "ic_tb_calendar").withRenderingMode(.alwaysTemplate)
@@ -93,7 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().clientID = "310203758762-gmpbthekhtbh5d4e112agava0v585ate.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().serverClientID = "310203758762-vkc9hocnecbbcshsgf2ufctttp74pbgm.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().scopes = ["https://www.googleapis.com/auth/calendar"]
-        GIDSignIn.sharedInstance().delegate = self
     }
 }
 
@@ -145,27 +144,3 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 }
 
-extension AppDelegate: GIDSignInDelegate {
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        guard error == nil else {
-            print("Error Google Signin: \(error.localizedDescription)")
-            return
-        }
-        if let code = user.serverAuthCode {
-            UserService.loginGoogleAccount(code: code, completion: { (result, statusCode, errorText) in
-                if errorText == nil, let userData = result as? User {
-                    let dict = ["id": userData.id, "email": userData.email, "token": userData.token, "firstName": userData.firstName, "lastName": userData.lastName, "avatar": userData.avatar]
-                    self.currentUser = userData
-                    UserDefaults.standard.set(dict, forKey: UserDefaultsKey.GOOGLE_USER)
-                    UserDefaults.standard.synchronize()
-                    AppLinks.header = ["Authorization": "token \(userData.token)"]
-                    self.changeRootViewToTabbar()
-                }
-            })
-        }
-        print(user.serverAuthCode)
-        print(user.userID)
-        print(user.profile.email)
-        
-    }
-}

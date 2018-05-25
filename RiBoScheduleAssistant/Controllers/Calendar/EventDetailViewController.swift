@@ -45,6 +45,7 @@ class EventDetailViewController: UIViewController {
         self.editButton.isHidden = isHiddenEditButton
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        self.tableView.estimatedRowHeight = 200
     }
     
     fileprivate func getEvent() {
@@ -133,7 +134,7 @@ extension EventDetailViewController: UITableViewDelegate {
         case 0:
             return 160
         default:
-            return 80
+            return UITableViewAutomaticDimension
         }
     }
     

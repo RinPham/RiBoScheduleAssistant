@@ -26,14 +26,27 @@ class LogInViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let _ = self.checkReachability()
+    }
+    
     fileprivate func setup() {
+        
         self.logInButton.layer.cornerRadius = 20
         GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().delegate = self
         
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
             // Enable or disable features based on authorization.
         }
+    
     }
     
     @IBAction func didTouchUpInsideLogInButton(_ sender: UIButton) {
@@ -66,4 +79,34 @@ extension LogInViewController: GIDSignInUIDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension LogInViewController: GIDSignInDelegate {
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        guard error == nil else {
+            print("Error Google Signin: \(error.localizedDescription)")
+            self.showAlert(title: "Notice", message: "Error Google Signin: \(error.localizedDescription)", option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+            return
+        }
+        if let code = user.serverAuthCode {
+            self.showActivityIndicator()
+            UserService.loginGoogleAccount(code: code, completion: { (result, statusCode, errorText) in
+                if errorText == nil, let userData = result as? User {
+                    let dict = ["id": userData.id, "email": userData.email, "token": userData.token, "firstName": userData.firstName, "lastName": userData.lastName, "avatar": userData.avatar]
+                    AppDelegate.shared().currentUser = userData
+                    UserDefaults.standard.set(dict, forKey: UserDefaultsKey.GOOGLE_USER)
+                    UserDefaults.standard.synchronize()
+                    AppLinks.header = ["Authorization": "token \(userData.token)"]
+                    AppDelegate.shared().changeRootViewToTabbar()
+                }
+                self.stopActivityIndicator()
+            })
+        } else {
+            self.showAlert(title: "Notice", message: "Error Google Signin", option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+        }
+        print(user.serverAuthCode)
+        print(user.userID)
+        print(user.profile.email)
+        
+    }
 }

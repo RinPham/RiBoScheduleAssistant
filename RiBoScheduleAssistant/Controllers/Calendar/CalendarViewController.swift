@@ -12,6 +12,7 @@ class CalendarViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var calendar: FSCalendar!
+    @IBOutlet weak var riboButton: UIButton!
 
     var events = [Event]()
     var datas = [[DateEvent]]()
@@ -33,7 +34,12 @@ class CalendarViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.getData()
+        let haveInternet = self.checkReachability()
+        if haveInternet {
+            self.getData()
+        }
+        self.riboButton.isEnabled = haveInternet
+        
     }
     
     fileprivate func setup() {

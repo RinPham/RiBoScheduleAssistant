@@ -12,6 +12,7 @@ import RealmSwift
 class AllTaskViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var riboButton: UIButton!
     
     //var tasks = [RTask]()
     var loadingView: UIActivityIndicatorView!
@@ -32,7 +33,11 @@ class AllTaskViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.setupData()
+        let haveInternet = self.checkReachability()
+        if haveInternet {
+            self.setupData()
+        }
+        self.riboButton.isEnabled = haveInternet
         self.navigationController?.navigationBar.isHidden = false
     }
     //MARK: - Setup

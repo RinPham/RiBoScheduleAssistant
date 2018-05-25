@@ -9,8 +9,6 @@
 import UIKit
 
 class TypingTableViewCell: ReceiverTableViewCell {
-
-    @IBOutlet weak var loadingView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,10 +22,7 @@ class TypingTableViewCell: ReceiverTableViewCell {
     }
 
     fileprivate func showTypingIndicator() {
-        let jeremyGif = UIImage.gifImageWithName("message_loader")
-        let imageView = UIImageView(image: jeremyGif)
-        imageView.frame = CGRect(x: 0, y: 0, width: 120, height: 80)
-        imageView.center = self.loadingView.center
-        self.loadingView.addSubview(imageView)
+        let jeremyGif = UIImage.gifImageWithName("typing_message2")
+        self.messageBackground.image = jeremyGif
     }
 }

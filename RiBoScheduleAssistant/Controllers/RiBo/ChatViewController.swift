@@ -24,6 +24,7 @@ class ChatViewController: UIViewController {
     @IBOutlet weak var voiceButton: UIButton!
     
     var socket: SRWebSocket?
+    var refreshControl = UIRefreshControl()
     
     override var inputAccessoryView: UIView? {
         get {
@@ -39,6 +40,7 @@ class ChatViewController: UIViewController {
     //MARK: - Properties
     var messages = [Message]()
     let barHeight: CGFloat = 50
+    var allowLoadMore = true
     
     //MARK: ViewController lifecycle
     override func viewDidAppear(_ animated: Bool) {
@@ -78,6 +80,10 @@ class ChatViewController: UIViewController {
         if let user = AppDelegate.shared().currentUser, let url = URL(string: AppLinks.LINK_SOCKET + "message/" + user.id) {
             self.socket = SRWebSocket(url: url)
         }
+        
+        self.refreshControl.addTarget(self, action: #selector(self.loadMoreMessage(_:)), for: .valueChanged)
+        self.refreshControl.tintColor = App.Color.mainDarkColor
+        self.tableView.addSubview(self.refreshControl)
     }
     
     fileprivate func setupUI() {
@@ -102,6 +108,36 @@ class ChatViewController: UIViewController {
     @IBAction func didTouchUpInsideSpeechButton(_ sender: UIButton) {
         self.showSpeechVC()
     }
+    
+    @objc func loadMoreMessage(_ sender: UIRefreshControl) {
+        guard self.allowLoadMore else {
+            sender.endRefreshing()
+            return
+        }
+        self.showActivityIndicator()
+        self.inputBar.isHidden = true
+        MessagesService.getListMessages(offset: Int((Double(self.messages.count)/2.0).rounded())) { (datas, statusCode, errorText) in
+            if let messagesNew = datas as? [Message] {
+                if messagesNew.count == 2 {
+                    self.allowLoadMore = false
+                }
+                let messagesTemp = messagesNew.sorted{$0.timestamp < $1.timestamp}
+                self.messages.insert(contentsOf: messagesTemp, at: 0)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    sender.endRefreshing()
+                    self.stopActivityIndicator()
+                    self.inputBar.isHidden = false
+                    self.tableView.scrollToRow(at: IndexPath.init(row: messagesTemp.count, section: 0), at: UITableViewScrollPosition.top, animated: false)
+                }
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            sender.endRefreshing()
+            self.stopActivityIndicator()
+            self.inputBar.isHidden = false
+        }
+    }
 
     //MARK: NotificationCenter handlers
     @objc func showKeyboard(notification: Notification) {
@@ -116,9 +152,10 @@ class ChatViewController: UIViewController {
     
     //MARK: - Support methods
     fileprivate func getMessages() {
+        
         self.showActivityIndicator(type: .ballScaleRippleMultiple)
         self.inputBar.isHidden = true
-        MessagesService.getListMessages { (datas, statusCode, errorText) in
+        MessagesService.getListMessages(offset: 0) { (datas, statusCode, errorText) in
             if let messages = datas as? [Message] {
                 self.messages = messages.sorted{$0.timestamp < $1.timestamp}
                 self.tableView.reloadData()
@@ -161,8 +198,11 @@ class ChatViewController: UIViewController {
             socket?.send(dict)
             let message = Message(id: "", owner: .sender, type: .text, content: text, timestamp: Date().timeIntervalSince1970, senderId: "")
             self.messages.append(message)
-//            let messageLoading = Message(id: "", owner: .ribo, type: .typing, content: "", timestamp: Date().timeIntervalSince1970, senderId: "")
-//            self.messages.append(messageLoading)
+            
+            //Typing message
+            let messageLoading = Message(id: "", owner: .ribo, type: .typing, content: "", timestamp: Date().timeIntervalSince1970, senderId: "")
+            self.messages.append(messageLoading)
+            
             self.tableView.reloadData()
             self.inputTextField.text = ""
             self.scrollToBottom()
@@ -336,6 +376,9 @@ extension ChatViewController: SRWebSocketDelegate {
         if let string = message as? String {
             let json = JSON.init(parseJSON: string)
             print("Meesage Reveive: \(message)")
+            if let lastMessage = self.messages.last, lastMessage.type == .typing {
+                self.messages.removeLast()
+            }
             self.messages.append(contentsOf: Message.prepareMessage(json).filter{$0.owner == .ribo})
             self.tableView.reloadData()
             self.scrollToBottom()
