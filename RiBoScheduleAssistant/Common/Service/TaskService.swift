@@ -11,36 +11,28 @@ class TaskService: BaseService {
     class func createNewTask(with task: Task, completion: @escaping Result) {
         let objLink = AppLinks.CREATE_NEW_TASK(task: task)
         self.requestService(apiPath: objLink.link, method: .post, parameters: objLink.paramater) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion(Task(data), statusCode, errorText)
         }
     }
     
-//    class func editTask(with task: Task, completion: @escaping Result) {
-//        let objLink = AppLinks.EDIT_TASK(task: task)
-//        self.requestService(apiPath: objLink.link, method: .put, parameters: ["id": task.id, "title": task.title , "done": task.isDone]) { (data, statusCode, errorText) in
-//            print(data)
-//            completion(Task(data), statusCode, errorText)
-//        }
-//    }
-    
     class func editTask(with task: Task, paramater: [String: Any], completion: @escaping Result) {
         self.requestService(apiPath: AppLinks.EDIT_TASK(task: task), method: .put, parameters: paramater) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion(Task(data), statusCode, errorText)
         }
     }
     
     class func deleteTask(with task: Task , completion: @escaping Result) {
         self.requestService(apiPath: AppLinks.DELETE_TASK(task: task), method: .delete, parameters: nil) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion("", statusCode, errorText)
         }
     }
     
     class func getListTask(completion: @escaping ListResult) {
         self.requestService(apiPath: AppLinks.GET_LIST_TASK, method: .get, parameters: nil) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             if let jsons = data.array {
                 var tasks = [Task]()
                 for json in jsons {
@@ -55,7 +47,7 @@ class TaskService: BaseService {
     
     class func getTask(with id: String, completion: @escaping Result) {
         self.requestService(apiPath: AppLinks.GET_TASK(id: id), method: .get, parameters: nil) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion(Task(data), statusCode, errorText)
         }
     }

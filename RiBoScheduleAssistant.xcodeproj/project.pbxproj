@@ -47,6 +47,8 @@
 		D08FE41D2085F4F900ED0DF7 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08FE41C2085F4F900ED0DF7 /* Reachability.swift */; };
 		D095954020B5AC6E00668489 /* NotificationCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095953F20B5AC6E00668489 /* NotificationCustomView.swift */; };
 		D095954220B5AC7900668489 /* NotificationCustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D095954120B5AC7900668489 /* NotificationCustomView.xib */; };
+		D0983FB720BC39DE00E57E7D /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0983FB620BC39DE00E57E7D /* SyncService.swift */; };
+		D0983FB920BC623F00E57E7D /* REvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0983FB820BC623F00E57E7D /* REvent.swift */; };
 		D09CFFF720777A7D00045BE1 /* AddNewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */; };
 		D09CFFFA20777FB000045BE1 /* TypeTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09CFFF920777FB000045BE1 /* TypeTaskTableViewCell.swift */; };
 		D0A41B602058BBB000DCF080 /* RTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A41B5F2058BBB000DCF080 /* RTask.swift */; };
@@ -146,6 +148,8 @@
 		D08FE41C2085F4F900ED0DF7 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D095953F20B5AC6E00668489 /* NotificationCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCustomView.swift; sourceTree = "<group>"; };
 		D095954120B5AC7900668489 /* NotificationCustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationCustomView.xib; sourceTree = "<group>"; };
+		D0983FB620BC39DE00E57E7D /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		D0983FB820BC623F00E57E7D /* REvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = REvent.swift; sourceTree = "<group>"; };
 		D09CFFF620777A7D00045BE1 /* AddNewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTaskViewController.swift; sourceTree = "<group>"; };
 		D09CFFF920777FB000045BE1 /* TypeTaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeTaskTableViewCell.swift; sourceTree = "<group>"; };
 		D0A41B5F2058BBB000DCF080 /* RTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RTask.swift; sourceTree = "<group>"; };
@@ -363,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				D0A41B5F2058BBB000DCF080 /* RTask.swift */,
+				D0983FB820BC623F00E57E7D /* REvent.swift */,
 			);
 			path = RealmModels;
 			sourceTree = "<group>";
@@ -449,6 +454,7 @@
 				D0ADBE86205961E100992945 /* UserService.swift */,
 				D0ADBE8A2059661200992945 /* TaskService.swift */,
 				D0ADBE8C20596B5B00992945 /* EventService.swift */,
+				D0983FB620BC39DE00E57E7D /* SyncService.swift */,
 				D0C7A984207E498000AA2815 /* MessagesSevice.swift */,
 				D0E072B820B4537C00A7ED9A /* NotificationService.swift */,
 			);
@@ -672,6 +678,7 @@
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SocketRocket/SocketRocket.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftMessages/SwiftMessages.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -688,6 +695,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SocketRocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftMessages.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -760,6 +768,7 @@
 				D04BDDA42057B7D60015CCDB /* FSCalendarDelegationProxy.m in Sources */,
 				D0ADBE8B2059661200992945 /* TaskService.swift in Sources */,
 				D08FE41D2085F4F900ED0DF7 /* Reachability.swift in Sources */,
+				D0983FB720BC39DE00E57E7D /* SyncService.swift in Sources */,
 				D0ADBE8F20596C6400992945 /* EditTaskTableViewController.swift in Sources */,
 				D0FEE9E520AA9B6C00F602AB /* EventListViewController.swift in Sources */,
 				D041C29420731A9700397EF3 /* ChatViewController.swift in Sources */,
@@ -784,6 +793,7 @@
 				D095954020B5AC6E00668489 /* NotificationCustomView.swift in Sources */,
 				D041C28C2073132000397EF3 /* SenderTableViewCell.swift in Sources */,
 				D0ADBE87205961E100992945 /* UserService.swift in Sources */,
+				D0983FB920BC623F00E57E7D /* REvent.swift in Sources */,
 				D08C6F4E20A9EA9D002833AD /* ShowMoreTableViewCell.swift in Sources */,
 				D04BDDA12057B7D60015CCDB /* FSCalendarCollectionViewLayout.m in Sources */,
 				D0C7A985207E498000AA2815 /* MessagesSevice.swift in Sources */,

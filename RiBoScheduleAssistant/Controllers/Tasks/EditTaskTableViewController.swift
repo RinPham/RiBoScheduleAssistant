@@ -35,7 +35,11 @@ class EditTaskTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        self.getTask()
+        if Internet.haveInternet {
+            self.getTask()
+        } else {
+            self.getTaskOffline()
+        }
     }
     
     fileprivate func getTask() {
@@ -49,6 +53,13 @@ class EditTaskTableViewController: UITableViewController {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             self.stopActivityIndicator()
+        }
+    }
+    
+    fileprivate func getTaskOffline() {
+        if let rTask = RTask.getWithId(id: self.task.id) {
+            self.task = Task.init(rTask)
+            self.setup()
         }
     }
     
@@ -110,24 +121,50 @@ class EditTaskTableViewController: UITableViewController {
     
     @IBAction func didTouchUpInsideEditButton(sender: UIBarButtonItem) {
         
-        var paramater: [String: Any] = [:]
-        if self.task.title != self.titleTextField.text! {
-            paramater["title"] = self.titleTextField.text!
-        }
-        if self.task.time != self.time {
-            paramater["at_time"] = self.time.toDateAPIFormat
-        }
-        if self.task.repeatType != self.repeatType {
-            paramater["repeat"] = self.repeatType.rawValue
-        }
-        
-        TaskService.editTask(with: self.task, paramater: paramater) { (data, statusCode, errorText) in
-            if let errorText = errorText {
-                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
-                return
-            } else {
-                self.navigationController?.popViewController(animated: true)
+        if Internet.haveInternet {
+            var paramater: [String: Any] = [:]
+            if self.task.title != self.titleTextField.text! {
+                paramater["title"] = self.titleTextField.text!
             }
+            if self.task.time != self.time {
+                paramater["at_time"] = self.time.toDateAPIFormat
+            }
+            if self.task.repeatType != self.repeatType {
+                paramater["repeat"] = self.repeatType.rawValue
+            }
+            
+            TaskService.editTask(with: self.task, paramater: paramater) { (data, statusCode, errorText) in
+                if let errorText = errorText {
+                    self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                    return
+                } else if let updateTask = data as? Task {
+                    NotificationService.cancelNotification(task: updateTask)
+                    self.showAlertSuccess(message: "The reminder is updated!")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        } else {
+            if self.task.title != self.titleTextField.text! {
+                self.task.title = self.titleTextField.text!
+            }
+            if self.task.time != self.time {
+                self.task.time = self.time
+            }
+            if self.task.repeatType != self.repeatType {
+                self.task.repeatType = self.repeatType
+            }
+            if let taskObject = RTask.getWithId(id: self.task.id) {
+                if taskObject.isSync {
+                    let rTask = RTask.initWithTask(task: self.task, action: 2, isSync: true)
+                    rTask.update()
+                } else {
+                    let rTask = RTask.initWithTask(task: self.task, action: 1, isSync: false)
+                    rTask.update()
+                }
+            }
+            NotificationService.cancelNotification(task: self.task)
+            self.showAlertSuccess(message: "The reminder is updated!")
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
@@ -136,14 +173,33 @@ class EditTaskTableViewController: UITableViewController {
     }
 
     @IBAction func didTouchUpInsideDeleteButton(sender: UIButton) {
-        TaskService.deleteTask(with: self.task) { (data, statusCode, errorText) in
-            if let errorText = errorText {
-                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
-                return
-            } else {
-                self.navigationController?.popViewController(animated: true)
+        //Cancel notification
+        NotificationService.cancelNotification(task: self.task)
+        
+        if Internet.haveInternet {
+            TaskService.deleteTask(with: self.task) { (data, statusCode, errorText) in
+                if let errorText = errorText {
+                    self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                    return
+                } else {
+                    RTask.delete(id: self.task.id)
+                    self.showAlertSuccess(message: "The reminder is deleted!")
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
+        } else {            
+            if let check = RTask.getWithId(id: self.task.id) {
+                if check.isSync {
+                    let rTask = RTask.initWithTask(task: self.task, action: 3, isSync: true)
+                    rTask.update()
+                } else {
+                    RTask.delete(id: self.task.id)
+                }
+            }
+            self.showAlertSuccess(message: "The reminder is deleted!")
+            self.navigationController?.popViewController(animated: true)
         }
+       
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

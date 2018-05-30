@@ -9,5 +9,6 @@ target 'RiBoScheduleAssistant' do
   pod 'DropDown'
   pod 'PINRemoteImage'
   pod 'NVActivityIndicatorView'
+  pod 'SwiftMessages'
 
 end

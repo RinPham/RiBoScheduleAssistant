@@ -10,7 +10,7 @@ class EventService: BaseService {
     
     class func getListEvent(completion: @escaping ListResult) {
         self.requestService(apiPath: AppLinks.GET_LIST_EVENT, method: .get, parameters: nil) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             if let jsons = data["items"].array {
                 var events = [Event]()
                 for json in jsons {
@@ -26,7 +26,7 @@ class EventService: BaseService {
     class func createNewEvent(with event: Event, completion: @escaping Result) {
         let objLink = AppLinks.CREATE_NEW_EVENT(event: event)
         self.requestService(apiPath: objLink.link, method: .post, parameters: objLink.paramater) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion(Event(data), statusCode, errorText)
         }
     }
@@ -34,21 +34,21 @@ class EventService: BaseService {
     class func editEvent(with event: Event, completion: @escaping Result) {
         let objLink = AppLinks.EDIT_EVENT(event: event)
         self.requestService(apiPath: objLink.link, method: .put, parameters: objLink.paramater) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion(Event(data), statusCode, errorText)
         }
     }
     
     class func deleteEvent(with event: Event , completion: @escaping Result) {
         self.requestService(apiPath: AppLinks.DELETE_EVENT(event: event), method: .delete, parameters: nil) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion("", statusCode, errorText)
         }
     }
     
     class func getEvent(with id: String, completion: @escaping Result) {
         self.requestService(apiPath: AppLinks.GET_EVENT(id: id), method: .get, parameters: nil) { (data, statusCode, errorText) in
-            print(data)
+//            print(data)
             completion(Event(data), statusCode, errorText)
         }
     }

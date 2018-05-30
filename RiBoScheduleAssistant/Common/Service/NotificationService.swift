@@ -79,7 +79,7 @@ class NotificationService {
         let content = UNMutableNotificationContent()
         content.body = NSString.localizedUserNotificationString(forKey: message, arguments: nil)
         
-        let dateInfo = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: event.startDate)
+        let dateInfo = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: event.startDate)
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: false)
         
         // Create the request object.
@@ -96,4 +96,20 @@ class NotificationService {
         }
     }
     
+    static func cancelNotification(task: Task) {
+        let id = "reminder_" + task.id
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+    }
+    
+    static func cancelNotification(event: Event) {
+        let id = "event_" + event.id
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [id])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+    }
+    
+    static func cancelAllNotification() {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    }
 }

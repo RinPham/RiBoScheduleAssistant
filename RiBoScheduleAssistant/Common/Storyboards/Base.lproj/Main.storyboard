@@ -966,7 +966,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="IDEditTaskTableViewController" id="dAn-4A-gzm" customClass="EditTaskTableViewController" customModule="RiBoScheduleAssistant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="iLx-b8-sp0">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -2583,7 +2583,7 @@
         <image name="send" width="32" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pZ2-RD-Seg"/>
+        <segue reference="ugj-fM-kev"/>
         <segue reference="L7Q-Sx-OAQ"/>
     </inferredMetricsTieBreakers>
 </document>

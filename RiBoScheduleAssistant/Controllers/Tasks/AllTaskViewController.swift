@@ -18,11 +18,16 @@ class AllTaskViewController: UIViewController {
     var loadingView: UIActivityIndicatorView!
     var datas = [[Task]]()
     var titleSections: [(title: String, isExpand: Bool)] = [("Older", false), ("Today", true), ("Tomorrow", true), ("Upcoming", false)]
+    var reachability: Reachability?
 
     override func viewDidLoad() {
         super.viewDidLoad()
        
         self.setup()
+        self.stopNotifier()
+        self.setupReachability()
+        self.startNotifier()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,15 +38,22 @@ class AllTaskViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let haveInternet = self.checkReachability()
-        if haveInternet {
+        //let haveInternet = self.checkReachability()
+        if Internet.haveInternet {
             self.setupData()
+        } else {
+            self.setupDataOffline()
         }
-        self.riboButton.isEnabled = haveInternet
+        self.riboButton.isEnabled = Internet.haveInternet
         self.navigationController?.navigationBar.isHidden = false
+        
     }
-    //MARK: - Setup
     
+//    deinit {
+//        stopNotifier()
+//    }
+    
+    //MARK: - Setup
     fileprivate func setup() {
         
         self.tableView.dataSource = self
@@ -52,13 +64,16 @@ class AllTaskViewController: UIViewController {
         self.tableView.backgroundView = self.loadingView
         
         self.navigationItem.title = "REMINDERS"
+        
     }
+    
     
     fileprivate func setupData() {
         
         self.loadingView.startAnimating()
         TaskService.getListTask { (tasks, statusCode, errorText) in
             if let tasks = tasks as? [Task] {
+                self.saveToRealm(tasks: tasks)
                 self.getDatasFromTasks(tasks: tasks.sorted{ $0.time < $1.time })
                 self.setupNotificationFor(tasks: tasks.sorted{$0.time < $1.time})
                 self.loadingView.stopAnimating()
@@ -66,6 +81,25 @@ class AllTaskViewController: UIViewController {
             }
         }
         
+    }
+    
+    fileprivate func setupDataOffline() {
+        let realm = try! Realm()
+        var tasks = [Task]()
+        for rTask in realm.objects(RTask.self).filter("action != 3") {
+            tasks.append(Task.init(rTask))
+        }
+        self.getDatasFromTasks(tasks: tasks.sorted{ $0.time < $1.time })
+        self.setupNotificationFor(tasks: tasks.sorted{$0.time < $1.time})
+        self.loadingView.stopAnimating()
+        self.tableView.reloadData()
+    }
+    
+    func saveToRealm(tasks: [Task]) {
+        for task in tasks {
+            let rTask = RTask.initWithTask(task: task, action: 0, isSync: true)
+            rTask.update()
+        }
     }
     
     func getDatasFromTasks(tasks: [Task]) {
@@ -171,6 +205,65 @@ class AllTaskViewController: UIViewController {
 
 }
 
+//MARK: - Rechability Internets
+extension AllTaskViewController {
+    
+    func setupReachability() {
+        
+        self.reachability = Reachability()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reachabilityChanged(_:)),
+            name: .reachabilityChanged,
+            object: reachability
+        )
+    }
+    
+    func startNotifier() {
+        print("--- start notifier")
+        do {
+            try reachability?.startNotifier()
+        } catch {
+            return
+        }
+    }
+    
+    func stopNotifier() {
+        print("--- stop notifier")
+        reachability?.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
+        reachability = nil
+    }
+    
+    
+    @objc func reachabilityChanged(_ note: Notification) {
+        self.riboButton.isEnabled = Internet.haveInternet
+        let reachability = note.object as! Reachability
+        if reachability.connection != .none {
+            SyncService.syncData { (message) in
+                print(message)
+                //Delete all realm
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.deleteAll()
+                }
+                if message == "Done" {
+                    self.setupData()
+                }
+            }
+        } else {
+            self.showAlert(title: "No Internet Connection", message: "Turn on cellular data or use Wi-fi to access data", option: .alert, btnCancel: UIAlertAction(title: "OK", style: .default, handler: nil), buttonNormal: [UIAlertAction(title: "Settings", style: .cancel) { (action) in
+                if let url = URL(string: "App-Prefs:root=WIFI") {
+                    UIApplication.shared.open(url, options: [ : ], completionHandler: nil)
+                }
+                }])
+            self.setupDataOffline()
+        }
+    }
+    
+}
+
 //MARK: - UITableViewDataSource
 extension AllTaskViewController: UITableViewDataSource {
     
@@ -200,17 +293,26 @@ extension AllTaskViewController: UITableViewDataSource {
         default:
             cell.typeActionButton = .none
         }
-        if task.isDone {
-            cell.lineView.isHidden = false
-            cell.titleLabel.textColor = UIColor.darkGray
-            cell.doneButton.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
-            cell.typeActionButton = .delete
-            cell.selectionStyle = .none
+        if task.repeatType == .none {
+            cell.doneButton.isEnabled = true
+            if task.isDone {
+                cell.lineView.isHidden = false
+                cell.titleLabel.textColor = UIColor.darkGray
+                cell.doneButton.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
+                cell.typeActionButton = .delete
+                cell.selectionStyle = .none
+            } else {
+                cell.lineView.isHidden = true
+                cell.titleLabel.textColor = UIColor.black
+                cell.doneButton.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+            }
         } else {
             cell.lineView.isHidden = true
             cell.titleLabel.textColor = UIColor.black
-            cell.doneButton.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+            cell.doneButton.isEnabled = false
+            cell.doneButton.setImage(#imageLiteral(resourceName: "ic_repeat"), for: .normal)
         }
+        
         
         return cell
     }
@@ -272,11 +374,27 @@ extension AllTaskViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        //Cancel notification
+        NotificationService.cancelNotification(task: self.datas[indexPath.section][indexPath.row])
         if editingStyle == .delete {
-            TaskService.deleteTask(with: self.datas[indexPath.section][indexPath.row], completion: { (data, statusCode, error) in
-                print("DELETE TASK")
-                self.setupData()
-            })
+            if Internet.haveInternet {
+                TaskService.deleteTask(with: self.datas[indexPath.section][indexPath.row], completion: { (data, statusCode, error) in
+                    print("DELETE TASK")
+                    RTask.delete(id: self.datas[indexPath.section][indexPath.row].id)
+                    self.setupData()
+                })
+            } else {
+                if let check = RTask.getWithId(id: self.datas[indexPath.section][indexPath.row].id) {
+                    if check.isSync {
+                        let rTask = RTask.initWithTask(task: self.datas[indexPath.section][indexPath.row], action: 3, isSync: true)
+                        rTask.update()
+                    } else {
+                        RTask.delete(id: self.datas[indexPath.section][indexPath.row].id)
+                    }
+                }
+                self.setupDataOffline()
+            }
+            
         }
     }
 }
@@ -285,28 +403,61 @@ extension AllTaskViewController: UITableViewDelegate {
 extension AllTaskViewController: AllTaskTableViewCellDelegate {
     
     func didTouchUpInsideDoneButton(cell: AllTaskTableViewCell, sender: UIButton) {
-        
         sender.isEnabled = false
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         self.datas[indexPath.section][indexPath.row].isDone = !self.datas[indexPath.section][indexPath.row].isDone
-        TaskService.editTask(with: self.datas[indexPath.section][indexPath.row], paramater: ["done": self.datas[indexPath.section][indexPath.row].isDone]) { (data, statusCode, errorText) in
-            if let task = data as? Task {
-                print("Update task ok")
-                print(task.isDone)
-                sender.isEnabled = true
+        if Internet.haveInternet {
+            TaskService.editTask(with: self.datas[indexPath.section][indexPath.row], paramater: ["done": self.datas[indexPath.section][indexPath.row].isDone]) { (data, statusCode, errorText) in
+                if let task = data as? Task {
+                    print("Update task ok")
+                    print(task.isDone)
+                    sender.isEnabled = true
+                    //Realm
+                    let rTask = RTask.initWithTask(task: task, action: 0, isSync: true)
+                    rTask.update()
+                }
             }
+        } else {
+            if let taskOject = RTask.getWithId(id: self.datas[indexPath.section][indexPath.row].id) {
+                if taskOject.isSync {
+                    let rTask = RTask.initWithTask(task: self.datas[indexPath.section][indexPath.row], action: 2, isSync: true)
+                    rTask.update()
+                } else {
+                    let rTask = RTask.initWithTask(task: self.datas[indexPath.section][indexPath.row], action: 1, isSync: false)
+                    rTask.update()
+                }
+            }
+            
         }
+        
         self.tableView.reloadRows(at: [indexPath], with: .none)
+    
     }
     
     func didTouchUpInsideActionButton(cell: AllTaskTableViewCell, sender: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         switch cell.typeActionButton {
         case .delete:
-            TaskService.deleteTask(with: self.datas[indexPath.section][indexPath.row], completion: { (data, statusCode, error) in
-                print("DELETE TASK")
-                self.setupData()
-            })
+            //Cancel notification
+            NotificationService.cancelNotification(task: self.datas[indexPath.section][indexPath.row])
+            if Internet.haveInternet {
+                TaskService.deleteTask(with: self.datas[indexPath.section][indexPath.row], completion: { (data, statusCode, error) in
+                    print("DELETE TASK")
+                    RTask.delete(id: self.datas[indexPath.section][indexPath.row].id)
+                    self.setupData()
+                })
+            } else {
+                if let check = RTask.getWithId(id: self.datas[indexPath.section][indexPath.row].id) {
+                    if check.isSync {
+                        let rTask = RTask.initWithTask(task: self.datas[indexPath.section][indexPath.row], action: 3, isSync: true)
+                        rTask.update()
+                    } else {
+                        RTask.delete(id: self.datas[indexPath.section][indexPath.row].id)
+                    }
+                }
+                self.setupDataOffline()
+            }
+            
         case .call:
             if let url = URL(string: "tel://") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

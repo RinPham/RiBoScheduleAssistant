@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CalendarViewController: UIViewController {
     
@@ -17,7 +18,6 @@ class CalendarViewController: UIViewController {
     var events = [Event]()
     var datas = [[DateEvent]]()
     var datasTemp = [DateEvent]()
-    
     var loadingView: UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -34,11 +34,8 @@ class CalendarViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let haveInternet = self.checkReachability()
-        if haveInternet {
-            self.getData()
-        }
-        self.riboButton.isEnabled = haveInternet
+        self.getData()
+        self.riboButton.isEnabled = Internet.haveInternet
         
     }
     
@@ -70,15 +67,30 @@ class CalendarViewController: UIViewController {
         self.getDateEventOfEvent()
     }
     
-    fileprivate func getDateEventOfTask() {
-        
-        TaskService.getListTask { (tasks, statusCode, errorText) in
-            if let tasks = tasks as? [Task] {
-                self.getAllTaskInMonth(tasks: tasks)
-                self.sortDatas()
-            }
+    func saveToRealm() {
+        for event in self.events {
+            let rEvent = REvent.initWithEvent(event: event, action: 0, isSync: true)
+            rEvent.update()
         }
-        
+    }
+    
+    fileprivate func getDateEventOfTask() {
+        if Internet.haveInternet {
+            TaskService.getListTask { (tasks, statusCode, errorText) in
+                if let tasks = tasks as? [Task] {
+                    self.getAllTaskInMonth(tasks: tasks)
+                    self.sortDatas()
+                }
+            }
+        } else {
+            let realm = try! Realm()
+            var tasks = [Task]()
+            for rTask in realm.objects(RTask.self).filter("action != 3") {
+                tasks.append(Task.init(rTask))
+            }
+            self.getAllTaskInMonth(tasks: tasks)
+            self.sortDatas()
+        }
     }
     
     fileprivate func getAllTaskInMonth(tasks: [Task]) {
@@ -133,16 +145,31 @@ class CalendarViewController: UIViewController {
     }
     
     fileprivate func getDateEventOfEvent() {
-        EventService.getListEvent { (datas, statusCode, errorText) in
-            if let datas = datas as? [Event] {
-                self.events = datas
-                self.setupNoticationFor(events: datas)
-                for event in self.events {
-                    self.datasTemp.append(contentsOf: self.getAllDateEvent(event: event))
+        if Internet.haveInternet {
+            EventService.getListEvent { (datas, statusCode, errorText) in
+                if let datas = datas as? [Event] {
+                    self.events = datas
+                    self.saveToRealm()
+                    self.setupNoticationFor(events: datas)
+                    for event in self.events {
+                        self.datasTemp.append(contentsOf: self.getAllDateEvent(event: event))
+                    }
+                    self.getDateEventOfTask()
                 }
-                self.getDateEventOfTask()
             }
+        } else {
+            let realm = try! Realm()
+            self.events = [Event]()
+            for rEvent in realm.objects(REvent.self).filter("action != 3") {
+                events.append(Event.init(rEvent))
+            }
+            self.setupNoticationFor(events: self.events)
+            for event in self.events {
+                self.datasTemp.append(contentsOf: self.getAllDateEvent(event: event))
+            }
+            self.getDateEventOfTask()
         }
+        
     }
     
     fileprivate func setupNoticationFor(events: [Event]) {
@@ -279,15 +306,26 @@ extension CalendarViewController: UITableViewDataSource {
                 cell.typeActionButton = .none
             }
             
-            if task.isDone {
-                cell.lineView.isHidden = false
-                cell.titleLabel.textColor = UIColor.darkGray
-                cell.doneButton.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
+            if task.repeatType == .none {
+                cell.doneButton.isEnabled = true
+                if task.isDone {
+                    cell.lineView.isHidden = false
+                    cell.titleLabel.textColor = UIColor.darkGray
+                    cell.doneButton.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
+                    cell.typeActionButton = .delete
+                    cell.selectionStyle = .none
+                } else {
+                    cell.lineView.isHidden = true
+                    cell.titleLabel.textColor = UIColor.black
+                    cell.doneButton.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+                }
             } else {
                 cell.lineView.isHidden = true
                 cell.titleLabel.textColor = UIColor.black
-                cell.doneButton.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+                cell.doneButton.isEnabled = false
+                cell.doneButton.setImage(#imageLiteral(resourceName: "ic_repeat"), for: .normal)
             }
+            
             cell.delegate = self
             return cell
         } else {
@@ -358,22 +396,28 @@ extension CalendarViewController: AllTaskTableViewCellDelegate {
         sender.isEnabled = false
         guard let indexPath = tableView.indexPath(for: cell), let task = self.datas[indexPath.section][indexPath.row].event as? Task else { return }
         task.isDone = !task.isDone
-        TaskService.editTask(with: task, paramater: ["done": task.isDone]) { (data, statusCode, errorText) in
-            if let task = data as? Task {
-                print("Update task ok")
-                print(task.isDone)
-                sender.isEnabled = true
+        if Internet.haveInternet {
+            TaskService.editTask(with: task, paramater: ["done": task.isDone]) { (data, statusCode, errorText) in
+                if let task = data as? Task {
+                    print("Update task ok")
+                    print(task.isDone)
+                    sender.isEnabled = true
+                    //Realm
+                    let rTask = RTask.initWithTask(task: task, action: 0, isSync: true)
+                    rTask.update()
+                }
             }
-        }
-        
-        if task.isDone {
-            cell.lineView.isHidden = false
-            cell.titleLabel.textColor = UIColor.darkGray
-            sender.setImage(#imageLiteral(resourceName: "ic_done_task"), for: .normal)
         } else {
-            cell.lineView.isHidden = true
-            cell.titleLabel.textColor = UIColor.black
-            sender.setImage(#imageLiteral(resourceName: "ic_circle"), for: .normal)
+            if let taskOject = RTask.getWithId(id: task.id) {
+                if taskOject.isSync {
+                    let rTask = RTask.initWithTask(task: task, action: 2, isSync: true)
+                    rTask.update()
+                } else {
+                    let rTask = RTask.initWithTask(task: task, action: 1, isSync: false)
+                    rTask.update()
+                }
+            }
+            
         }
         
         self.tableView.reloadRows(at: [indexPath], with: .none)
@@ -383,10 +427,24 @@ extension CalendarViewController: AllTaskTableViewCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell), let task = self.datas[indexPath.section][indexPath.row].event as? Task else { return }
         switch cell.typeActionButton {
         case .delete:
-            TaskService.deleteTask(with: task, completion: { (data, statusCode, error) in
-                print("DELETE TASK")
-                self.getData()
-            })
+            NotificationService.cancelNotification(task: task)
+            if Internet.haveInternet {
+                TaskService.deleteTask(with: task, completion: { (data, statusCode, error) in
+                    print("DELETE TASK")
+                    RTask.delete(id: task.id)
+                    self.getData()
+                })
+            } else {
+                if let check = RTask.getWithId(id: task.id) {
+                    if check.isSync {
+                        let rTask = RTask.initWithTask(task: task, action: 3, isSync: true)
+                        rTask.update()
+                    } else {
+                        RTask.delete(id: task.id)
+                    }
+                }
+            }
+            
         case .call:
             if let url = URL(string: "tel://") {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)

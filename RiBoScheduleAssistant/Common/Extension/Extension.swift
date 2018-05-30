@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import NVActivityIndicatorView
+import SwiftMessages
 
 extension Date {
     
@@ -226,39 +227,6 @@ extension UIViewController {
         }
     }
     
-    func configureNotificationUpdateBadge() {
-        if #available(iOS 10.0, *) {
-            let content = UNMutableNotificationContent()
-            content.badge = NSNumber(value: 0)
-            var dateInfo = DateComponents()
-            dateInfo.hour = 00
-            dateInfo.minute = 00
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateInfo, repeats: true)
-            
-            // Create the request object.
-            let request = UNNotificationRequest(identifier: "UpdateNumberBadge", content: content, trigger: trigger)
-            
-            let center = UNUserNotificationCenter.current()
-            center.add(request) { (error : Error?) in
-                if let theError = error {
-                    print(theError.localizedDescription)
-                }
-            }
-        } else {
-            // Fallback on earlier versions
-            // ios 9
-            var dateInfo = DateComponents()
-            dateInfo.hour = 00
-            dateInfo.minute = 00
-            let date = Calendar.current.date(from: dateInfo)
-            let notification = UILocalNotification()
-            notification.fireDate = date
-            notification.applicationIconBadgeNumber = 0
-            notification.soundName = UILocalNotificationDefaultSoundName
-            UIApplication.shared.scheduleLocalNotification(notification)
-        }
-    }
-    
     func checkReachability() -> Bool {
         if currentReachabilityStatus == .reachableViaWiFi {
             print("User is connected to the internet via wifi.")
@@ -268,14 +236,26 @@ extension UIViewController {
             return true
         } else {
             print("There is no internet connection")
-            self.showAlert(title: "No Internet Connection", message: "Turn on cellular data or use Wi-fi to access data", option: .alert, btnCancel: UIAlertAction(title: "OK", style: .default, handler: nil), buttonNormal: [UIAlertAction(title: "Settings", style: .cancel) { (action) in
+            self.showAlert(title: "No Internet Connection", message: "Turn on cellular data or use Wi-fi to use Ribo assistant and sync data", option: .alert, btnCancel: UIAlertAction(title: "OK", style: .default, handler: nil), buttonNormal: [UIAlertAction(title: "Settings", style: .cancel) { (action) in
                 if let url = URL(string: "App-Prefs:root=WIFI") {
                     UIApplication.shared.open(url, options: [ : ], completionHandler: nil)
                 }
                 }])
-        
             return false
         }
+        
+    }
+    
+    func showAlertSuccess(message: String) {
+        let success = MessageView.viewFromNib(layout: .cardView)
+        success.configureTheme(.success)
+        success.configureDropShadow()
+        success.configureContent(title: "Success", body: message)
+        success.button?.isHidden = true
+        var successConfig = SwiftMessages.defaultConfig
+        successConfig.presentationStyle = .center
+        successConfig.presentationContext = .window(windowLevel: UIWindowLevelNormal)
+        SwiftMessages.show(view: success)
     }
     
 }

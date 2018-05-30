@@ -54,4 +54,20 @@ class Task {
         self.phoneNumber = data["phone_number"].string ?? ""
     }
     
+    init(_ rTask: RTask) {
+        self.id = rTask.id
+        self.title = rTask.title
+        self.time = rTask.time
+        self.isDone = rTask.isDone
+        self.userId = ""
+        self.intentId = ""
+        if let repeatType = RepeatType(rawValue: rTask.repeatType) {
+            self.repeatType = repeatType
+        }
+        if let type = TaskType(rawValue: rTask.type) {
+            self.type = type
+        }
+        self.email = rTask.email
+        self.phoneNumber = rTask.phoneNumber
+    }
 }

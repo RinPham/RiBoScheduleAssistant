@@ -101,17 +101,27 @@ class AddNewTaskViewController: UIViewController {
         }
     }
     
+    
     fileprivate func createNewTask() {
 
-        let newTask = Task(id: "", title: self.titleTextField.text!, time: self.time, type: self.taskType, isDone: false, userId: "", intentId: "", repeatType: self.repeatType)
-        TaskService.createNewTask(with: newTask) { (data, statusCode, errorText) in
-            if let errorText = errorText {
-                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
-                return
-            } else {
-                self.navigationController?.popViewController(animated: true)
+        let newTask = Task(id: UUID().uuidString, title: self.titleTextField.text!, time: self.time, type: self.taskType, isDone: false, userId: "", intentId: "", repeatType: self.repeatType)
+        if Internet.haveInternet {
+            TaskService.createNewTask(with: newTask) { (data, statusCode, errorText) in
+                if let errorText = errorText {
+                    self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                    return
+                } else {
+                    self.showAlertSuccess(message: "The reminder is created!")
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
+        } else {
+            let rTask = RTask.initWithTask(task: newTask, action: 1, isSync: false)
+            rTask.update()
+            self.showAlertSuccess(message: "The reminder is created!")
+            self.navigationController?.popViewController(animated: true)
         }
+        
     }
     
     fileprivate func showDatePicker() {

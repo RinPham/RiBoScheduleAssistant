@@ -39,6 +39,7 @@ PODS:
   - RealmSwift (3.0.2):
     - Realm (= 3.0.2)
   - SocketRocket (0.5.1)
+  - SwiftMessages (4.1.0)
   - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
@@ -49,6 +50,7 @@ DEPENDENCIES:
   - PINRemoteImage
   - RealmSwift
   - SocketRocket
+  - SwiftMessages
   - SwiftyJSON
 
 SPEC REPOS:
@@ -66,6 +68,7 @@ SPEC REPOS:
     - Realm
     - RealmSwift
     - SocketRocket
+    - SwiftMessages
     - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -82,8 +85,9 @@ SPEC CHECKSUMS:
   Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
   RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SwiftMessages: 1bacc783c8f10bdfdc57c14860cae8a1f1fa6591
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 0a461f64fc181f7b8916ebd1870cacc201f67650
+PODFILE CHECKSUM: ae7bf0b13dd3a9f9e50e55996a4c3a37225852be
 
 COCOAPODS: 1.5.2

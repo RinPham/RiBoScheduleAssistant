@@ -61,14 +61,22 @@ class AddNewEventTableViewController: UITableViewController {
     }
 
     @IBAction func didTouchUpInsideSaveButton(sender: UIBarButtonItem) {
-        let event = Event(id: "", title: self.titleTextField.text!, location: self.locationTextField.text!, startDate: self.startsDay, endDate: self.endsDay, des: self.noteTextView.text)
-        EventService.createNewEvent(with: event) { (data, statusCode, errorText) in
-            if let errorText = errorText {
-                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
-                return
-            } else {
-                self.navigationController?.popViewController(animated: true)
+        let event = Event(id: UUID().uuidString, title: self.titleTextField.text!, location: self.locationTextField.text!, startDate: self.startsDay, endDate: self.endsDay, des: self.noteTextView.text)
+        if Internet.haveInternet {
+            EventService.createNewEvent(with: event) { (data, statusCode, errorText) in
+                if let errorText = errorText {
+                    self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                    return
+                } else {
+                    self.showAlertSuccess(message: "The event is created!")
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
+        } else {
+            let rEvent = REvent.initWithEvent(event: event, action: 1, isSync: false)
+            rEvent.update()
+            self.showAlertSuccess(message: "The event is created!")
+            self.navigationController?.popViewController(animated: true)
         }
         
     }

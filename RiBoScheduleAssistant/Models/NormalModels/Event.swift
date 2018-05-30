@@ -44,6 +44,15 @@ class Event {
         self.des = data["description"].string ?? ""
     }
     
+    init(_ rEvent: REvent) {
+        self.id = rEvent.id
+        self.title = rEvent.title
+        self.location = rEvent.location
+        self.startDate = rEvent.startDate
+        self.endDate = rEvent.endDate
+        self.des = rEvent.des
+    }
+    
 }
 
 class DateEvent {

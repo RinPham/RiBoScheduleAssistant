@@ -9,6 +9,8 @@
 import UIKit
 import PINRemoteImage
 import GoogleSignIn
+import RealmSwift
+import UserNotifications
 
 class SettingsViewController: UIViewController {
     
@@ -33,6 +35,13 @@ class SettingsViewController: UIViewController {
     fileprivate func logOut() {
         self.showAlert(title: "Log Out", message: "Are you sure you want to Log out?", option: .alert, btnCancel: UIAlertAction(title: "Cancel", style: .cancel, handler: nil), buttonNormal: [UIAlertAction(title: "Log Out", style: .destructive, handler: { (action) in
             GIDSignIn.sharedInstance().signOut()
+            //Delete all realm
+            let realm = try! Realm()
+            try! realm.write {
+                realm.deleteAll()
+            }
+            //Remove all notification
+            NotificationService.cancelAllNotification()
             if let signInVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AppID.IDLogInViewController) as? LogInViewController {
                 AppDelegate.shared().window?.rootViewController = signInVC
                 AppDelegate.shared().currentUser = nil

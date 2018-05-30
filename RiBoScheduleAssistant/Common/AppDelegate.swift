@@ -9,6 +9,7 @@
 import UIKit
 import GoogleSignIn
 import UserNotifications
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var currentUser: User!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
         
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
         self.configureNavigationBarAppearance()
         self.setupGoogleAPI()
         
@@ -52,6 +55,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//        if Internet.haveInternet {
+//            SyncService.syncData { (data, statusCode, errorText) in
+//                
+//            }
+//        }
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -119,23 +127,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("NOTICE")
         let arrString = notification.request.identifier.components(separatedBy: "_")
         if arrString.count == 2 {
             if arrString[0] == "event" {
-                EventService.getEvent(with: arrString[1]) { (data, statusCode, errorText) in
-                    if let event = data as? Event {
-                        if event.startDate.adjust(.second, offset: 10) >= Date() {
-                            NotificationCustomView.sharedInstance.pushNotification(message: notification.request.content.body, id: notification.request.identifier)
-                        }
+                if let event = REvent.getWithId(id: arrString[1]) {
+                    if event.startDate.adjust(.second, offset: 10) >= Date() {
+                        print("NOTICE")
+                        NotificationCustomView.sharedInstance.pushNotification(message: notification.request.content.body, id: notification.request.identifier)
                     }
                 }
             } else if arrString[0] == "reminder" {
-                TaskService.getTask(with: arrString[1]) { (data, statusCode, errorText) in
-                    if let task = data as? Task {
-                        if task.time.adjust(.second, offset: 10) >= Date() {
-                            NotificationCustomView.sharedInstance.pushNotification(message: notification.request.content.body, id: notification.request.identifier)
-                        }
+                if let task = RTask.getWithId(id: arrString[1]) {
+                    if task.time.adjust(.second, offset: 10) >= Date() {
+                        print("NOTICE")
+                        NotificationCustomView.sharedInstance.pushNotification(message: notification.request.content.body, id: notification.request.identifier)
                     }
                 }
             }

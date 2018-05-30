@@ -49,14 +49,22 @@ class EventDetailViewController: UIViewController {
     }
     
     fileprivate func getEvent() {
-        self.showActivityIndicator()
-        EventService.getEvent(with: self.event.id) { (data, statusCode, errorText) in
-            self.stopActivityIndicator()
-            if let event = data as? Event {
-                self.event = event
+        if Internet.haveInternet {
+            self.showActivityIndicator()
+            EventService.getEvent(with: self.event.id) { (data, statusCode, errorText) in
+                self.stopActivityIndicator()
+                if let event = data as? Event {
+                    self.event = event
+                }
+                self.setupData()
             }
-            self.setupData()
+        } else {
+            if let rEvent = REvent.getWithId(id: self.event.id) {
+                self.event = Event.init(rEvent)
+                self.setupData()
+            }
         }
+        
     }
     
     fileprivate func setupData() {

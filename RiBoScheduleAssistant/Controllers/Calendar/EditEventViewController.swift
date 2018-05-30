@@ -72,26 +72,62 @@ class EditEventViewController: UITableViewController {
         self.event.startDate = self.startDate
         self.event.endDate = self.endDate
         
-        EventService.editEvent(with: self.event) { (data, statusCode, errorText) in
-            if let errorText = errorText {
-                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
-                return
-            } else {
+        NotificationService.confureNotification(event: event)
+        if Internet.haveInternet {
+            EventService.editEvent(with: self.event) { (data, statusCode, errorText) in
+                if let errorText = errorText {
+                    self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                    return
+                } else {
+                    let rEvent = REvent.initWithEvent(event: self.event, action: 0, isSync: true)
+                    rEvent.update()
+                    self.showAlertSuccess(message: "The event is updated!")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        } else {
+            if let rEvent = REvent.getWithId(id: self.event.id) {
+                if rEvent.isSync {
+                    let rEvent = REvent.initWithEvent(event: self.event, action: 2, isSync: true)
+                    rEvent.update()
+                } else {
+                    let rEvent = REvent.initWithEvent(event: self.event, action: 1, isSync: false)
+                    rEvent.update()
+                }
+                self.showAlertSuccess(message: "The event is updated!")
                 self.navigationController?.popViewController(animated: true)
             }
         }
         
+        
     }
     
     @IBAction func didTouchUpInsideDeleteButton(sender: UIButton) {
-        EventService.deleteEvent(with: self.event) { (data, statusCode, errorText) in
-            if let errorText = errorText {
-                self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
-                return
-            } else {
+        NotificationService.cancelNotification(event: self.event)
+        if Internet.haveInternet {
+            EventService.deleteEvent(with: self.event) { (data, statusCode, errorText) in
+                if let errorText = errorText {
+                    self.showAlert(title: "Notice", message: errorText, option: .alert, btnCancel: UIAlertAction(title: "OK", style: .cancel, handler: nil), buttonNormal: [])
+                    return
+                } else {
+                    REvent.delete(id: self.event.id)
+                    self.showAlertSuccess(message: "The event is deleted!")
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+            }
+        } else {
+            if let rEvent = REvent.getWithId(id: self.event.id) {
+                if rEvent.isSync {
+                    let rEvent = REvent.initWithEvent(event: self.event, action: 3, isSync: true)
+                    rEvent.update()
+                } else {
+                    REvent.delete(id: self.event.id)
+                }
+                self.showAlertSuccess(message: "The event is deleted!")
                 self.navigationController?.popToRootViewController(animated: true)
             }
         }
+        
     }
     
     fileprivate func showStartDatePicker() {

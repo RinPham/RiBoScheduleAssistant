@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "32126055197CEBBD2A9E37E7AEAD78DC"
+               BlueprintIdentifier = "B4972A15D7311F5628703DA26BEBB5CE"
                BuildableName = "Pods_RiBoScheduleAssistant.framework"
                BlueprintName = "Pods-RiBoScheduleAssistant"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "32126055197CEBBD2A9E37E7AEAD78DC"
+            BlueprintIdentifier = "B4972A15D7311F5628703DA26BEBB5CE"
             BuildableName = "Pods_RiBoScheduleAssistant.framework"
             BlueprintName = "Pods-RiBoScheduleAssistant"
             ReferencedContainer = "container:Pods.xcodeproj">
